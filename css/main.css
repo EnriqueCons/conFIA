@@ -108,3 +108,23 @@ nav{
 .buttonEvent:hover{
     font-weight:800;
 }
+
+
+
+.user-icon {
+    color: #568281; 
+}
+
+.dropdown-menu {
+    left: auto !important; 
+    right: 0 !important; 
+    transform: translateX(0) !important; 
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
