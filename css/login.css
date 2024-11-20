@@ -100,10 +100,6 @@ nav .form-control:focus {
     color: var(--primary-color);
 }
 
-.imgLogo{
-    transform: scale(0.6);
-}
-
 .form-control {
     border: none;
     outline: none;
@@ -141,3 +137,8 @@ nav .form-control:focus {
 .buttonEvent:hover{
     font-weight:800;
 }
+
+.registro{
+    margin: 2em 7em;
+}
+
