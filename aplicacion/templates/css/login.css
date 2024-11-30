@@ -1,0 +1,144 @@
+
+/*Necesarios*/
+:root {
+    --primary-color: #F4F0EB;
+    --secundary-color: #568281;
+    --extra-color: #89BAC8;
+    --color-text: #2F3E45;
+    --cancel-color: #C8898C;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: 'Inria Sans';
+}
+/*NAVBAR*/
+nav{
+    background-color: var(--primary-color);
+}
+.navbar-brand, .btn {
+    color: var(--color-text);
+}
+
+.navbar-brand:hover {
+    color: var(--color-text);
+}
+
+.search {
+    background-color: rgba(86, 130, 120, 0.5);
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+
+}
+
+nav .form-control {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text); 
+    border-radius: inherit; 
+}
+
+nav .form-control::placeholder {
+    color: var(--color-text);
+}
+
+nav .form-control:focus {
+    background-color: transparent !important;
+    box-shadow: none; 
+}
+
+.bi-search {
+    color: var(--color-text);
+    background: transparent; 
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    background-color: var(--secundary-color);
+    border-color: var(--secundary-color);
+    border-radius: 2em;
+}
+
+.btn-outline-primary:hover {
+    border-color: var(--secundary-color);
+    background-color: var(--secundary-color);
+}
+
+.btn:hover{
+    font-weight: bolder ;
+}
+
+.line {
+    width: 81%;
+    height: 1px;
+    background-color: var(--secundary-color);
+    margin: 0.4em auto 0 auto;
+}
+
+/*Main*/
+
+.space{
+    margin: 2em;
+}
+
+.logo{
+    background-color: rgba(86, 130, 120, 0.5);
+    margin-top: 4em;
+    margin-left: 10em;
+}
+
+.dataLogin{
+    margin: 1.3em 4.5em;
+}
+
+.login{
+    background-color: var(--color-text);
+    margin-top: 4em;
+    margin-right: 10em;
+    color: var(--primary-color);
+}
+
+.form-control {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text); 
+    border-radius: inherit; 
+    border-bottom: 0.1em solid var(--primary-color);
+}
+
+.form-control::placeholder {
+    color: var(--color-text);
+}
+
+.form-control:focus {
+    background-color: transparent !important;
+    box-shadow: none; 
+    color: var(--primary-color);
+}
+
+.link{
+    color: var(--primary-color);
+    all: unset;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.buttonEvent{
+    all: unset;
+    cursor: pointer; 
+    background-color: var(--extra-color);
+    color: var(--color-text);
+    width: 9em;
+    height: 3em;
+    border-radius: 2em;
+}
+.buttonEvent:hover{
+    font-weight:800;
+}
+
+.registro{
+    margin: 2em 7em;
+}
+
