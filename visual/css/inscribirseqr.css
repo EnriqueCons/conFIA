@@ -1,0 +1,239 @@
+
+
+:root {
+    --primary-color: #F4F0EB;
+    --secundary-color: #568281;
+    --extra-color: #89BAC8;
+    --color-text: #2F3E45;
+    --cancel-color: #C8898C;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: 'Inria Sans';
+}
+
+nav{
+    background-color: var(--primary-color);
+}
+.navbar-brand, .btn {
+    color: var(--color-text);
+}
+
+.navbar-brand:hover {
+    color: var(--color-text);
+}
+
+.search {
+    background-color: rgba(86, 130, 120, 0.5);
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+
+}
+
+.form-control {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text); 
+    border-radius: inherit; 
+}
+
+.form-control::placeholder {
+    color: var(--color-text);
+}
+
+.form-control:focus {
+    background-color: transparent !important;
+    box-shadow: none; 
+}
+
+.bi-search {
+    color: var(--color-text);
+    background: transparent; 
+}
+
+.btn-outline-primary {
+    color: var(--color-text);
+    border-color: var(--secundary-color);
+    border-radius: 2em;
+}
+
+.btn-outline-primary:hover {
+    border-color: var(--secundary-color);
+    background-color: var(--secundary-color);
+}
+
+.btn:hover{
+    font-weight: bolder ;
+}
+
+.line {
+    width: 81%;
+    height: 1px;
+    background-color: var(--secundary-color);
+    margin: 0.4em auto 0 auto;
+}
+
+
+
+.space{
+    margin: 5em;
+}
+
+.publications{
+    border-left: 0.1em solid var(--secundary-color);                              
+    border-right: 0.1em solid var(--secundary-color);   
+    border-bottom: 0.1em solid var(--secundary-color);
+    margin: 0 15em;
+}
+.imageLogo{
+    border-radius: 100%;
+}
+
+.imageInformation{
+    border-radius: 2em;
+}
+
+.buttonEvent{
+    all: unset;
+    cursor: pointer; 
+    background-color: var(--extra-color);
+    color: var(--color-text);
+    width: 8em;
+    height: 2em;
+    border-radius: 2em;
+}
+.buttonEvent:hover{
+    font-weight:800;
+}
+
+
+.user-icon {
+    color: #568281; 
+}
+
+.dropdown-menu {
+    left: auto !important; 
+    right: 0 !important; 
+    transform: translateX(0) !important; 
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+
+
+
+
+.form-container {
+    position: relative;
+    background-color: #fff;
+    padding: 3rem 2rem;
+    border: none;
+    width: 100%;
+}
+
+
+.form-container h4 {
+    color: #568281;
+    font-weight: 600;
+    margin-top: 0;
+    font-size: 1.45rem;
+    margin-bottom: 2rem; 
+}
+
+
+.form-fields {
+    padding-top: 1rem; 
+}
+
+
+.back-button {
+    position: absolute;
+    top: 2rem;
+    left: -7rem;
+    color: #2F3E45;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    text-decoration: none;
+    color: #568281;
+}
+
+
+.form-container label {
+    color: #3b4b3b;
+    font-weight: 500;
+}
+
+
+.field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #3b4b3b;
+    border-radius: 0;
+    padding: 5px;
+    font-size: 0.9rem;
+    background-color: transparent;
+}
+
+.field:focus {
+    outline: none;
+    border-bottom: 1px solid #3b4b3b;
+}
+
+
+
+p#email.text-primary {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #568281 !important;
+}
+
+
+
+.form-container button {
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+.btn-cancel {
+    background-color: #C8898C;
+    color: #ffffff;
+}
+
+.btn-cancel:hover {
+    background-color: #c96d71;
+    color: #fff;
+}
+
+.btn-submit {
+    background-color: #89BAC8;
+    color: #2F3E45;
+}
+
+.btn-submit:hover {
+    background-color: #6fa2b0;
+    color: #2F3E45;
+}
+
+
+
+
+
+.form-container .d-flex {
+    justify-content: center; 
+}
+
+.form-container .d-flex button {
+    margin: 0 5px; 
+}
