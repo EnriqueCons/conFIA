@@ -108,13 +108,15 @@ nav{
     display: none;
 }
 
+.space{
+    margin: 5em;
+}
 /* Reajuste del tamaño y posición de la tarjeta */
 .eventsSoon .card {
-    width: 20rem;
-    margin-left: 10rem; 
+    width: 22rem;
     border: none;
-    height: 17rem;
-    margin-top: 100px;
+    height: 18rem;
+
 }
 
 /* Espaciado entre elementos en la tarjeta */
@@ -159,6 +161,17 @@ nav{
 }
 
 .buttonEvent.btn-edit:hover {
+    background-color: #71a3a6; 
+}
+
+/* Botón Reconocimiento Facial */
+.buttonEvent.btn-facial {
+    background-color: var(--extra-color);
+    min-width: 11em;
+    height: 4em;
+}
+
+.buttonEvent.btn-facial:hover {
     background-color: #71a3a6; 
 }
 

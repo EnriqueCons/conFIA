@@ -280,17 +280,17 @@ nav{
 .bi-pencil-fill {
     color: #568281;
     cursor: pointer;
-    margin-right: 60px;
+    
 }
 
-.bi {
+.biEdit {
     color: #568281 !important; 
-    margin-left: 60px;
+    margin-left: 50px;
+
 }
 
 
 .company-info .row > div {
     margin-bottom: 1.5rem; /* Añade un margen inferior a las secciones */
 }
-
 
