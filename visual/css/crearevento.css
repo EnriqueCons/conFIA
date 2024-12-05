@@ -322,6 +322,15 @@ input:focus {
     border-color: var(--secundary-color);
 }
 
+
+.event-description {
+    border: 1px solid #568281 !important;
+    border-radius: 5px;
+    padding: 0.6rem;
+    background-color: transparent;
+    outline: none;
+}
+
 /* Centrado y limpio */
 input.border-0,
 select.border-0,
