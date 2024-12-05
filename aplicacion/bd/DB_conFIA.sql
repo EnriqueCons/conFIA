@@ -81,17 +81,18 @@ CREATE TABLE Notificacion (
 );
 
 select * from `Usuario`;
+select * from `Empresarial`
 /*
 
 -- Insertar Usuario Personal
-INSERT INTO Usuario (email, nombre, contraseña, tipo)
+INSERT INTO Usuario (email, nombre, contrasena, tipo)
 VALUES ('personal@email.com', 'Usuario Personal', 'contraseña123', 'Personal');
 
 INSERT INTO Personal (email)
 VALUES ('personal@email.com');
 
 -- Insertar Usuario Empresarial
-INSERT INTO Usuario (email, nombre, contraseña, tipo)
+INSERT INTO Usuario (email, nombre, contrasena, tipo)
 VALUES ('empresa@email.com', 'Empresa Ejemplo', 'contraseñaEmpresa123', 'Empresarial');
 
 INSERT INTO Empresarial (email, direccion, descripcion)
