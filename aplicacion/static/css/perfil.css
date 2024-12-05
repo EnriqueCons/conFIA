@@ -1,0 +1,296 @@
+/*Necesarios*/
+:root {
+    --primary-color: #F4F0EB;
+    --secundary-color: #568281;
+    --extra-color: #89BAC8;
+    --color-text: #2F3E45;
+    --cancel-color: #C8898C;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: 'Inria Sans';
+}
+/*NAVBAR*/
+nav{
+    background-color: var(--primary-color);
+}
+.navbar-brand, .btn {
+    color: var(--color-text);
+}
+
+.navbar-brand:hover {
+    color: var(--color-text);
+}
+
+.search {
+    background-color: rgba(86, 130, 120, 0.5);
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+
+}
+
+.form-control {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text); 
+    border-radius: inherit; 
+}
+
+.form-control::placeholder {
+    color: var(--color-text);
+}
+
+.form-control:focus {
+    background-color: transparent !important;
+    box-shadow: none; 
+}
+
+.bi-search {
+    color: var(--color-text);
+    background: transparent; 
+}
+
+.btn-outline-primary {
+    color: var(--color-text);
+    border-color: var(--secundary-color);
+    border-radius: 2em;
+}
+
+.btn-outline-primary:hover {
+    border-color: var(--secundary-color);
+    background-color: var(--secundary-color);
+}
+
+.btn:hover{
+    font-weight: bolder ;
+}
+
+.line {
+    width: 81%;
+    height: 1px;
+    background-color: var(--secundary-color);
+    margin: 0.4em auto 0 auto;
+}
+
+/*Main*/
+
+.space{
+    margin: 5em;
+}
+
+.publications{
+    border-left: 0.1em solid var(--secundary-color);                              
+    border-right: 0.1em solid var(--secundary-color);   
+    border-bottom: 0.1em solid var(--secundary-color);
+    margin: 0 15em;
+}
+.imageLogo{
+    border-radius: 100%;
+}
+
+.imageInformation{
+    border-radius: 2em;
+}
+
+.buttonEvent{
+    all: unset;
+    cursor: pointer; 
+    background-color: var(--extra-color);
+    color: var(--color-text);
+    width: 8em;
+    height: 2em;
+    border-radius: 2em;
+}
+.buttonEvent:hover{
+    font-weight:800;
+}
+
+
+
+.user-icon {
+    color: #568281; 
+}
+
+.dropdown-menu {
+    left: auto !important; 
+    right: 0 !important; 
+    transform: translateX(0) !important; 
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.menu{
+    background-color: var(--secundary-color);
+
+}
+
+.dropdown-item{
+    color: var(--primary-color);
+}
+
+.dropdown-item:hover{
+    background-color: var(--secundary-color);
+    color: var(--color-text);
+}
+
+
+
+
+
+
+.edit-icon {
+    bottom: 0;
+    right: 0;
+    font-size: 1.5rem;
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.3rem;
+    color: var(--secondary-color);
+}
+
+.btn-tag {
+    background-color: var(--extra-color);
+    color: white;
+    border-radius: 1rem;
+    padding: 0.3rem 1rem;
+}
+
+.company-info i {
+    color: var(--secondary-color);
+}
+
+.edit-icon-small {
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.description {
+    background-color: var(--extra-color);
+    color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.events .event-card img {
+    max-width: 100%;
+    border-radius: 0.5rem;
+}
+
+.btn-more {
+    background-color: var(--extra-color);
+    color: white;
+    border-radius: 1rem;
+}
+
+.btn-register {
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 1rem;
+}
+
+
+
+
+
+
+
+.text-container {
+    margin-left: 300px !important;
+    text-align: left !important;
+    margin-top: -40px;
+    position: relative; /* Permite manejar la posición respecto al contenedor */
+    z-index: 1; /* Asegura que esté por encima del recuadro blanco */
+    margin-bottom: 70px;
+}
+
+
+.container {
+    max-width: 1140px; /* Controla el ancho máximo del contenido */
+    padding-left: 15px; /* Espaciado a la izquierda */
+    padding-right: 15px; /* Espaciado a la derecha */
+    
+}
+
+
+/* Recuadro superior */
+.profile-banner {
+    background-color: #AAC0BF; /* Color azul claro */
+    margin-left: auto; /* Asegura centrado */
+    margin-right: auto; /* Asegura centrado */
+    margin-bottom: 0;
+    border-radius: 0% !important; 
+    height: 150PX;
+}
+
+
+
+.profile-img-container{
+    top: 100px; /* Ajusta la posición vertical */
+    left: 70px; /* Asegura la posición horizontal */
+    transform: translate(0, -50%); /* Centra el logo adecuadamente */
+    position: absolute; /* Hace que la imagen sea independiente del flujo */
+}
+
+
+/* Ajuste de la imagen */
+.profile-img {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 130px;
+}
+
+
+/* Botón de etiqueta */
+.btn-tag {
+    background-color: #E0E5E5;
+    color: #2F3E45;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Recuadro inferior */
+.bg-white {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1140px; /* Mantén el diseño uniforme */
+    padding: 20px; /* Añade relleno interno */
+    margin-top: 0; /* Elimina el margen superior del segundo recuadro */
+    border-radius: 0% !important; 
+}
+
+/* Espaciado y estilo de las secciones de información */
+.row > .col-md-6 {
+    padding: 1rem 0;
+
+}
+
+.bi-pencil-fill {
+    color: #568281;
+    cursor: pointer;
+    
+}
+
+.biEdit {
+    color: #568281 !important; 
+    margin-left: 50px;
+
+}
+
+
+.company-info .row > div {
+    margin-bottom: 1.5rem; /* Añade un margen inferior a las secciones */
+}
+

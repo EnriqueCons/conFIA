@@ -1,12 +1,12 @@
-DROP DATABASE IF EXISTS conFIA;
-CREATE DATABASE IF NOT EXISTS conFIA;
-USE conFIA;
+DROP DATABASE IF EXISTS DB_conFIA;
+CREATE DATABASE IF NOT EXISTS DB_conFIA;
+USE DB_conFIA;
 
 -- Tabla Usuario (Base para Personal y Empresarial)
 CREATE TABLE Usuario (
     email VARCHAR(255) PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    contraseña VARCHAR(255) NOT NULL,
+    contrasena VARCHAR(1000) NOT NULL,
     tipo ENUM('Personal', 'Empresarial') NOT NULL
 );
 
@@ -79,6 +79,9 @@ CREATE TABLE Notificacion (
     usuarioEmail VARCHAR(255) NOT NULL,
     FOREIGN KEY (usuarioEmail) REFERENCES Usuario(email) ON DELETE CASCADE
 );
+
+select * from `Usuario`;
+/*
 
 -- Insertar Usuario Personal
 INSERT INTO Usuario (email, nombre, contraseña, tipo)
@@ -158,3 +161,5 @@ WHERE D.eventoId = 1;
 SELECT N.mensaje, N.fechaEnvio
 FROM Notificacion N
 WHERE N.usuarioEmail = 'personal@email.com';
+
+*/

@@ -1,0 +1,308 @@
+
+/*Necesarios*/
+:root {
+    --primary-color: #F4F0EB;
+    --secundary-color: #568281;
+    --extra-color: #89BAC8;
+    --color-text: #2F3E45;
+    --cancel-color: #C8898C;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: 'Inria Sans';
+}
+/*NAVBAR*/
+nav{
+    background-color: var(--primary-color);
+}
+.navbar-brand, .btn {
+    color: var(--color-text);
+}
+
+.navbar-brand:hover {
+    color: var(--color-text);
+}
+
+.search {
+    background-color: rgba(86, 130, 120, 0.5);
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+
+}
+
+.form-control {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text); 
+    border-radius: inherit; 
+}
+
+.form-control::placeholder {
+    color: var(--color-text);
+}
+
+.form-control:focus {
+    background-color: transparent !important;
+    box-shadow: none; 
+}
+
+.bi-search {
+    color: var(--color-text);
+    background: transparent; 
+}
+
+.btn-outline-primary {
+    color: var(--color-text);
+    border-color: var(--secundary-color);
+    border-radius: 2em;
+}
+
+.btn-outline-primary:hover {
+    border-color: var(--secundary-color);
+    background-color: var(--secundary-color);
+}
+
+.btn:hover{
+    font-weight: bolder ;
+}
+
+.line {
+    width: 81%;
+    height: 1px;
+    background-color: var(--secundary-color);
+    margin: 0.4em auto 0 auto;
+}
+
+.menu{
+    background-color: var(--secundary-color);
+
+}
+
+.dropdown-item{
+    color: var(--primary-color);
+}
+
+.dropdown-item:hover{
+    background-color: var(--secundary-color);
+    color: var(--color-text);
+}
+
+.user-icon {
+    color: #568281; 
+}
+
+.dropdown-menu {
+    left: auto !important; 
+    right: 0 !important; 
+    transform: translateX(0) !important; 
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.space{
+    margin: 5em;
+}
+/* Reajuste del tamaño y posición de la tarjeta */
+.eventsSoon .card {
+    width: 22rem;
+    border: none;
+    height: 18rem;
+
+}
+
+/* Espaciado entre elementos en la tarjeta */
+.card-body h5 {
+    font-size: 1rem; 
+    margin-bottom: 1rem;
+    color: #A5B9B5; 
+    text-align: left;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+/* Estilos de los botones */
+.buttonEvent {
+    background-color: var(--secundary-color); 
+    color: #fff; 
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 8rem; 
+    margin-top: 50px;
+}
+
+/* Botón eliminar */
+.buttonEvent.btn-cancel {
+    background-color: var(--cancel-color); 
+}
+
+.buttonEvent.btn-cancel:hover {
+    background-color: #b36266; 
+}
+
+/* Botón editar */
+.buttonEvent.btn-edit {
+    background-color: var(--extra-color);
+}
+
+.buttonEvent.btn-edit:hover {
+    background-color: #71a3a6; 
+}
+
+/* Botón Reconocimiento Facial */
+.buttonEvent.btn-facial {
+    background-color: var(--extra-color);
+    min-width: 11em;
+    height: 4em;
+}
+
+.buttonEvent.btn-facial:hover {
+    background-color: #71a3a6; 
+}
+
+/* Imagen de la tarjeta */
+.card img {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+
+/* Contenedor de la imagen con título superpuesto */
+.image-container {
+    position: relative; 
+    width: 100%;
+    height: auto;
+}
+
+/* Imagen con transparencia */
+.card-img-top {
+    width: 100%;
+    opacity: 0.7; 
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+/* Título del evento superpuesto */
+.event-title {
+    position: absolute;
+    bottom: 20%;
+    left: 5%;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Filtro oscuro sobre la imagen */
+.image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem 0.5rem 0 0;
+    z-index: 1; 
+}
+
+
+
+/* Botón flotante */
+.floating-button {
+    position: fixed;
+    bottom: 40px; 
+    right: 40px; 
+    background-color: var(--extra-color); 
+    color: #2F3E45;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1000; 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.floating-button:hover {
+    background-color: #71a3a6; 
+    transform: scale(1.1); 
+}
+
+/* Ícono del botón */
+.floating-button i {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+
+/* Estilo general del modal */
+.modal-content {
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 1.5rem;
+}
+
+.modal-title {
+    color: var(--color-text);
+    font-weight: bold;
+    text-align: center;
+}
+
+.reason-textarea {
+    background-color: #e0e0e0; 
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    color: #3b4b3b;
+}
+
+.reason-textarea::placeholder {
+    color: #888;
+}
+
+/* Botones en el modal */
+.modal-footer {
+    display: flex;
+    justify-content: space-between; 
+    padding: 1rem; 
+}
+
+
+.modal-footer .btn-cancel {
+    background-color: var(--cancel-color);
+    color: #fff;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+}
+
+.modal-footer .btn-cancel:hover {
+    background-color: #b36266;
+}
+
+.modal-footer .btn-submit {
+    background-color: var(--extra-color);
+    color: #fff;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+}
+
+.modal-footer .btn-submit:hover {
+    background-color: #71a3a6;
+}
