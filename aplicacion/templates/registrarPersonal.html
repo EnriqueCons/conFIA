@@ -24,9 +24,9 @@
             </div>
             <div>
                 <form class="d-flex">
-                    <a class="btn me-2" type="button" href="index.html">Eventos</a>
-                    <button class="btn me-2" type="button">Notificaciones</button>
-                    <a class="btn btn-outline-primary" type="button" href="IniciarSesion.html"> Iniciar Sesión</a>
+                    <a class="btn me-2" type="button" href="{{ url_for('inicio_sesion') }}">Eventos</a>
+                    <button class="btn me-2" type="button" href="{{ url_for('inicio_sesion') }}">Notificaciones</button>
+                    <a class="btn btn-outline-primary" type="button" href="{{ url_for('inicio_sesion') }}"> Iniciar Sesión</a>
                 </form>
             </div>
             <div class="line"></div>

@@ -81,7 +81,8 @@ CREATE TABLE Notificacion (
 );
 
 select * from `Usuario`;
-select * from `Empresarial`
+select * from `Personal`;
+select * from `Empresarial`;
 /*
 
 -- Insertar Usuario Personal
