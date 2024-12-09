@@ -105,11 +105,45 @@ El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más espe
 
             <!-- Botones -->
             <div class="btn-container">
-                <a class="btn-cancel me-2 text-decoration-none" href="verEventosEmpresa.html">Cancelar</a>
-                <button type="button" class="btn-accept" onclick="handleAccept()">Guardar Cambios</button>
+                <button type="button" class="btn-cancel" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancelar</button>
+                <button type="button" class="btn-accept" data-bs-toggle="modal" data-bs-target="#acceptModal">Guardar Cambios</button>
             </div>
         </form>
     </main>
+    
+    <!-- Modal para Confirmar Cancelar -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">¿Está seguro de cancelar la creación del evento?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Si cancela ahora, todos los cambios realizados se perderán.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-accept">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <!-- Modal para Confirmar Guardar Cambios -->
+    <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center border-0">
+                    <h5 class="modal-title" id="acceptModalLabel">¡Cambios guardados!</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Los cambios han sido guardados exitosamente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.querySelector('.add-image-icon').addEventListener('click', () => {
@@ -126,31 +160,14 @@ El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más espe
                 reader.readAsDataURL(file);
             }
         });
+    </script>
 
-        function handleAccept() {
-            // Crear y mostrar el mensaje de éxito
-            const successMessage = document.createElement('div');
-            successMessage.style.position = 'fixed';
-            successMessage.style.top = '50%';
-            successMessage.style.left = '50%';
-            successMessage.style.transform = 'translate(-50%, -50%)';
-            successMessage.style.backgroundColor = 'white';
-            successMessage.style.border = '2px';
-            successMessage.style.borderRadius = '10px';
-            successMessage.style.padding = '2rem';
-            successMessage.style.textAlign = 'center';
-            successMessage.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            successMessage.innerHTML = `
-                <h4>Los cambios han sido guardados exitosamente</h4>
-                <i class="bi bi-check-circle-fill fs-1" style="color: #568281;"></i>
-            `;
-            document.body.appendChild(successMessage);
 
-            // Redirigir a otra pantalla después de 3 segundos
-            setTimeout(() => {
-                window.location.href = "verEventosEmpresa.html";
-            }, 2000);
-        }
+    <script>
+        // Redirigir tras cerrar el modal de guardar cambios
+        document.getElementById('acceptModal').addEventListener('hidden.bs.modal', function () {
+            window.location.href = "verEventosEmpresa.html";
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
