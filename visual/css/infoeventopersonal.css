@@ -186,12 +186,12 @@ h4 {
 .event-details .col p {
     margin: 0.2rem 0;
     color: #2F3E45;
-    line-height: 1.5; /* Asegura una alineación vertical uniforme */
+    line-height: 1.5; 
 }
 
 
 .event-details {
-    margin-top: 3rem; /* Si prefieres agregar espacio desde este contenedor */
+    margin-top: 3rem;
 }
 
 .event-details .col i {
@@ -220,15 +220,15 @@ p {
 
 
 .event-details .col i {
-    display: block; /* Asegura que esté en su propia línea */
-    margin: 0 auto 10px auto; /* Ajusta la separación inferior */
-    line-height: 1; /* Opcional: evita alturas desiguales */
+    display: block; 
+    margin: 0 auto 10px auto;
+    line-height: 1; 
 }
 
 
 .icon-access {
-    margin-top: 100px; /* Ajusta este valor según lo necesario */
-    margin-bottom: 0; /* Asegura que no haya espacios adicionales */
+    margin-top: 100px; 
+    margin-bottom: 0;
     display: block;
 }
 
@@ -250,7 +250,7 @@ p {
 
 .btn-container {
     display: flex;
-    justify-content: flex-end; /* Mueve el botón hacia la derecha */
-    padding-right: 20px; /* Ajusta el margen derecho */
-    margin-top: 3px; /* Baja el botón más abajo */
+    justify-content: flex-end; 
+    padding-right: 20px; 
+    margin-top: 3px;
 }
