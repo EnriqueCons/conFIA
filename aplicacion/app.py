@@ -154,7 +154,7 @@ def perfilP():
 
     if user[3] != 'Personal':
         flash('No tienes permiso para acceder a esta página.', 'danger')
-        return redirect(url_for('inicio_sesion'))
+        return redirect(url_for('error'))
 
     # Pasamos los datos del usuario al template 'indexCUPersonal.html'
     return render_template('indexCUPersonal.html', email_Usuario=user)
@@ -175,7 +175,7 @@ def perfilE():
 
     if user[3] != 'Empresarial':
         flash('No tienes permiso para acceder a esta página.', 'danger')
-        return redirect(url_for('inicio_sesion'))
+        return redirect(url_for('error'))
 
     # Pasamos los datos del usuario al template 'indexEmpresarial.html'
     return render_template('indexEmpresarial.html', email_Usuario=user)
@@ -203,6 +203,11 @@ def recuperar_contrasena():
 
     return render_template('RecuperarContrasenia.html')
 
+
+# Página de Error 
+@app.route('/error')
+def error():
+    return render_template('errorTemplate.html')
 
 
 if __name__ == '__main__':
