@@ -359,13 +359,14 @@ textarea.border-0:focus {
     border-radius: 20px; 
     padding: 0.5rem 1.5rem; 
     font-size: 1rem; 
-    font-weight: bold;
+    font-weight: normal;
     transition: background-color 0.3s ease; 
     text-decoration: none;
 }
 
 .btn-cancel:hover {
     background-color: #d07275; 
+    font-weight: bold;
 }
 
 /* Botón de Aceptar */
@@ -376,13 +377,13 @@ textarea.border-0:focus {
     border-radius: 20px;
     padding: 0.5rem 1.5rem; 
     font-size: 1rem; 
-    font-weight: bold; 
+    font-weight: normal; 
     transition: background-color 0.3s ease; 
 }
 
 .btn-accept:hover {
     background-color: #6da6b5; 
-
+    font-weight: bold;
 }
 
 .btn-container {
