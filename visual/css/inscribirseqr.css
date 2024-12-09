@@ -326,18 +326,33 @@ nav{
     border-radius: 2em;
 }
 
-.buttonEvent{
-    all: unset;
-    cursor: pointer; 
+.buttonEvent {
+    cursor: pointer;
     background-color: var(--extra-color);
     color: var(--color-text);
     width: 8em;
     height: 2em;
     border-radius: 2em;
+    border: none !important; /* Eliminar bordes no deseados */
+    text-align: center;
+    font-weight: normal;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
-.buttonEvent:hover{
-    font-weight:800;
+
+.buttonEvent:hover,
+.buttonEvent:focus,
+.buttonEvent:active {
+    background-color: var(--extra-color); /* Mantén el mismo color */
+    font-weight: 800; /* Mantén el grosor del texto */
+    color: var(--color-text);
+    outline: none; /* Quita cualquier contorno */
+    box-shadow: none; /* Evita efectos de presión */
+    border: none !important; /* Sin bordes */
 }
+
+
 
 
 .user-icon {
@@ -433,12 +448,17 @@ p#email.text-primary {
 
 .form-container button {
     border-radius: 30px;
+
     padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s; 
+    border: none !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
 }
 
 .btn-cancel {
     background-color: #C8898C;
-    color: #ffffff;
+    color: #ffffff;    
 }
 
 .btn-cancel:hover {
@@ -455,6 +475,56 @@ p#email.text-primary {
     background-color: #6fa2b0;
     color: #2F3E45;
 }
+
+.btn-cancel:hover,
+.btn-cancel:active,
+.btn-cancel:focus {
+    background-color: #c96d71 !important; 
+    color: #fff !important; 
+    box-shadow: none !important;
+    outline: none !important; 
+    transform: none !important; 
+}
+
+.btn-submit:hover,
+.btn-submit:active,
+.btn-submit:focus {
+    background-color: #6fa2b0 !important;
+    color: #2F3E45 !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
+    transform: none !important; 
+}
+
+
+
+
+
+
+#acceptCancel {
+    background-color: var(--extra-color); 
+    color: var(--color-text); 
+    border-radius: 30px; 
+    padding: 10px 20px; 
+    border: none !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
+    font-weight: normal; 
+    transition: background-color 0.3s, color 0.3s, font-weight 0.3s; 
+}
+
+#acceptCancel:hover,
+#acceptCancel:active,
+#acceptCancel:focus {
+    background-color: #6fa2b0 !important; 
+    color: var(--color-text) !important;
+    font-weight: bold !important; 
+    border: none !important; 
+    outline: none !important; 
+    box-shadow: none !important; 
+    transform: none !important; 
+}
+
 
 
 
