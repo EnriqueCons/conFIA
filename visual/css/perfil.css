@@ -85,7 +85,7 @@ nav{
     border-left: 0.1em solid var(--secundary-color);                              
     border-right: 0.1em solid var(--secundary-color);   
     border-bottom: 0.1em solid var(--secundary-color);
-    margin: 0 15em;
+
 }
 .imageLogo{
     border-radius: 100%;

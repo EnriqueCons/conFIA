@@ -1,7 +1,7 @@
 /*Necesarios*/
 :root {
     --primary-color: #F4F0EB;
-    --secundary-color: #568281;
+    --secundary-color: rgb(86, 129, 128);
     --extra-color: #89BAC8;
     --color-text: #2F3E45;
     --cancel-color: #C8898C;
@@ -536,4 +536,20 @@ p#email.text-primary {
 
 .form-container .d-flex button {
     margin: 0 5px; 
+}
+
+.TextImportant{
+    color: var(--cancel-color);
+}
+
+.camera{
+    background-color: rgba(86, 129, 128, 0.5);
+}
+
+.camera i{
+    color: var(--primary-color);
+}
+
+.terms{
+    width: 35em;
 }
