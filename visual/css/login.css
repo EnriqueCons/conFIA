@@ -1,5 +1,3 @@
-
-/*Necesarios*/
 :root {
     --primary-color: #F4F0EB;
     --secundary-color: #568281;
@@ -12,10 +10,11 @@ body {
     background-color: var(--primary-color);
     font-family: 'Inria Sans';
 }
-/*NAVBAR*/
-nav{
+
+nav {
     background-color: var(--primary-color);
 }
+
 .navbar-brand, .btn {
     color: var(--color-text);
 }
@@ -29,15 +28,14 @@ nav{
     border-radius: 2em;
     display: flex;
     align-items: center;
-
 }
 
 nav .form-control {
     border: none;
     outline: none;
     background: transparent;
-    color: var(--color-text); 
-    border-radius: inherit; 
+    color: var(--color-text);
+    border-radius: inherit;
 }
 
 nav .form-control::placeholder {
@@ -46,12 +44,12 @@ nav .form-control::placeholder {
 
 nav .form-control:focus {
     background-color: transparent !important;
-    box-shadow: none; 
+    box-shadow: none;
 }
 
 .bi-search {
     color: var(--color-text);
-    background: transparent; 
+    background: transparent;
 }
 
 .btn-outline-primary {
@@ -66,8 +64,8 @@ nav .form-control:focus {
     background-color: var(--secundary-color);
 }
 
-.btn:hover{
-    font-weight: bolder ;
+.btn:hover {
+    font-weight: bolder;
 }
 
 .line {
@@ -77,23 +75,21 @@ nav .form-control:focus {
     margin: 0.4em auto 0 auto;
 }
 
-/*Main*/
-
-.space{
+.space {
     margin: 2em;
 }
 
-.logo{
+.logo {
     background-color: rgba(86, 130, 120, 0.5);
     margin-top: 4em;
     margin-left: 10em;
 }
 
-.dataLogin{
+.dataLogin {
     margin: 1.3em 4.5em;
 }
 
-.login{
+.login {
     background-color: var(--color-text);
     margin-top: 4em;
     margin-right: 10em;
@@ -101,44 +97,50 @@ nav .form-control:focus {
 }
 
 .form-control {
+    color: var(--primary-color); 
+    background-color: transparent; 
     border: none;
     outline: none;
-    background: transparent;
-    color: var(--color-text); 
-    border-radius: inherit; 
-    border-bottom: 0.1em solid var(--primary-color);
+    border-bottom: 0.1em solid var(--secundary-color); /* Línea inferior del input */
+    border-radius: inherit;
+    padding: 0.5em;
 }
 
 .form-control::placeholder {
-    color: var(--color-text);
+
+    color: var(--color-text); /* Placeholder visible y en color de texto */
+    opacity: 0.7;
 }
 
 .form-control:focus {
-    background-color: transparent !important;
+    background-color: var(--color-text);
     box-shadow: none; 
     color: var(--primary-color);
 }
 
-.link{
+
+
+.link {
     color: var(--primary-color);
     all: unset;
     cursor: pointer;
     text-decoration: underline;
 }
-.buttonEvent{
+
+.buttonEvent {
     all: unset;
-    cursor: pointer; 
+    cursor: pointer;
     background-color: var(--extra-color);
     color: var(--color-text);
     width: 9em;
     height: 3em;
     border-radius: 2em;
 }
-.buttonEvent:hover{
-    font-weight:800;
+
+.buttonEvent:hover {
+    font-weight: 800;
 }
 
-.registro{
+.registro {
     margin: 2em 7em;
 }
-

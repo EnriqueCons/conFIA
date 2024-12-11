@@ -255,3 +255,9 @@ p {
     padding-right: 20px; 
     margin-top: 3px;
 }
+
+.QR{
+    background-color: #FFFFFF;
+    width: 25em;
+    height: 25em;
+}

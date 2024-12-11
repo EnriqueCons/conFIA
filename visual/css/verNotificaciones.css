@@ -139,3 +139,15 @@ nav{
 .buttonEventCancel:hover{
     font-weight:800;
 }
+
+.Notifications{
+    margin: 0 8.5em;
+}
+
+.Not{
+    background-color: var(--secundary-color);
+    margin-bottom: 2em;
+    border-radius: 1em;
+    color: var(--primary-color);
+
+}

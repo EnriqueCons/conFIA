@@ -90,10 +90,14 @@ nav{
 }
 .imageLogo{
     border-radius: 100%;
+    max-width: 5em;
+    height: auto;
 }
 
 .imageInformation{
     border-radius: 2em;
+    max-width: 40em;
+    height: auto;
 }
 
 .buttonEvent{
@@ -110,6 +114,10 @@ nav{
 }
 
 
+.Company{
+    text-decoration: none;
+    color: var(--color-text);
+}
 
 .user-icon {
     color: #568281; 

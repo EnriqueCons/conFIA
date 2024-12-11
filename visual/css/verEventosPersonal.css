@@ -306,3 +306,9 @@ nav{
 .modal-footer .btn-submit:hover {
     background-color: #71a3a6;
 }
+
+.card-img-top {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la tarjeta */
+    height: 7em; /* Establece una altura uniforme para todas las imágenes */
+    
+}
