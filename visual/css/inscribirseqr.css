@@ -553,3 +553,94 @@ p#email.text-primary {
 .terms{
     width: 35em;
 }
+
+
+
+
+
+/* POP UP CERRAR SESION */
+.modal-content {
+    border: none !important;
+    border-radius: 7px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+}
+
+/* Header */
+.modal-header .modal-title {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    margin: 0;
+    margin-left: 46px;
+}
+
+/* Línea debajo del título */
+.modal-body {
+    padding-top: 1rem;
+    color: #2F3E45;
+    font-size: 0.97rem; 
+    margin-top: 20px;
+}
+
+/* Footer con separación */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 2.5rem; 
+    border-top: none;
+}
+
+/* Botones */
+.btn-cancel,
+.btn-accept {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botón Cancelar */
+.btn-cancel {
+    background-color: #C8898C; 
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #d07275;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+.btn-cancel:active,
+.btn-cancel:focus {
+    background-color: #d07275 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+    color:#ffffff !important;
+}
+
+
+
+/* Botón Aceptar */
+.btn-accept {
+    background-color: #89BAC8; 
+    color: #2F3E45;
+}
+
+.btn-accept:hover {
+    background-color: #6da6b5;
+    color: #2F3E45;
+    font-weight: bold;
+}
+
+.btn-accept:active,
+.btn-accept:focus {
+    background-color: #6da6b5 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+}
