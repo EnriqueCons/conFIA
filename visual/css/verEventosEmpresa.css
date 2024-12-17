@@ -81,17 +81,8 @@ nav{
 
 }
 
-
-
-.dropdown-menu {
-    background-color: var(--secundary-color); /* Color de fondo del dropdown completo */
-}
-
-
 .dropdown-item{
     color: var(--primary-color);
-    background-color: #568281;
-    border-color: #568281;
 }
 
 .dropdown-item:hover{
@@ -167,10 +158,12 @@ nav{
 /* Botón editar */
 .buttonEvent.btn-edit {
     background-color: var(--extra-color);
+    font-size: 1rem;
 }
 
 .buttonEvent.btn-edit:hover {
     background-color: #71a3a6; 
+    font-weight: bold;
 }
 
 /* Botón Reconocimiento Facial */
@@ -306,67 +299,25 @@ nav{
 }
 
 .modal-footer .btn-submit {
-    background-color: var(--extra-color);
-    color: #fff;
+    background-color: var(--extra-color); /* Color de fondo */
+    color: #2F3E45; /* Color del texto */
     border-radius: 20px;
     padding: 0.5rem 1.5rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: none; /* Elimina el borde */
 }
 
 .modal-footer .btn-submit:hover {
     background-color: #71a3a6;
+    color: #2F3E45;
 }
 
-
-
-
-
-
-
-
-
-/* Botón de acceso con candado */
-.access-button {
-    position: fixed;
-    bottom: 120px; 
-    right: 40px; 
-    background-color: var(--secundary-color);
-    color: #fff;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    z-index: 1001;
-    box-shadow: none;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+.card-img-top {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la tarjeta */
+    height: 7em; /* Establece una altura uniforme para todas las imágenes */
+    
 }
 
-.access-button:hover {
-    background-color: #71a3a6; 
-    transform: scale(1.1); 
-}
-
-.access-button i {
-    font-size: 2rem; 
-}
-
-
-
-
-
-/* Estilo para el texto 'Personas Asistidas' */
-.text-assist {
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--secundary-color);
-    text-align: center; 
-    padding: 0.5rem 1rem;
-    width: 100%;
-    background-color: none;
-    padding-top: 2rem;
-}
 
 
 
@@ -460,3 +411,22 @@ nav{
     outline: none !important; /* Elimina el contorno */
     border: none;
 }
+
+
+
+.text-assist {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secundary-color);
+    text-align: center; 
+    padding: 0.5rem 1rem;
+    width: 100%;
+    background-color: none;
+    padding-top: 2rem;
+}
+
+
+
+
+
+
