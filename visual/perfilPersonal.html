@@ -28,16 +28,18 @@
                 <form class="d-flex">
                     <a class="btn me-2" type="button" href="indexCUPersonal.html">Eventos</a>
                     <a class="btn me-2" type="button" href="verNotificacionesPersonal.html">Notificaciones</a>
-                    
+
                     <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon"
+                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle fs-3"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end text-center menu " aria-labelledby="userDropdown">
                             <li class="dropdown-item" id="nombrePersonal">Nombre</li>
                             <li><a class="dropdown-item" href="verEventosPersonal.html">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="perfilPersonal.html">Ver perfil</a></li>
-                            <li><a class="dropdown-item" href="index.html" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="index.html" data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal">Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </form>
@@ -96,9 +98,30 @@
             </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+        <!-- POP UP CERRAR SESION -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">¿Está seguro de querer cerrar sesión?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Si cierra sesión ahora, perderá cualquier cambio no guardado.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="index.html" class="btn btn-accept">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
