@@ -81,8 +81,17 @@ nav{
 
 }
 
+
+
+.dropdown-menu {
+    background-color: var(--secundary-color); /* Color de fondo del dropdown completo */
+}
+
+
 .dropdown-item{
     color: var(--primary-color);
+    background-color: #568281;
+    border-color: #568281;
 }
 
 .dropdown-item:hover{
