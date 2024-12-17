@@ -82,36 +82,74 @@ nav{
     margin: 5em;
 }
 
-.publications{
+
+
+
+
+
+.publications:first-of-type {
+    margin-top: 5em; /* Ajusta este valor para el espacio deseado */
+}
+
+.publications {
     border-left: 0.1em solid var(--secundary-color);                              
     border-right: 0.1em solid var(--secundary-color);   
     border-bottom: 0.1em solid var(--secundary-color);
-    margin: 0 15em;
+    margin: 0 auto; /* Centra el contenedor */
+    margin-top: -26px;
+    margin-bottom: 0; /* Elimina el espacio extra entre publicaciones */
+    padding: 1.5em;
+    max-width: 90%;
+    box-sizing: border-box;
+    margin: none !important; 
 }
-.imageLogo{
+
+/* Imagen circular de la universidad */
+.imageLogo {
     border-radius: 100%;
-    max-width: 5em;
+    width: 5em;
     height: auto;
 }
 
-.imageInformation{
+/* Imagen de información (se adapta al ancho) */
+.imageInformation {
     border-radius: 2em;
-    max-width: 40em;
+    max-width: 70%;
     height: auto;
+    margin-bottom: 20px;
 }
 
-.buttonEvent{
+
+/* Botones */
+.buttonEvent {
+    margin-top: 20px;
     all: unset;
     cursor: pointer; 
     background-color: var(--extra-color);
     color: var(--color-text);
     width: 8em;
-    height: 2em;
+    height: 2.5em;
+    text-align: center;
+    line-height: 2.5em;
     border-radius: 2em;
+    font-weight: 500;
+    margin-bottom: 20px;
 }
-.buttonEvent:hover{
-    font-weight:800;
+
+.buttonEvent:hover {
+    font-weight: 800;
+
 }
+
+
+.container {
+    padding-left: 0;
+    padding-right: 0;
+    margin: none !important; 
+}
+
+
+
 
 
 .Company{
