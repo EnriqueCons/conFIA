@@ -9,7 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Inria Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="/css/crearevento.css"> <!-- quite el / del inicio porque no me dejaba visualizarlo -->
+    <link rel="stylesheet" href="css/crearevento.css"> <!-- quite el / del inicio porque no me dejaba visualizarlo -->
 </head>
 
 <body>
@@ -37,7 +37,7 @@
                         <ul class="dropdown-menu dropdown-menu-end text-center menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="verEventosEmpresa.html">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="PerfilEmpresa.html">Mi perfil</a></li>
-                            <li><a class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="index.html" data-bs-toggle="modal" data-bs-target="#logoutModal" >Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </form>
@@ -139,6 +139,30 @@
             <h3 class="modal-title">El evento ha sido creado exitosamente</h3>
             <i class="bi bi-check-circle-fill"></i>
         </div>
+
+
+
+        
+        <!-- POP UP CERRAR SESION -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">¿Está seguro de querer cerrar sesión?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Si cierra sesión ahora, perderá cualquier cambio no guardado.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="index.html" class="btn btn-accept">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 
     </main>
