@@ -306,3 +306,55 @@ nav{
 .modal-footer .btn-submit:hover {
     background-color: #71a3a6;
 }
+
+
+
+
+
+
+
+
+
+/* Botón de acceso con candado */
+.access-button {
+    position: fixed;
+    bottom: 120px; 
+    right: 40px; 
+    background-color: var(--secundary-color);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1001;
+    box-shadow: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.access-button:hover {
+    background-color: #71a3a6; 
+    transform: scale(1.1); 
+}
+
+.access-button i {
+    font-size: 2rem; 
+}
+
+
+
+
+
+/* Estilo para el texto 'Personas Asistidas' */
+.text-assist {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secundary-color);
+    text-align: center; 
+    padding: 0.5rem 1rem;
+    width: 100%;
+    background-color: none;
+    padding-top: 2rem;
+}
