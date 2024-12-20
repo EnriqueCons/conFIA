@@ -280,7 +280,6 @@ nav{
 .bi-pencil-fill {
     color: #568281;
     cursor: pointer;
-    
 }
 
 .biEdit {
@@ -384,4 +383,91 @@ nav{
     box-shadow: none !important; /* Elimina sombras */
     outline: none !important; /* Elimina el contorno */
     border: none;
+}
+
+
+
+
+
+.edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    background-color: #ffffff;
+    border: 2px solid #568281;
+    border-radius: 50%;
+    color: #568281;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.edit-icon:hover {
+    transform: scale(1.1);
+    background-color: #568281;
+    color: #ffffff;
+}
+
+
+
+
+
+.btn-tag {
+    background-color: #E0E5E5;
+    color: #2F3E45;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    margin: 0.5rem;
+}
+
+.tag {
+    background-color: #89BAC8;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    margin: 0.3rem;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.tag .remove-tag {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+
+.container2{
+    margin-left: 310px;
+    margin-top: -17px;
+}
+
+
+.edit-icon {
+    position: absolute;
+    bottom: 0; 
+    right: 0;
+    width: 40px; 
+    height: 40px; 
+    background-color: #ffffff;
+    border: 2px solid #ffffff; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    color: #ffffff; 
+    cursor: pointer; 
+    font-size: 1.2rem; 
+    box-shadow: none;
+    transition: transform 0.3s ease; 
+}
+
+.edit-icon:hover {
+    transform: scale(1.1); 
+    background-color: #ffffff !important; 
+    color: #568281 !important;
 }
