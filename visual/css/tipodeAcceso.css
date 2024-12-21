@@ -264,7 +264,14 @@ h3 {
 
 
 
-
+.btn-access:focus,
+.btn-access:active {
+    background-color: #89BAC8 !important; /* Igual que el color inicial */
+    color: white !important; /* Mantén el texto blanco */
+    box-shadow: none !important; /* Elimina sombras adicionales */
+    outline: none !important; /* Elimina el contorno */
+    border: none; /* Elimina cualquier cambio en el borde */
+}
 
 
 /* POP UP CERRAR SESION */
