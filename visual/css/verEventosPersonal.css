@@ -528,7 +528,7 @@ nav{
 /* Botón Aceptar */
 .btn-submit {
     background-color: #89BAC8; /* Color de fondo */
-    color: #ffffff; /* Texto blanco */
+    color: #2F3E45 !important; /* Texto blanco */
     border-radius: 20px; /* Bordes redondeados */
     border: none; /* Sin bordes */
     padding: 0.5rem 1.5rem;
@@ -540,7 +540,7 @@ nav{
 .btn-submit:hover {
     background-color: #71a3a6; /* Color más oscuro al pasar el cursor */
     transform: scale(1.05); /* Efecto de zoom */
-    color: #ffffff !important; /* Asegura que el texto sea blanco */
+    color: #2F3E45 !important; /* Asegura que el texto sea blanco */
     font-weight: bold;
 }
 
@@ -548,7 +548,7 @@ nav{
 .btn-submit:active {
     background-color: #568281; /* Color al hacer clic */
     transform: scale(0.95); /* Efecto de compresión */
-    color: #ffffff; /* Asegura que el texto sea blanco */
+    color: #2F3E45 !important; /* Asegura que el texto sea blanco */
     border: none; /* Sin bordes */
 }
 
@@ -557,5 +557,6 @@ nav{
     outline: none; /* Elimina el contorno predeterminado */
     box-shadow: none; /* Sin sombras */
     background-color: #71a3a6; /* Consistencia con hover */
-    color: #ffffff; /* Asegura que el texto sea blanco */
+    color: #2F3E45 !important; /* Asegura que el texto sea blanco */
 }
+
