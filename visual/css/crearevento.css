@@ -574,6 +574,9 @@ textarea.border-0:focus {
     color: #2F3E45; 
     margin: 0;
     margin-left: 46px;
+    text-align: center; 
+    margin: 0 auto; 
+    width: 100%; 
 }
 
 /* Línea debajo del título */
