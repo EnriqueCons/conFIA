@@ -14,7 +14,8 @@ def get_db_connection():
         host='localhost',
         user='root',  # Son valores de default pero si tienen algo diferente cambienlo
         password='root',  # Son valores de default pero si tienen algo diferente cambienlo
-        database='DB_conFIA'
+        database='DB_conFIA',
+        ssl_disabled=True
     )
 
 #Ruta de la página principal
@@ -122,9 +123,9 @@ def inicio_sesion():
                 session['tipo'] = user[3]  # Guardamos el tipo de usuario en la sesión
                 print("Sesión iniciada con éxito. Redirigiendo a indexCorrespondiente.")
                 if session['tipo'] == 'Personal':
-                    return redirect(url_for('perfilP'))  # Redirige a la página de perfil
+                    return redirect(url_for('indexP'))  # Redirige a la página de perfil
                 else:
-                    return redirect(url_for('perfilE'))  # Redirige a la página de empresa
+                    return redirect(url_for('indexE'))  # Redirige a la página de empresa
             else:
                 print("Contraseña incorrecta.")
                 flash('Usuario o contraseña incorrectos', 'danger')
@@ -140,7 +141,7 @@ def registroUsuarios():
 
 # Página de index Personal
 @app.route('/indexPersonal')
-def perfilP():
+def indexP():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
 
@@ -161,7 +162,7 @@ def perfilP():
 
 # Página de index Empresarial
 @app.route('/indexEmpresarial')
-def perfilE():
+def indexE():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
 
@@ -178,7 +179,7 @@ def perfilE():
         return redirect(url_for('error'))
 
     # Pasamos los datos del usuario al template 'indexEmpresarial.html'
-    return render_template('indexEmpresarial.html', email_Usuario=user)
+    return render_template('indexCUEmpresarial.html', email_Usuario=user)
 
 # Página de recuperación de contraseña
 @app.route('/recuperarContrasena', methods=['GET', 'POST'])
