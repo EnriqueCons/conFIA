@@ -115,9 +115,57 @@ nav{
 .eventsSoon .card {
     width: 22rem;
     border: none;
-    height: 18rem;
-
+    height: auto; /* Cambiar a automático para ajustarse al contenido */
+height: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Asegura una distribución uniforme */
+    overflow: hidden;
 }
+
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Para expandir el cuerpo a la altura disponible */
+}
+
+/* Ajuste específico para la clase .text-assist */
+.text-assist {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secundary-color);
+    text-align: center;
+    margin-top: auto; /* Empuja hacia el fondo del contenedor */
+    padding-top: 0.5rem;
+}
+
+
+.eventsSoon .card {
+    height: 20rem; /* Ajusta este valor según lo necesario */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Establecer la misma altura para las imágenes */
+.card-img-top {
+    height: 10rem; /* Asegura que las imágenes tengan la misma altura */
+    object-fit: cover; /* Ajusta la imagen sin distorsión */
+}
+
+/* Ajustar el cuerpo del contenido */
+.card-body {
+    flex-grow: 1; /* Asegura que el contenido interno crezca proporcionalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+
+
 
 /* Espaciado entre elementos en la tarjeta */
 .card-body h5 {
@@ -127,6 +175,7 @@ nav{
     text-align: left;
     text-decoration: underline;
     font-weight: bold;
+    
 }
 
 
@@ -430,3 +479,30 @@ nav{
 
 
 
+/* Botón de acceso con candado */
+.access-button {
+    position: fixed;
+    bottom: 120px; 
+    right: 40px; 
+    background-color: var(--secundary-color);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1001;
+    box-shadow: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.access-button:hover {
+    background-color: #71a3a6; 
+    transform: scale(1.1); 
+}
+
+.access-button i {
+    font-size: 2rem; 
+}
