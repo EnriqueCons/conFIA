@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>conFIA</title>   
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>conFIA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <link href='https://fonts.googleapis.com/css?family=Inria Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/recuperarContrasenia.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar d-flex justify-content-around fixed-top pb-0">
@@ -21,7 +24,7 @@
                         <i class="bi bi-search m-2" type="submit"></i>
                     </form>
                 </div>
-                
+
             </div>
             <div>
                 <form class="d-flex">
@@ -31,8 +34,8 @@
                 </form>
             </div>
             <div class="line"></div>
-          </nav>
-          
+        </nav>
+
     </header>
     <main>
         <div class="space"></div>
@@ -44,23 +47,40 @@
                 </div>
                 <div class="my-3 mx-4">
                     <form>
-                        <p class="text-center my-5">Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+                        <p class="text-center my-5">Introduce tu correo electrónico y te enviaremos un enlace para
+                            restablecer tu contraseña.</p>
                         <div class="">
-                          <label for="" class="form-label">Correo Electrónico</label>
-                          <input type="email" class="form-control mb-5" id="" aria-describedby="">
+                            <label for="" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control mb-5" id="" aria-describedby="">
                         </div>
                         <div class="d-flex justify-content-evenly">
-                            <button type="button" class="buttonEventCancel text-center">Cancelar</button>
-                            <button type="button" class="buttonEvent text-center">Enviar</button>
-                            
+                            <a href="IniciarSesion.html" class="buttonEventCancel text-center">Cancelar</a>
+                            <button type="button" class="buttonEvent text-center" data-bs-toggle="modal"
+                                data-bs-target="#successModal">
+                                Enviar
+                            </button>
+
                         </div>
-                      </form>
+                    </form>
                 </div>
-                
+<!-- Modal de éxito -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4">
+            <div class="modal-body">
+                <h5 class="mb-4">El evento ha sido creado exitosamente</h5>
+                <i class="bi bi-check-circle-fill fs-1"></i>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

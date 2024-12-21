@@ -187,7 +187,7 @@ nav .form-control:focus {
 
 
 .d-flex.justify-content-evenly {
-    gap: 8rem; /* Ajusta este valor para más o menos espacio */
+    gap: 14rem; /* Ajusta este valor para más o menos espacio */
 }
 
 
@@ -195,7 +195,15 @@ nav .form-control:focus {
 
 
 
-
+/* Botón Cancelar */
+.buttonEventCancel {
+    background-color: #C8898C; 
+    color: #fff;
+    text-decoration: none; /* Elimina el subrayado */
+    display: inline-block; /* Asegura el estilo de botón */
+    text-align: center;
+    font-weight: normal;
+}
 
 .modal-content {
     border: none;
@@ -276,4 +284,22 @@ nav .form-control:focus {
 
 .modal-footer {
     margin-top: 1rem;
+}
+
+
+
+
+/* Título del modal */
+#successModal h5 {
+    font-weight: bold; /* Texto en negritas */
+    font-size: 1.5rem; /* Tamaño del texto */
+    margin-bottom: 1.5rem; /* Espaciado inferior */
+    color: #2F3E45;
+}
+
+/* Ícono de éxito */
+#successModal i {
+    font-size: 3rem; /* Tamaño del ícono */
+    color: #568281; /* Color del ícono */
+    margin-top: 1rem; /* Espaciado superior */
 }
