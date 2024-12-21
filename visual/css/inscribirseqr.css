@@ -652,40 +652,29 @@ p#email.text-primary {
 
 
 
-/* Ajustes para centrar el modal */
-.modal-dialog-centered {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Estilos del contenido del modal */
-.modal-content {
+/* Estilo específico para el modal de inscripción exitosa */
+.success-modal .modal-content {
     text-align: center; /* Centrar texto */
-    border-radius: 7px;
-    padding: 2rem; /* Espaciado interno */
+    border-radius: 7px; /* Bordes redondeados */
     background-color: #fff; /* Fondo blanco */
+    max-width: 500px; /* Ancho máximo */
+    margin: auto; /* Centrar horizontalmente */
 }
 
-/* Título del modal */
-.modal-header .modal-title {
-    font-size: 1.5rem; /* Tamaño de texto */
-    font-weight: bold;
+.success-modal .modal-body {
+    display: flex; /* Usar Flexbox para centrar contenido */
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center; /* Centrar verticalmente */
+}
+
+.success-modal .modal-titl {
+    font-size: 1.5rem; /* Tamaño del título */
+    font-weight: bold; /* Negrita */
     color: #2F3E45; /* Color del texto */
-    margin: 0;
-    width: 100%;
 }
 
-/* Cuerpo del modal */
-.modal-body {
-    font-size: 1rem;
-    color: #2F3E45;
-    margin: 1rem 0; /* Espaciado entre el texto */
-}
-
-/* Ícono de confirmación */
-.success-icon i {
+.success-modal .success-icon i {
     font-size: 2rem; /* Tamaño del ícono */
     color: #568281; /* Color del ícono */
-    margin-top: 1rem;
 }
