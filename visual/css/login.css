@@ -64,6 +64,20 @@ nav .form-control:focus {
     background-color: var(--secundary-color);
 }
 
+
+
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+    background-color: var(--secundary-color) !important;
+    color: var(--primary-color) !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border: none;
+}
+
+
+
+
 .btn:hover {
     font-weight: bolder;
 }
@@ -144,3 +158,6 @@ nav .form-control:focus {
 .registro {
     margin: 2em 7em;
 }
+
+
+
