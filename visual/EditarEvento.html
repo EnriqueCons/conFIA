@@ -145,7 +145,7 @@ El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más espe
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content custom-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="cancelModalLabel">¿Está seguro de cancelar la creación del evento?</h5>
+                    <h5 class="modal-titl" id="cancelModalLabel">¿Está seguro de cancelar la creación del evento?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
@@ -153,7 +153,7 @@ El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más espe
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-accept">Aceptar</button>
+                    <a href="verEventosEmpresa.html" class="btn btn-accept">Aceptar</a>
                 </div>
             </div>
         </div>
@@ -161,18 +161,19 @@ El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más espe
 
 
     <!-- Modal para Confirmar Guardar Cambios -->
-    <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModalLabel" aria-hidden="true">
+    <div class="modal fade" id="acceptModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center border-0">
-                    <h5 class="modal-title" id="acceptModalLabel">¡Cambios guardados!</h5>
-                </div>
-                <div class="modal-body text-center">
-                    <p>Los cambios han sido guardados exitosamente.</p>
+            <div class="modal-content text-center p-4">
+                <div class="modal-body">
+                    <!-- Título -->
+                    <h3 class="modal-title mt-3" id="acceptModalLabel">Los cambios han sido guardados exitosamente</h3>
+                    <!-- Ícono de la palomita -->
+                    <i class="bi bi-check-circle-fill icon-success mt-4"></i>
                 </div>
             </div>
         </div>
     </div>
+
 
     <script>
         document.querySelector('.add-image-icon').addEventListener('click', () => {
@@ -193,12 +194,13 @@ El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más espe
 
 
     <script>
-        // Redirigir tras cerrar el modal de guardar cambios
-        document.getElementById('acceptModal').addEventListener('hidden.bs.modal', function () {
-            window.location.href = "verEventosEmpresa.html";
+        // Redirigir tras mostrar el modal de guardar cambios
+        document.getElementById('acceptModal').addEventListener('shown.bs.modal', function () {
+            setTimeout(() => {
+                window.location.href = "verEventosEmpresa.html"; // Cambia esta URL según el destino deseado
+            }, 3000); // Redirige después de 3 segundos (3000 ms)
         });
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

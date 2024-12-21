@@ -429,7 +429,7 @@ textarea.border-0:focus {
     border-radius: 20px;
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: normal;
     transition: background-color 0.3s ease, color 0.3s ease;
     outline: none; 
     box-shadow: none; 
@@ -461,10 +461,13 @@ textarea.border-0:focus {
 
 
 
-.modal-header .modal-title {
-    font-weight: bold; 
-    color: var(--color-text); 
+.modal-header .modal-titl {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
     text-align: center; 
+    margin: 0 auto; 
+    width: 100%; 
 }
 
 
@@ -558,4 +561,50 @@ textarea.border-0:focus {
     box-shadow: none !important; /* Elimina sombras */
     outline: none !important; /* Elimina el contorno */
     border: none;
+}
+
+
+
+
+
+
+
+
+
+
+/* Estilos del modal */
+.modal-content {
+    border: none;
+    border-radius: 7px; 
+    background-color: #ffffff; 
+    box-shadow: none
+}
+
+/* Estilos del cuerpo del modal */
+.modal-body {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+/* Ícono de éxito */
+.icon-success {
+    font-size: 2rem; 
+    color: #568281; 
+}
+
+/* Título del modal */
+.modal-title {
+    font-size: 1.5rem; 
+    color: #2F3E45; 
+    font-weight: bold;
+    margin-top: 1rem; 
+}
+
+/* Texto adicional */
+.modal-text {
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    margin-top: 0.5rem; 
 }
