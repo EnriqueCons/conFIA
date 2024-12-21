@@ -66,6 +66,20 @@ nav .form-control:focus {
     background-color: var(--secundary-color);
 }
 
+
+
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+    background-color: var(--secundary-color) !important;
+    color: var(--primary-color) !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border: none;
+}
+
+
+
+
 .btn:hover{
     font-weight: bolder ;
 }
@@ -83,30 +97,59 @@ nav .form-control:focus {
     margin: 2em;
 }
 
-.buttonEvent{
-    all: unset;
-    cursor: pointer; 
-    background-color: var(--extra-color);
-    color: var(--color-text);
-    width: 9em;
-    height: 3em;
-    border-radius: 2em;
+
+
+/* Botones Generales */
+.buttonEventCancel,
+.buttonEvent {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none; /* Elimina bordes */
+    outline: none; /* Sin contorno */
 }
-.buttonEvent:hover{
-    font-weight:800;
+
+/* Botón Cancelar */
+.buttonEventCancel {
+    background-color: #C8898C; 
+    color: #fff;
 }
-.buttonEventCancel{
-    all: unset;
-    cursor: pointer; 
-    background-color: var(--cancel-color);
-    color: var(--primary-color);
-    width: 9em;
-    height: 3em;
-    border-radius: 2em;
+
+.buttonEventCancel:hover {
+    background-color: #d07275;
+    color: #ffffff;
+    font-weight: bold; /* Cambia a negritas al pasar el cursor */
 }
-.buttonEventCancel:hover{
-    font-weight:800;
+
+.buttonEventCancel:active,
+.buttonEventCancel:focus {
+    background-color: #d07275 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina contorno */
 }
+
+/* Botón Guardar Cambios */
+.buttonEvent {
+    background-color: #89BAC8; 
+    color: #2F3E45;
+}
+
+.buttonEvent:hover {
+    background-color: #6da6b5;
+    color: #2F3E45;
+    font-weight: bold; /* Cambia a negritas al pasar el cursor */
+}
+
+.buttonEvent:active,
+.buttonEvent:focus {
+    background-color: #6da6b5 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina contorno */
+}
+
+
 
 .dataLogin{
     margin: 1.3em 4.5em;
@@ -137,4 +180,100 @@ nav .form-control:focus {
     background-color: transparent !important;
     box-shadow: none; 
     color: var(--primary-color);
+}
+
+
+
+
+
+.d-flex.justify-content-evenly {
+    gap: 8rem; /* Ajusta este valor para más o menos espacio */
+}
+
+
+
+
+
+
+
+
+.modal-content {
+    border: none;
+    border-radius: 7px; 
+    background-color: #ffffff; 
+    padding: 1.5rem;
+    box-shadow: none;
+}
+
+.modal-header .modal-title {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    text-align: center; 
+    margin: 0 auto;
+    width: 100%;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem; 
+    padding-top: 1rem;
+    border-top: none;
+}
+
+.modal-footer .btn-cancel {
+    background-color: var(--cancel-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 0.6rem 1.6rem; /* Espacio interno más pequeño */
+}
+
+.modal-footer .btn-cancel:hover {
+    background-color: #d07275;
+    color:#ffffff;
+}
+
+.modal-footer .btn-accept {
+    background-color: var(--extra-color);
+    color: #2F3E45;
+    border: none;
+    border: none;
+    border-radius: 25px;
+    padding: 0.6rem 1.6rem; /* Espacio interno más pequeño */
+}
+
+.modal-footer .btn-accept:hover {
+    background-color: #6da6b5;
+}
+
+
+
+.modal-body {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.icon-success {
+    font-size: 2rem; 
+    color: #568281; 
+}
+
+.modal-title {
+    font-size: 1.5rem; 
+    color: #2F3E45; 
+    font-weight: bold;
+    margin-top: 1rem; 
+}
+
+
+.modal-content {
+    padding: 2rem;
+}
+
+.modal-footer {
+    margin-top: 1rem;
 }
