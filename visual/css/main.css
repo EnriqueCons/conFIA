@@ -58,12 +58,31 @@ nav{
     color: var(--color-text);
     border-color: var(--secundary-color);
     border-radius: 2em;
+    background-color: transparent;
 }
 
 .btn-outline-primary:hover {
     border-color: var(--secundary-color);
     background-color: var(--secundary-color);
+    color: var(--primary-color);
 }
+
+
+
+
+
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+    background-color: var(--secundary-color) !important;
+    color: var(--primary-color) !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border: none;
+}
+
+
+
+
 
 .btn:hover{
     font-weight: bolder ;
