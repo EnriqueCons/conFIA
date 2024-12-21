@@ -96,7 +96,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="cancelModalLabel">¿Está seguro de cancelar el proceso de inscripción?</h5>
+                        <h5 class="modal-titl" id="cancelModalLabel">¿Está seguro de cancelar el proceso de inscripción?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-footer">
@@ -109,21 +109,16 @@
 
         <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content text-center">
+                <div class="modal-content">
                     <div class="modal-header justify-content-center border-0">
-                        <h5 class="modal-title" id="successModalLabel">¡Inscripción Exitosa!</h5>
+                        <h3 class="modal-title" id="successModalLabel">La inscripción ha sido exitosa</h3>
                     </div>
-                    <div class="modal-body">
-                        <p>La inscripción ha sido realizada exitosamente.</p>
-                        <p>Será redirigido a la página del evento.</p>
                         <div class="success-icon">
-                            <i class="bi bi-check-circle-fill fs-1" style="color: var(--secundary-color);"></i>
+                            <i class="bi bi-check-circle-fill"></i>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
-
 
 
 
@@ -169,7 +164,7 @@
     
             setTimeout(() => {
                 window.location.href = "InformacionEventoPersonalQRInscrito.html"; 
-            }, 5000);
+            }, 4000);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

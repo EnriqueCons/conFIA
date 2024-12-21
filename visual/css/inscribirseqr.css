@@ -256,9 +256,13 @@ nav{
     border-radius: 10px;
     background-color: #fff;
     padding: 1.5rem;
+    text-align: center; /* Centra el texto */
 }
 
-.modal-title {
+
+
+
+.modal-titl {
     color: var(--color-text);
     font-weight: bold;
     text-align: center;
@@ -643,4 +647,45 @@ p#email.text-primary {
     box-shadow: none !important; /* Elimina sombras */
     outline: none !important; /* Elimina el contorno */
     border: none;
+}
+
+
+
+
+/* Ajustes para centrar el modal */
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos del contenido del modal */
+.modal-content {
+    text-align: center; /* Centrar texto */
+    border-radius: 7px;
+    padding: 2rem; /* Espaciado interno */
+    background-color: #fff; /* Fondo blanco */
+}
+
+/* Título del modal */
+.modal-header .modal-title {
+    font-size: 1.5rem; /* Tamaño de texto */
+    font-weight: bold;
+    color: #2F3E45; /* Color del texto */
+    margin: 0;
+    width: 100%;
+}
+
+/* Cuerpo del modal */
+.modal-body {
+    font-size: 1rem;
+    color: #2F3E45;
+    margin: 1rem 0; /* Espaciado entre el texto */
+}
+
+/* Ícono de confirmación */
+.success-icon i {
+    font-size: 2rem; /* Tamaño del ícono */
+    color: #568281; /* Color del ícono */
+    margin-top: 1rem;
 }
