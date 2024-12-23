@@ -115,9 +115,57 @@ nav{
 .eventsSoon .card {
     width: 22rem;
     border: none;
-    height: 18rem;
-
+    height: auto; /* Cambiar a automático para ajustarse al contenido */
+height: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Asegura una distribución uniforme */
+    overflow: hidden;
 }
+
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Para expandir el cuerpo a la altura disponible */
+}
+
+/* Ajuste específico para la clase .text-assist */
+.text-assist {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secundary-color);
+    text-align: center;
+    margin-top: auto; /* Empuja hacia el fondo del contenedor */
+    padding-top: 0.5rem;
+}
+
+
+.eventsSoon .card {
+    height: 20rem; /* Ajusta este valor según lo necesario */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Establecer la misma altura para las imágenes */
+.card-img-top {
+    height: 10rem; /* Asegura que las imágenes tengan la misma altura */
+    object-fit: cover; /* Ajusta la imagen sin distorsión */
+}
+
+/* Ajustar el cuerpo del contenido */
+.card-body {
+    flex-grow: 1; /* Asegura que el contenido interno crezca proporcionalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+
+
 
 /* Espaciado entre elementos en la tarjeta */
 .card-body h5 {
@@ -127,6 +175,7 @@ nav{
     text-align: left;
     text-decoration: underline;
     font-weight: bold;
+    
 }
 
 
@@ -158,10 +207,12 @@ nav{
 /* Botón editar */
 .buttonEvent.btn-edit {
     background-color: var(--extra-color);
+    font-size: 1rem;
 }
 
 .buttonEvent.btn-edit:hover {
     background-color: #71a3a6; 
+    font-weight: bold;
 }
 
 /* Botón Reconocimiento Facial */
@@ -297,12 +348,161 @@ nav{
 }
 
 .modal-footer .btn-submit {
-    background-color: var(--extra-color);
-    color: #fff;
+    background-color: var(--extra-color); /* Color de fondo */
+    color: #2F3E45; /* Color del texto */
     border-radius: 20px;
     padding: 0.5rem 1.5rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: none; /* Elimina el borde */
 }
 
 .modal-footer .btn-submit:hover {
     background-color: #71a3a6;
+    color: #2F3E45;
+}
+
+.card-img-top {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la tarjeta */
+    height: 7em; /* Establece una altura uniforme para todas las imágenes */
+    
+}
+
+
+
+
+
+
+
+
+/* POP UP CERRAR SESION */
+.modal-content {
+    border: none !important;
+    border-radius: 7px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+}
+
+/* Header */
+.modal-header .modal-title {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    margin: 0;
+    margin-left: 46px;
+}
+
+/* Línea debajo del título */
+.modal-body {
+    padding-top: 1rem;
+    color: #2F3E45;
+    font-size: 0.97rem; 
+    margin-top: 20px;
+}
+
+/* Footer con separación */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 2.5rem; 
+    border-top: none;
+}
+
+/* Botones */
+.btn-cancel,
+.btn-accept {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botón Cancelar */
+.btn-cancel {
+    background-color: #C8898C; 
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #d07275;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+.btn-cancel:active,
+.btn-cancel:focus {
+    background-color: #d07275 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+    color:#ffffff !important;
+}
+
+
+
+/* Botón Aceptar */
+.btn-accept {
+    background-color: #89BAC8; 
+    color: #2F3E45;
+}
+
+.btn-accept:hover {
+    background-color: #6da6b5;
+    color: #2F3E45;
+    font-weight: bold;
+}
+
+.btn-accept:active,
+.btn-accept:focus {
+    background-color: #6da6b5 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+}
+
+
+
+.text-assist {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--secundary-color);
+    text-align: center; 
+    padding: 0.5rem 1rem;
+    width: 100%;
+    background-color: none;
+    padding-top: 2rem;
+}
+
+
+
+
+
+
+/* Botón de acceso con candado */
+.access-button {
+    position: fixed;
+    bottom: 120px; 
+    right: 40px; 
+    background-color: var(--secundary-color);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1001;
+    box-shadow: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.access-button:hover {
+    background-color: #71a3a6; 
+    transform: scale(1.1); 
+}
+
+.access-button i {
+    font-size: 2rem; 
 }

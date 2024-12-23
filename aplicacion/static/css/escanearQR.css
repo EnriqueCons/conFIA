@@ -58,31 +58,12 @@ nav{
     color: var(--color-text);
     border-color: var(--secundary-color);
     border-radius: 2em;
-    background-color: transparent;
 }
 
 .btn-outline-primary:hover {
     border-color: var(--secundary-color);
     background-color: var(--secundary-color);
-    color: var(--primary-color);
 }
-
-
-
-
-
-.btn-outline-primary:active,
-.btn-outline-primary:focus {
-    background-color: var(--secundary-color) !important;
-    color: var(--primary-color) !important;
-    box-shadow: none !important;
-    outline: none !important;
-    border: none;
-}
-
-
-
-
 
 .btn:hover{
     font-weight: bolder ;
@@ -101,80 +82,34 @@ nav{
     margin: 5em;
 }
 
-
-
-
-
-
-.publications:first-of-type {
-    margin-top: 5em; /* Ajusta este valor para el espacio deseado */
-}
-
-.publications {
+.publications{
     border-left: 0.1em solid var(--secundary-color);                              
     border-right: 0.1em solid var(--secundary-color);   
     border-bottom: 0.1em solid var(--secundary-color);
-    margin: 0 auto; /* Centra el contenedor */
-    margin-top: -26px;
-    margin-bottom: 0; /* Elimina el espacio extra entre publicaciones */
-    padding: 1.5em;
-    max-width: 90%;
-    box-sizing: border-box;
-    margin: none !important; 
+    margin: 0 15em;
 }
-
-/* Imagen circular de la universidad */
-.imageLogo {
+.imageLogo{
     border-radius: 100%;
-    width: 5em;
-    height: auto;
 }
 
-/* Imagen de información (se adapta al ancho) */
-.imageInformation {
+.imageInformation{
     border-radius: 2em;
-    max-width: 70%;
-    height: auto;
-    margin-bottom: 20px;
 }
 
-
-/* Botones */
-.buttonEvent {
-    margin-top: 20px;
+.buttonEvent{
     all: unset;
     cursor: pointer; 
     background-color: var(--extra-color);
     color: var(--color-text);
     width: 8em;
-    height: 2.5em;
-    text-align: center;
-    line-height: 2.5em;
+    height: 2em;
     border-radius: 2em;
-    font-weight: 500;
-    margin-bottom: 20px;
 }
-
-.buttonEvent:hover {
-    font-weight: 800;
-
+.buttonEvent:hover{
+    font-weight:800;
 }
 
 
-.container {
-    padding-left: 0;
-    padding-right: 0;
-    margin: none !important; 
-}
-
-
-
-
-
-.Company{
-    text-decoration: none;
-    color: var(--color-text);
-}
 
 .user-icon {
     color: #568281; 
@@ -207,6 +142,103 @@ nav{
     background-color: var(--secundary-color);
     color: var(--color-text);
 }
+
+
+
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 2em 1em;
+}
+
+.event-image {
+    width: 100%;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+
+
+h1 {
+    font-weight: bold;
+    color: #2F3E45;
+    margin-bottom: 0.5rem;
+}
+
+h4 {
+    font-weight: bold;
+    color: #2F3E45;
+}
+
+
+.text-primary {
+    color: #568281 !important;
+}
+
+.row i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #568281;
+}
+
+.event-details .col p {
+    margin: 0.2rem 0;
+    color: #2F3E45;
+}
+
+
+.event-details .col i {
+    display: block; 
+    margin-top: 20px;
+}
+
+
+p {
+    line-height: 1.6;
+    color: #2F3E45;
+}
+
+.fw-bold {
+    font-weight: bold;
+    color: #568281;
+    margin-top: 2rem;
+}
+
+
+.divider {
+    border: none;
+    border-top: 3px solid #568281;
+    margin: 2rem 0;
+}
+
+
+
+
+
+
+main {
+    background-color: #F4F0EB;
+    margin-top: 100px;
+}
+
+h1 {
+    color: #568281;
+    font-weight: bold;
+}
+
+.camera-placeholder {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #89BAC8; 
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E6F2F4;
+    border-color: #568281;
+}
+
 
 
 
@@ -270,9 +302,9 @@ nav{
 
 .btn-cancel:active,
 .btn-cancel:focus {
-    background-color: #d07275 !important; /* Igual que hover */
-    box-shadow: none !important; /* Elimina sombras */
-    outline: none !important; /* Elimina el contorno */
+    background-color: #d07275 !important; 
+    box-shadow: none !important;
+    outline: none !important; 
     border: none;
     color:#ffffff !important;
 }
@@ -293,8 +325,8 @@ nav{
 
 .btn-accept:active,
 .btn-accept:focus {
-    background-color: #6da6b5 !important; /* Igual que hover */
-    box-shadow: none !important; /* Elimina sombras */
-    outline: none !important; /* Elimina el contorno */
+    background-color: #6da6b5 !important;
+    box-shadow: none !important; 
+    outline: none !important; 
     border: none;
 }

@@ -34,7 +34,7 @@
                             <li class="dropdown-item" id="nombrePersonal">Nombre</li>
                             <li><a class="dropdown-item" href="verEventosPersonal.html">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="perfilPersonal.html">Ver perfil</a></li>
-                            <li><a class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="index.html" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </form>
@@ -52,20 +52,21 @@
                 <div class="card">
                     <div class="image-container">
                         <img src="/aplicacion/static/imgs/ejemplo1.png" class="card-img-top" alt="Imagen del evento">
-                        <a href="informacionEvento.html" class="event-link">
+                        <a href="InformacionEventoPersonalQRInscrito.html" class="event-link">
                             <h3 class="event-title">Congreso Mundial de Energías Renovables</h3>
                         </a>
                     </div>
                     <div class="card-body">
-                        <h5>Renewable Energy Association</h5> <!-- Organizacion que realiza el evento -->
-                        <div class="d-flex justify-content-between mt-3">
-                            <!-- Botón eliminar -->
+                        <a href="verPerfilEmpresa.html" class="event-link">
+                            <h5>Renewable Energy Association</h5> </a>  <!-- Organizacion que realiza el evento -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Botón cancelar asistencia -->
                             <a href="#" class="buttonEvent btn-cancel" data-bs-toggle="modal" data-bs-target="#deleteEventModal">
                                 <i class="bi bi-x-circle fs-4"></i>Cancelar Asistencia
                             </a>
-                            <!-- Botón editar -->
-                            <a href="#" class="buttonEvent btn-edit d-flex align-items-center justify-content-center">
-                                <i class="bi bi-qr-code-scan fs-4"></i> Ver QR
+                            <!-- Botón ver QR -->
+                            <a href="InformacionEventoPersonalQRInscrito.html" class="buttonEvent btn-qr d-flex align-items-center justify-content-center">
+                                <i class="bi bi-qr-code-scan fs-4"></i>Ver QR
                             </a>
                         </div>
                     </div>
@@ -74,21 +75,22 @@
             <div class="eventsSoon">  <!-- Tarjeta de evento -->
                 <div class="card">
                     <div class="image-container">
-                        <img src="/aplicacion/static/imgs/ejemplo1.png" class="card-img-top" alt="Imagen del evento">
-                        <a href="informacionEvento.html" class="event-link">
-                            <h3 class="event-title">Congreso Mundial de Energías Renovables</h3>
+                        <img src="/aplicacion/static/imgs/ejemplo2.png" class="card-img-top" alt="Imagen del evento">
+                        <a href="InformacionEventoPersonalRFInscrito.html" class="event-link">
+                            <h3 class="event-title">Feria Internacional de Tecnología 2024</h3>
                         </a>
                     </div>
                     <div class="card-body">
-                        <h5>Renewable Energy Association</h5> <!-- Organizacion que realiza el evento -->
+                        <a href="verPerfilEmpresa.html" class="event-link">
+                            <h5>TechWorld Events</h5> </a>  <!-- Organizacion que realiza el evento -->
                         <div class="d-flex justify-content-between mt-3">
                             <!-- Botón eliminar -->
                             <a href="#" class="buttonEvent btn-cancel" data-bs-toggle="modal" data-bs-target="#deleteEventModal">
                                 <i class="bi bi-x-circle fs-4"></i>Cancelar Asistencia
                             </a>
                             <!-- Botón editar -->
-                            <a href="#" class="buttonEvent btn-facial d-flex align-items-center justify-content-center">
-                                <i class="bi bi-qr-code-scan fs-4 me-2"></i>Reconocimiento Facial
+                            <a href="InformacionEventoPersonalRFInscrito.html" class="buttonEvent btn-facial d-flex align-items-center justify-content-center">
+                                <i class="bi bi-person-bounding-box"></i> Reconocimiento Facial
                             </a>
                         </div>
                     </div>
@@ -99,7 +101,7 @@
         <div class="d-flex justify-content-around">
             <p class="fs-3 mt-3">Eventos asistidos</p>
         </div>
-        <div class="d-flex justify-content-evenly ">
+        <div class="d-flex justify-content-evenly mb-5">
             <div class="eventsSoon">  <!-- Tarjeta de evento -->
                 <div class="card">
                     <div class="image-container">
@@ -109,15 +111,16 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <h5>Renewable Energy Association</h5> <!-- Organizacion que realiza el evento -->
-                        <div class="d-flex justify-content-between mt-3">
+                        <a href="verPerfilEmpresa.html" class="event-link">
+                            <h5>Renewable Energy Association</h5> </a> <!-- Organizacion que realiza el evento -->
+                        <div class="d-flex justify-content-between">
                             <!-- Botón eliminar -->
                             <a href="#" class="buttonEvent btn-edit" data-bs-toggle="modal" data-bs-target="#deleteEventModal">
                                 <i class="bi bi-download fs-4"></i>Certificado
                             </a>
                             <!-- Botón editar -->
-                            <a href="#" class="buttonEvent btn-edit d-flex align-items-center justify-content-center">
-                                <i class="bi bi-qr-code-scan fs-4"></i> Ver QR
+                            <a href="InformacionEventoPersonalQRInscrito.html" class="buttonEvent btn-qr d-flex align-items-center justify-content-center">
+                                <i class="bi bi-qr-code-scan fs-4"></i>Ver QR
                             </a>
                         </div>
                     </div>
@@ -126,21 +129,22 @@
             <div class="eventsSoon">  <!-- Tarjeta de evento -->
                 <div class="card">
                     <div class="image-container">
-                        <img src="/aplicacion/static/imgs/ejemplo1.png" class="card-img-top" alt="Imagen del evento">
+                        <img src="/aplicacion/static/imgs/ejemplo2.png" class="card-img-top" alt="Imagen del evento">
                         <a href="informacionEvento.html" class="event-link">
                             <h3 class="event-title">Congreso Mundial de Energías Renovables</h3>
                         </a>
                     </div>
                     <div class="card-body">
-                        <h5>Renewable Energy Association</h5> <!-- Organizacion que realiza el evento -->
+                        <a href="verPerfilEmpresa.html" class="event-link">
+                            <h5>Renewable Energy Association</h5> </a> 
                         <div class="d-flex justify-content-between mt-3">
                             <!-- Botón eliminar -->
                             <a href="#" class="buttonEvent btn-edit" data-bs-toggle="modal" data-bs-target="#deleteEventModal">
                                 <i class="bi bi-download fs-4"></i>Certificado
                             </a>
                             <!-- Botón editar -->
-                            <a href="#" class="buttonEvent btn-facial d-flex align-items-center justify-content-center">
-                                <i class="bi bi-qr-code-scan fs-4 me-2"></i>Reconocimiento Facial
+                            <a href="InformacionEventoPersonalRFInscrito.html" class="buttonEvent btn-facial d-flex align-items-center justify-content-center">
+                                <i class="bi bi-person-bounding-box"></i> Reconocimiento Facial
                             </a>
                         </div>
                     </div>
@@ -148,8 +152,78 @@
             </div>
             
         </div>
+
+
+
+        <!-- POP UP CERRAR SESION -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">¿Está seguro de querer cerrar sesión?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Si cierra sesión ahora, perderá cualquier cambio no guardado.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="index.html" class="btn btn-accept">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Modal para confirmación de eliminación -->
+<div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteEventModalLabel">¿Estás seguro de cancelar su asistencia?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control reason-textarea" rows="3"
+                    placeholder="Indica el motivo de la cancelación..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                <!-- Botón para abrir el modal de éxito -->
+                <button type="button" class="btn btn-submit" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#successModal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de éxito -->
+<!-- Modal de éxito -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4">
+            <div class="modal-body">
+                <h5 class="mb-4">Su asistencia ha sido cancelada exitosamente</h5>
+                <i class="bi bi-check-circle-fill fs-1" style="color: #568281;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Escuchar cuando se muestra el modal de éxito
+        document.getElementById('successModal').addEventListener('shown.bs.modal', function () {
+            // Esperar 3 segundos y luego cerrarlo
+            setTimeout(function () {
+                var successModal = bootstrap.Modal.getInstance(document.getElementById('successModal'));
+                successModal.hide();
+            }, 3000); 
+        });
+    </script>
+
 </body>
 </html>

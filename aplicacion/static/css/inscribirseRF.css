@@ -1,8 +1,7 @@
-
 /*Necesarios*/
 :root {
     --primary-color: #F4F0EB;
-    --secundary-color: #568281;
+    --secundary-color: rgb(86, 129, 128);
     --extra-color: #89BAC8;
     --color-text: #2F3E45;
     --cancel-color: #C8898C;
@@ -146,15 +145,9 @@ nav{
     margin-top: 50px;
 }
 
-
-
-
-
 /* Botón eliminar */
 .buttonEvent.btn-cancel {
     background-color: var(--cancel-color); 
-    font-size: 0.8rem;
-    border-radius: 7rem;
 }
 
 .buttonEvent.btn-cancel:hover {
@@ -168,7 +161,6 @@ nav{
 
 .buttonEvent.btn-edit:hover {
     background-color: #71a3a6; 
-    
 }
 
 /* Botón Reconocimiento Facial */
@@ -264,9 +256,13 @@ nav{
     border-radius: 10px;
     background-color: #fff;
     padding: 1.5rem;
+    text-align: center; /* Centra el texto */
 }
 
-.modal-title {
+
+
+
+.modal-titl {
     color: var(--color-text);
     font-weight: bold;
     text-align: center;
@@ -314,14 +310,253 @@ nav{
     background-color: #71a3a6;
 }
 
-.card-img-top {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la tarjeta */
-    height: 7em; /* Establece una altura uniforme para todas las imágenes */
-    
+
+
+.space{
+    margin: 5em;
+}
+
+.publications{
+    border-left: 0.1em solid var(--secundary-color);                              
+    border-right: 0.1em solid var(--secundary-color);   
+    border-bottom: 0.1em solid var(--secundary-color);
+    margin: 0 15em;
+}
+.imageLogo{
+    border-radius: 100%;
+}
+
+.imageInformation{
+    border-radius: 2em;
+}
+
+.buttonEvent {
+    cursor: pointer;
+    background-color: var(--extra-color);
+    color: var(--color-text);
+    width: 8em;
+    height: 2em;
+    border-radius: 2em;
+    border: none !important; /* Eliminar bordes no deseados */
+    text-align: center;
+    font-weight: normal;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonEvent:hover,
+.buttonEvent:focus,
+.buttonEvent:active {
+    background-color: var(--extra-color); /* Mantén el mismo color */
+    font-weight: 800; /* Mantén el grosor del texto */
+    color: var(--color-text);
+    outline: none; /* Quita cualquier contorno */
+    box-shadow: none; /* Evita efectos de presión */
+    border: none !important; /* Sin bordes */
 }
 
 
 
+
+.user-icon {
+    color: #568281; 
+}
+
+.dropdown-menu {
+    left: auto !important; 
+    right: 0 !important; 
+    transform: translateX(0) !important; 
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+
+
+
+
+.form-container {
+    position: relative;
+    background-color: #fff;
+    padding: 3rem 2rem;
+    border: none;
+    width: 100%;
+}
+
+
+.form-container h4 {
+    color: #568281;
+    font-weight: 600;
+    margin-top: 0;
+    font-size: 1.45rem;
+    margin-bottom: 2rem; 
+}
+
+
+.form-fields {
+    padding-top: 1rem; 
+}
+
+
+.back-button {
+    position: absolute;
+    top: 2rem;
+    left: -7rem;
+    color: #2F3E45;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    text-decoration: none;
+    color: #568281;
+}
+
+
+.form-container label {
+    color: #3b4b3b;
+    font-weight: 500;
+}
+
+
+.field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #3b4b3b;
+    border-radius: 0;
+    padding: 5px;
+    font-size: 0.9rem;
+    background-color: transparent;
+}
+
+.field:focus {
+    outline: none;
+    border-bottom: 1px solid #3b4b3b;
+}
+
+
+
+p#email.text-primary {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #568281 !important;
+}
+
+
+
+.form-container button {
+    border-radius: 30px;
+
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s; 
+    border: none !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
+}
+
+.btn-cancel {
+    background-color: #C8898C;
+    color: #ffffff;    
+}
+
+.btn-cancel:hover {
+    background-color: #c96d71;
+    color: #fff;
+}
+
+.btn-submit {
+    background-color: #89BAC8;
+    color: #2F3E45;
+}
+
+.btn-submit:hover {
+    background-color: #6fa2b0;
+    color: #2F3E45;
+}
+
+.btn-cancel:hover,
+.btn-cancel:active,
+.btn-cancel:focus {
+    background-color: #c96d71 !important; 
+    color: #fff !important; 
+    box-shadow: none !important;
+    outline: none !important; 
+    transform: none !important; 
+}
+
+.btn-submit:hover,
+.btn-submit:active,
+.btn-submit:focus {
+    background-color: #6fa2b0 !important;
+    color: #2F3E45 !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
+    transform: none !important; 
+}
+
+
+
+
+
+
+#acceptCancel {
+    background-color: var(--extra-color); 
+    color: var(--color-text); 
+    border-radius: 30px; 
+    padding: 10px 20px; 
+    border: none !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
+    font-weight: normal; 
+    transition: background-color 0.3s, color 0.3s, font-weight 0.3s; 
+}
+
+#acceptCancel:hover,
+#acceptCancel:active,
+#acceptCancel:focus {
+    background-color: #6fa2b0 !important; 
+    color: var(--color-text) !important;
+    font-weight: bold !important; 
+    border: none !important; 
+    outline: none !important; 
+    box-shadow: none !important; 
+    transform: none !important; 
+}
+
+
+
+
+
+
+.form-container .d-flex {
+    justify-content: center; 
+}
+
+.form-container .d-flex button {
+    margin: 0 5px; 
+}
+
+.TextImportant{
+    color: var(--cancel-color);
+}
+
+.camera{
+    background-color: rgba(86, 129, 128, 0.5);
+}
+
+.camera i{
+    color: var(--primary-color);
+}
+
+.terms{
+    width: 35em;
+}
 
 
 
@@ -417,146 +652,30 @@ nav{
 
 
 
-/* Botón Ver QR */
-.buttonEvent.btn-qr {
-    background-color: var(--extra-color); /* O el color exacto */
-    border-radius: 2rem;
-    font-weight: normal; /* Texto en negritas */
-    color: #fff;
-    padding: 0.6rem 1.2rem;
-    text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-/* Botón Reconocimiento Facial */
-.buttonEvent.btn-facial {
-    background-color: var(--extra-color); /* O el color exacto */
-    border-radius: 2rem;
-    font-weight: normal; /* Texto en negritas */
-    color: #fff;
-    padding: 0.6rem 1.2rem;
-    text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-/* Botón Certificado */
-.buttonEvent.btn-certificate {
-    background-color: #89BAC8; /* Ajusta al color deseado */
-    border-radius: 2rem;
-    font-weight: normal;
-    color: #fff;
-    padding: 0.6rem 1.2rem;
-    text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-
-/* Efectos en hover */
-.buttonEvent.btn-qr:hover,
-.buttonEvent.btn-facial:hover {
-    background-color: #71a3a6; /* Cambio de color al pasar el ratón */
-    transform: scale(1.05); /* Ampliación ligera en hover */
-    font-weight: bold !important; 
-}
-
-
-
-/* Botón Certificado */
-.buttonEvent.btn-edit {
-    background-color: #89BAC8;
-    border-radius: 2rem;
-    font-weight: normal; /* Negritas */
-    color: #fff;
-    padding: 0.6rem 1.2rem; /* Ajusta el tamaño del botón */
-    text-align: center;
-    display: inline-flex; /* Cambia a flexbox */
-    align-items: center; /* Alinea verticalmente */
-    justify-content: center; /* Centra ícono y texto horizontalmente */
-    gap: 0.5rem; /* Espaciado entre ícono y texto */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-
-/* Hover para el botón Certificado */
-.buttonEvent.btn-edit:hover {
-    background-color: #71a3a6; /* Cambio de color al pasar el cursor */
-    transform: scale(1.05); /* Pequeño zoom */
-    font-weight: bold;
-}
-
-
-.buttonEvent.btn-edit i {
-    font-size: 1.2rem; /* Tamaño del ícono */
-    margin: 0; /* Elimina cualquier margen adicional */
-    line-height: 1; /* Asegura que la altura de línea sea uniforme */
-}
-
-
-.buttonEvent.btn-facial i {
-    font-size: 1.3rem; /* Tamaño más grande para el ícono */
-    margin-right: 0.5rem; /* Espaciado entre el ícono y el texto */
-}
-
-
-
-/* Modal de éxito */
-#successModal .modal-content {
+/* Estilo específico para el modal de inscripción exitosa */
+.success-modal .modal-content {
+    text-align: center; /* Centrar texto */
     border-radius: 7px; /* Bordes redondeados */
-    background-color: #F4F0EB; /* Color del fondo del modal */
+    background-color: #fff; /* Fondo blanco */
+    max-width: 500px; /* Ancho máximo */
+    margin: auto; /* Centrar horizontalmente */
+}
+
+.success-modal .modal-body {
+    display: flex; /* Usar Flexbox para centrar contenido */
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center; /* Centrar verticalmente */
+}
+
+.success-modal .modal-titl {
+    font-size: 1.5rem; /* Tamaño del título */
+    font-weight: bold; /* Negrita */
     color: #2F3E45; /* Color del texto */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 
-/* Texto del modal */
-#successModal h5 {
-    font-weight: bold; /* Negritas */
-    font-size: 1.25rem; /* Tamaño del texto */
-}
-
-/* Ícono de éxito */
-#successModal i {
-    font-size: 2rem; /* Tamaño grande del ícono */
-    color: #568281; /* Color específico del ícono */
-}
-
-
-
-
-/* Botón Aceptar */
-.btn-submit {
-    background-color: #89BAC8; /* Color de fondo */
-    color: #2F3E45 !important; /* Texto blanco */
-    border-radius: 20px; /* Bordes redondeados */
-    border: none; /* Sin bordes */
-    padding: 0.5rem 1.5rem;
-    font-weight: normal; /* Texto en negritas */
-    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-}
-
-/* Hover */
-.btn-submit:hover {
-    background-color: #71a3a6; /* Color más oscuro al pasar el cursor */
-    transform: scale(1.05); /* Efecto de zoom */
-    color: #2F3E45 !important; /* Asegura que el texto sea blanco */
-    font-weight: bold;
-}
-
-/* Active */
-.btn-submit:active {
-    background-color: #568281; /* Color al hacer clic */
-    transform: scale(0.95); /* Efecto de compresión */
-    color: #2F3E45 !important; /* Asegura que el texto sea blanco */
-    border: none; /* Sin bordes */
-}
-
-/* Focus */
-.btn-submit:focus {
-    outline: none; /* Elimina el contorno predeterminado */
-    box-shadow: none; /* Sin sombras */
-    background-color: #71a3a6; /* Consistencia con hover */
-    color: #2F3E45 !important; /* Asegura que el texto sea blanco */
+.success-modal .success-icon i {
+    font-size: 2rem; /* Tamaño del ícono */
+    color: #568281; /* Color del ícono */
 }
 

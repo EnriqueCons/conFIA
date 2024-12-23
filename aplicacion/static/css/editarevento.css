@@ -167,7 +167,7 @@ h1 {
 }
 
 h4 {
-    font-weight: bold;
+    font-weight: normal;
     color: #2F3E45;
 }
 
@@ -359,13 +359,14 @@ textarea.border-0:focus {
     border-radius: 20px; 
     padding: 0.5rem 1.5rem; 
     font-size: 1rem; 
-    font-weight: bold;
+    font-weight: normal;
     transition: background-color 0.3s ease; 
     text-decoration: none;
 }
 
 .btn-cancel:hover {
     background-color: #d07275; 
+    font-weight: bold;
 }
 
 /* Botón de Aceptar */
@@ -376,13 +377,13 @@ textarea.border-0:focus {
     border-radius: 20px;
     padding: 0.5rem 1.5rem; 
     font-size: 1rem; 
-    font-weight: bold; 
+    font-weight: normal; 
     transition: background-color 0.3s ease; 
 }
 
 .btn-accept:hover {
     background-color: #6da6b5; 
-
+    font-weight: bold;
 }
 
 .btn-container {
@@ -393,3 +394,217 @@ textarea.border-0:focus {
 }
 
 
+
+
+
+
+
+
+.modal-content {
+    border: none !important; 
+    border-radius: 7px;
+    background-color: #ffffff;
+    padding: 1.5rem; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+
+
+
+
+
+/* Estilo único para .modal-footer */
+.modal-footer {
+    display: flex;
+    justify-content: space-between; 
+    gap: 2rem; 
+    padding-top: 1rem;
+    border-top: none;
+}
+
+/* Botones */
+.modal-footer .btn-cancel,
+.modal-footer .btn-accept {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    outline: none; 
+    box-shadow: none; 
+}
+
+/* Botón cancelar */
+.modal-footer .btn-cancel {
+    background-color: var(--cancel-color);
+    color: #ffffff;
+}
+
+.modal-footer .btn-cancel:hover {
+    background-color: #d07275;
+}
+
+/* Botón aceptar */
+.modal-footer .btn-accept {
+    background-color: var(--extra-color);
+    color: #2F3E45;
+}
+
+.modal-footer .btn-accept:hover {
+    background-color: #6da6b5;
+    color: #2F3E45;
+}
+
+
+
+
+
+
+.modal-header .modal-titl {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    text-align: center; 
+    margin: 0 auto; 
+    width: 100%; 
+}
+
+
+
+
+
+
+
+/* POP UP CERRAR SESION */
+.modal-content {
+    border: none !important;
+    border-radius: 7px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+}
+
+/* Header */
+.modal-header .modal-title {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    margin: 0;
+    margin-left: 46px;
+}
+
+/* Línea debajo del título */
+.modal-body {
+    padding-top: 1rem;
+    color: #2F3E45;
+    font-size: 0.97rem; 
+    margin-top: 20px;
+}
+
+/* Footer con separación */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 2.5rem; 
+    border-top: none;
+}
+
+/* Botones */
+.btn-cancel,
+.btn-accept {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botón Cancelar */
+.btn-cancel {
+    background-color: #C8898C; 
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #d07275;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+.btn-cancel:active,
+.btn-cancel:focus {
+    background-color: #d07275 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+    color:#ffffff !important;
+}
+
+
+
+/* Botón Aceptar */
+.btn-accept {
+    background-color: #89BAC8; 
+    color: #2F3E45;
+}
+
+.btn-accept:hover {
+    background-color: #6da6b5;
+    color: #2F3E45;
+    font-weight: bold;
+}
+
+.btn-accept:active,
+.btn-accept:focus {
+    background-color: #6da6b5 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+}
+
+
+
+
+
+
+
+
+
+
+/* Estilos del modal */
+.modal-content {
+    border: none;
+    border-radius: 7px; 
+    background-color: #ffffff; 
+    box-shadow: none
+}
+
+/* Estilos del cuerpo del modal */
+.modal-body {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+/* Ícono de éxito */
+.icon-success {
+    font-size: 2rem; 
+    color: #568281; 
+}
+
+/* Título del modal */
+.modal-title {
+    font-size: 1.5rem; 
+    color: #2F3E45; 
+    font-weight: bold;
+    margin-top: 1rem; 
+}
+
+/* Texto adicional */
+.modal-text {
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    margin-top: 0.5rem; 
+}

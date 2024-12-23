@@ -85,7 +85,7 @@ nav{
     border-left: 0.1em solid var(--secundary-color);                              
     border-right: 0.1em solid var(--secundary-color);   
     border-bottom: 0.1em solid var(--secundary-color);
-    margin: 0 15em;
+
 }
 .imageLogo{
     border-radius: 100%;
@@ -280,7 +280,6 @@ nav{
 .bi-pencil-fill {
     color: #568281;
     cursor: pointer;
-    
 }
 
 .biEdit {
@@ -294,3 +293,181 @@ nav{
     margin-bottom: 1.5rem; /* Añade un margen inferior a las secciones */
 }
 
+
+
+
+
+
+/* POP UP CERRAR SESION */
+.modal-content {
+    border: none !important;
+    border-radius: 7px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+}
+
+/* Header */
+.modal-header .modal-title {
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #2F3E45; 
+    margin: 0;
+    margin-left: 46px;
+}
+
+/* Línea debajo del título */
+.modal-body {
+    padding-top: 1rem;
+    color: #2F3E45;
+    font-size: 0.97rem; 
+    margin-top: 20px;
+}
+
+/* Footer con separación */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 2.5rem; 
+    border-top: none;
+}
+
+/* Botones */
+.btn-cancel,
+.btn-accept {
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botón Cancelar */
+.btn-cancel {
+    background-color: #C8898C; 
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #d07275;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+.btn-cancel:active,
+.btn-cancel:focus {
+    background-color: #d07275 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+    color:#ffffff !important;
+}
+
+
+
+/* Botón Aceptar */
+.btn-accept {
+    background-color: #89BAC8; 
+    color: #2F3E45;
+}
+
+.btn-accept:hover {
+    background-color: #6da6b5;
+    color: #2F3E45;
+    font-weight: bold;
+}
+
+.btn-accept:active,
+.btn-accept:focus {
+    background-color: #6da6b5 !important; /* Igual que hover */
+    box-shadow: none !important; /* Elimina sombras */
+    outline: none !important; /* Elimina el contorno */
+    border: none;
+}
+
+
+
+
+
+.edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    background-color: #ffffff;
+    border: 2px solid #568281;
+    border-radius: 50%;
+    color: #568281;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.edit-icon:hover {
+    transform: scale(1.1);
+    background-color: #568281;
+    color: #ffffff;
+}
+
+
+
+
+
+.btn-tag {
+    background-color: #E0E5E5;
+    color: #2F3E45;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    margin: 0.5rem;
+}
+
+.tag {
+    background-color: #89BAC8;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    margin: 0.3rem;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.tag .remove-tag {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+
+.container2{
+    margin-left: 310px;
+    margin-top: -17px;
+}
+
+
+.edit-icon {
+    position: absolute;
+    bottom: 0; 
+    right: 0;
+    width: 40px; 
+    height: 40px; 
+    background-color: #ffffff;
+    border: 2px solid #ffffff; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    color: #ffffff; 
+    cursor: pointer; 
+    font-size: 1.2rem; 
+    box-shadow: none;
+    transition: transform 0.3s ease; 
+}
+
+.edit-icon:hover {
+    transform: scale(1.1); 
+    background-color: #ffffff !important; 
+    color: #568281 !important;
+}
