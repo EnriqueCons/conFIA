@@ -130,39 +130,6 @@
         crossorigin="anonymous"></script>
 
 
-        <script>
-            function toggleEdit(field) {
-                const fieldP = document.getElementById(`${field}-field`);
-                const fieldInput = document.getElementById(`${field}-input`);
-
-                if (fieldInput.classList.contains('d-none')) {
-                    fieldInput.value = fieldP.textContent.trim();
-                    fieldP.classList.add('d-none');
-                    fieldInput.classList.remove('d-none');
-                } else {
-                    fieldP.textContent = fieldInput.value.trim();
-                    fieldP.classList.remove('d-none');
-                    fieldInput.classList.add('d-none');
-                }
-            }
-
-        </script>
-        
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById('upload-input').addEventListener('change', function (event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            document.querySelector('.profile-img').src = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            });
-        </script>
 </body>
 
 </html>
