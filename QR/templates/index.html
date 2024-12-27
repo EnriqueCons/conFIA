@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+</head>
+<body>
+    <h1>Generador de Código QR</h1>
+    <button id="generate-btn">Inscribirse</button>
+    <br><br>
+    <img id="qr-code" alt="Código QR generado" style="display:none;"/>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', async () => {
+            const response = await fetch('/generate_qr');
+            if (response.ok) {
+                const data = await response.json();
+                const qrCodeImg = document.getElementById('qr-code');
+                qrCodeImg.src = data.qr_code_url;
+                qrCodeImg.style.display = 'block';
+            } else {
+                alert('Error al generar el código QR.');
+            }
+        });
+    </script>
+</body>
+</html>
