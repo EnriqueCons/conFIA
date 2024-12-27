@@ -205,6 +205,15 @@ def recuperar_contrasena():
     return render_template('RecuperarContrasenia.html')
 
 
+# Ruta para cerrar sesión
+@app.route('/cerrar_sesion')
+def cerrar_sesion():
+    session.clear() # Elimina los datos de la sesión
+    flash('Has cerrado sesión exitosamente.', 'success')
+    return redirect(url_for('inicio_sesion'))
+
+
+
 # Página de Error 
 @app.route('/error')
 def error():

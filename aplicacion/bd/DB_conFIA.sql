@@ -80,28 +80,34 @@ CREATE TABLE Notificacion (
     FOREIGN KEY (usuarioEmail) REFERENCES Usuario(email) ON DELETE CASCADE
 );
 
+/*
+
+-- Consultas de Prueba
 select * from `Usuario`;
 select * from `Personal`;
 select * from `Empresarial`;
-/*
+select * from `Evento`;
 
 -- Insertar Usuario Personal
 INSERT INTO Usuario (email, nombre, contrasena, tipo)
-VALUES ('personal@email.com', 'Usuario Personal', 'contraseña123', 'Personal');
+VALUES ('nahumfc@gmail.com', 'Nahum', 'contrausu1', 'Personal');
 
 INSERT INTO Personal (email)
-VALUES ('personal@email.com');
+VALUES ('nahumfc@gmail.com');
 
+                
 -- Insertar Usuario Empresarial
 INSERT INTO Usuario (email, nombre, contrasena, tipo)
-VALUES ('empresa@email.com', 'Empresa Ejemplo', 'contraseñaEmpresa123', 'Empresarial');
+VALUES ('oracle@gmail.com', 'Oracle', 'contra2', 'Empresarial');
 
 INSERT INTO Empresarial (email, direccion, descripcion)
-VALUES ('empresa@email.com', 'Dirección Ejemplo', 'Empresa dedicada a organizar eventos corporativos');
+VALUES ('oracle@gmail.com', ' C. Montes Urales 470, Lomas - Virreyes, Lomas de Chapultepec, Miguel Hidalgo, 11000 Ciudad de México, CDMX', 'Nuestra misión es ayudar a las personas a ver los datos de nuevas maneras, descubrir ideas, desbloquear posibilidades sin fin.');
 
 -- Insertar Evento creado por Usuario Empresarial
 INSERT INTO Evento (nombre, descripcion, fechaHora, aforoMax, tipoAcceso, creadorEmail)
-VALUES ('Conferencia de Tecnología', 'Evento sobre avances tecnológicos', '2024-12-01 10:00:00', 100, 'QR', 'empresa@email.com');
+VALUES ('Conferencia de Tecnología', 'Evento sobre avances tecnológicos', '2024-12-01 10:00:00', 100, 'QR', 'oracle@gmail.com');
+
+
 
 -- Insertar Inscripción de Usuario Personal a un Evento
 INSERT INTO Inscripcion (estado, fechaInscripcion, usuarioEmail, eventoId)
