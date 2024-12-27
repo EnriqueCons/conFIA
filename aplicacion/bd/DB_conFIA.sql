@@ -7,7 +7,8 @@ CREATE TABLE Usuario (
     email VARCHAR(255) PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     contrasena VARCHAR(1000) NOT NULL,
-    tipo ENUM('Personal', 'Empresarial') NOT NULL
+    tipo ENUM('Personal', 'Empresarial') NOT NULL,
+    imagen VARCHAR(255) DEFAULT NULL
 );
 
 -- Tabla Personal (Extiende Usuario)

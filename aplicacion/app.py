@@ -181,6 +181,90 @@ def indexE():
     # Pasamos los datos del usuario al template 'indexEmpresarial.html'
     return render_template('indexCUEmpresarial.html', email_Usuario=user)
 
+# Página para ver el perfil de usuario
+@app.route('/perfilUsuario')
+def perfilUsuario():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT email, nombre, imagen FROM Usuario WHERE email = %s", (session['email_Usuario'],))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not user:
+        flash('Usuario no encontrado.', 'danger')
+        return redirect(url_for('error'))
+
+    # Pasa la ruta completa de la imagen al template
+    return render_template('perfilPersonal.html', usuario={
+        'email': user[0],
+        'nombre': user[1],
+        'imagen': user[2] or 'static/uploads/default-profile.png'  # Ruta predeterminada si no hay imagen
+    })
+
+
+
+# Función para verificar si un correo ya existe en la base de datos
+def verificar_correo(email):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT email FROM Usuario WHERE email = %s", (email,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return result is not None
+
+
+@app.route('/actualizar_datosUsu', methods=['POST'])
+def actualizar_datosUsu():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    correo_actual = session['email_Usuario']
+    nuevo_nombre = request.form.get('nombre')
+    nueva_contrasena = request.form.get('password')
+    archivo_imagen = request.files.get('imagen')
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Actualizar el nombre en la base de datos
+        if nuevo_nombre and nuevo_nombre != session['nombre']:
+            cursor.execute("UPDATE Usuario SET nombre = %s WHERE email = %s", (nuevo_nombre, correo_actual))
+            session['nombre'] = nuevo_nombre  # Actualizar la sesión con el nuevo nombre
+            print(f"Nombre actualizado en sesión: {session['nombre']}")
+
+        # Actualizar la contraseña si se proporciona una nueva
+        if nueva_contrasena:
+            nueva_contrasena_hash = generate_password_hash(nueva_contrasena)
+            cursor.execute("UPDATE Usuario SET contrasena = %s WHERE email = %s",
+                           (nueva_contrasena_hash, correo_actual))
+
+        # Guardar la imagen si se proporciona
+        if archivo_imagen:
+            ruta_imagen = f'static/uploads/{correo_actual}.png'
+            archivo_imagen.save(ruta_imagen)
+            cursor.execute("UPDATE Usuario SET imagen = %s WHERE email = %s", (ruta_imagen, correo_actual))
+
+        conn.commit()
+        flash('Datos actualizados correctamente.', 'success')
+    except Exception as e:
+        conn.rollback()
+        print(f"Error al actualizar los datos: {str(e)}")
+        flash(f'Error al actualizar los datos: {str(e)}', 'danger')
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for('perfilUsuario'))
+
+
+
+
 # Página de recuperación de contraseña
 @app.route('/recuperarContrasena', methods=['GET', 'POST'])
 def recuperar_contrasena():
@@ -211,8 +295,6 @@ def cerrar_sesion():
     session.clear() # Elimina los datos de la sesión
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio_sesion'))
-
-
 
 # Página de Error 
 @app.route('/error')
