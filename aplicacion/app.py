@@ -206,18 +206,7 @@ def perfilUsuario():
     })
 
 
-
-# Función para verificar si un correo ya existe en la base de datos
-def verificar_correo(email):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT email FROM Usuario WHERE email = %s", (email,))
-    result = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    return result is not None
-
-
+#Actualizar datos de usuario
 @app.route('/actualizar_datosUsu', methods=['POST'])
 def actualizar_datosUsu():
     if 'email_Usuario' not in session:
@@ -262,6 +251,90 @@ def actualizar_datosUsu():
 
     return redirect(url_for('perfilUsuario'))
 
+#Pagina para ver el perfil de la empresa
+@app.route('/perfilEmpresa')
+def perfilEmpresa():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT u.email, u.nombre, u.imagen, e.direccion, e.descripcion
+        FROM Usuario u
+        LEFT JOIN Empresarial e ON u.email = e.email
+        WHERE u.email = %s
+    """, (session['email_Usuario'],))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not user:
+        flash('Usuario no encontrado.', 'danger')
+        return redirect(url_for('error'))
+
+    # Pasa todos los datos al template
+    return render_template('PerfilEmpresa.html', usuario={
+        'email': user[0],
+        'nombre': user[1],
+        'imagen': user[2] or 'static/uploads/default-profile.png',
+        'direccion': user[3] or '',
+        'descripcion': user[4] or ''
+    })
+
+
+#Actualizar datos de empresa
+@app.route('/actualizar_datosEmp', methods=['POST'])
+def actualizar_datosEmp():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    correo_actual = session['email_Usuario']
+    nuevo_nombre = request.form.get('nombre')
+    nueva_direccion = request.form.get('direccion')
+    nueva_descripcion = request.form.get('descripcion')
+    nueva_contrasena = request.form.get('password')
+    archivo_imagen = request.files.get('imagen')
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Actualizar el nombre en la base de datos
+        if nuevo_nombre and nuevo_nombre != session.get('nombre', ''):
+            cursor.execute("UPDATE Usuario SET nombre = %s WHERE email = %s", (nuevo_nombre, correo_actual))
+            session['nombre'] = nuevo_nombre  # Actualizar la sesión con el nuevo nombre
+
+        # Actualizar la dirección
+        if nueva_direccion:
+            cursor.execute("UPDATE Empresarial SET direccion = %s WHERE email = %s", (nueva_direccion, correo_actual))
+        
+        # Actualizar la descripción
+        if nueva_descripcion:
+            cursor.execute("UPDATE Empresarial SET descripcion = %s WHERE email = %s", (nueva_descripcion, correo_actual))
+
+        # Actualizar la contraseña si se proporciona una nueva
+        if nueva_contrasena:
+            nueva_contrasena_hash = generate_password_hash(nueva_contrasena)
+            cursor.execute("UPDATE Usuario SET contrasena = %s WHERE email = %s",
+                           (nueva_contrasena_hash, correo_actual))
+
+        # Guardar la imagen si se proporciona
+        if archivo_imagen:
+            ruta_imagen = f'static/uploads/{correo_actual}.png'
+            archivo_imagen.save(ruta_imagen)
+            cursor.execute("UPDATE Usuario SET imagen = %s WHERE email = %s", (ruta_imagen, correo_actual))
+
+        conn.commit()
+        flash('Datos actualizados correctamente.', 'success')
+    except Exception as e:
+        conn.rollback()
+        flash(f'Error al actualizar los datos: {str(e)}', 'danger')
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for('perfilEmpresa'))
 
 
 
