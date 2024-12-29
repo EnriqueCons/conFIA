@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -18,11 +19,24 @@ def get_db_connection():
         ssl_disabled=True
     )
 
+#Comprobar si el usuario está autenticado
+def verificar_tipo_usuario(tipo_requerido):
+    def decorador(f):
+        @wraps(f)
+        def verificacion(*args, **kwargs):
+            if 'tipo' not in session or session['tipo'] != tipo_requerido:
+                flash('No tienes permiso para acceder a esta página.', 'danger')
+                return redirect(url_for('error'))
+            return f(*args, **kwargs)
+        return verificacion
+    return decorador
+
 #Ruta de la página principal
 @app.route('/')
 def index():
     return render_template('index.html')
 
+#-----------------------------------------------------------Registro de Usuarios-----------------------------------------------------------
 
 # Página de Registro de Personal
 @app.route('/registrarPersonal', methods=['GET', 'POST'])
@@ -96,6 +110,7 @@ def registroE():
 
     return render_template('registrarEmpresarial.html')
 
+#-----------------------------------------------------------Inicio de Sesión-----------------------------------------------------------
 
 # Página de Inicio de Sesión
 @app.route('/inicio_sesion', methods=['GET', 'POST'])
@@ -139,8 +154,11 @@ def inicio_sesion():
 def registroUsuarios():
     return render_template('RegistrarUsuario.html')
 
+#-----------------------------------------------------------Páginas Index-----------------------------------------------------------
+
 # Página de index Personal
 @app.route('/indexPersonal')
+@verificar_tipo_usuario('Personal')
 def indexP():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -153,15 +171,12 @@ def indexP():
     cursor.close()
     conn.close()
 
-    if user[3] != 'Personal':
-        flash('No tienes permiso para acceder a esta página.', 'danger')
-        return redirect(url_for('error'))
-
     # Pasamos los datos del usuario al template 'indexCUPersonal.html'
     return render_template('indexCUPersonal.html', email_Usuario=user)
 
 # Página de index Empresarial
 @app.route('/indexEmpresarial')
+@verificar_tipo_usuario('Empresarial')
 def indexE():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -174,15 +189,14 @@ def indexE():
     cursor.close()
     conn.close()
 
-    if user[3] != 'Empresarial':
-        flash('No tienes permiso para acceder a esta página.', 'danger')
-        return redirect(url_for('error'))
-
     # Pasamos los datos del usuario al template 'indexEmpresarial.html'
     return render_template('indexCUEmpresarial.html', email_Usuario=user)
 
+#-----------------------------------------------------------Perfil de Usuario-----------------------------------------------------------
+
 # Página para ver el perfil de usuario
 @app.route('/perfilUsuario')
+@verificar_tipo_usuario('Personal')
 def perfilUsuario():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -208,6 +222,7 @@ def perfilUsuario():
 
 #Actualizar datos de usuario
 @app.route('/actualizar_datosUsu', methods=['POST'])
+@verificar_tipo_usuario('Personal')
 def actualizar_datosUsu():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -251,8 +266,11 @@ def actualizar_datosUsu():
 
     return redirect(url_for('perfilUsuario'))
 
+#-----------------------------------------------------------Perfil de Empresa-----------------------------------------------------------
+
 #Pagina para ver el perfil de la empresa
 @app.route('/perfilEmpresa')
+@verificar_tipo_usuario('Empresarial')
 def perfilEmpresa():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -285,6 +303,7 @@ def perfilEmpresa():
 
 #Actualizar datos de empresa
 @app.route('/actualizar_datosEmp', methods=['POST'])
+@verificar_tipo_usuario('Empresarial')
 def actualizar_datosEmp():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -336,7 +355,24 @@ def actualizar_datosEmp():
 
     return redirect(url_for('perfilEmpresa'))
 
+#-----------------------------------------------------------Eventos-----------------------------------------------------------
+#Ver eventos de la empresa
+@app.route('/eventosEmpresa')
+@verificar_tipo_usuario('Empresarial')
+def eventosEmpresa():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
 
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Evento WHERE email_Empresarial = %s", (session['email_Usuario'],))
+    eventos = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return render_template('verEventosEmpresa.html', eventos=eventos)
+
+#-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 
 # Página de recuperación de contraseña
 @app.route('/recuperarContrasena', methods=['GET', 'POST'])
@@ -361,6 +397,7 @@ def recuperar_contrasena():
 
     return render_template('RecuperarContrasenia.html')
 
+#-----------------------------------------------------------Cerrar Sesión-----------------------------------------------------------
 
 # Ruta para cerrar sesión
 @app.route('/cerrar_sesion')
@@ -368,6 +405,8 @@ def cerrar_sesion():
     session.clear() # Elimina los datos de la sesión
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio_sesion'))
+
+#-----------------------------------------------------------Página de Error-----------------------------------------------------------
 
 # Página de Error 
 @app.route('/error')
