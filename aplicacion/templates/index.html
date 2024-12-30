@@ -35,63 +35,42 @@
         <div class="space"></div>
 
         <div class="container">
-            <!-- Publicación 1 -->
+            {% for evento in eventos %}
             <div class="publications p-3 mb-4">
                 <div class="row">
+                    <!-- Imagen del creador -->
                     <div class="col-md-2 d-flex justify-content-center align-items-start">
-                        <a href="verPerfilEmpresa.html">
-                            <img src="{{ url_for('static', filename='imgs/uzuay.png') }}" alt="Logo" class="imageLogo">
-                        </a>
+                        <img src="{{ url_for('static', filename=evento['creadorImagen']) }}" 
+                             alt="{{ evento['creadorNombre'] }}" 
+                             class="imageLogo img-fluid rounded-circle">
                     </div>
+                    
+                    <!-- Información del evento -->
                     <div class="col-md-10">
-                        <a href="verPerfilEmpresa.html" class="Company fs-5 fw-bolder pb-2">Universidad del Azuay.</a>
-                        <div class="EventName pb-2">Congreso Mundial de Energías Renovables 2024.</div>
-                        <div class="pe-3 pb-3">El Congreso Mundial de Energías Renovables 2024 es uno de los eventos más
-                            esperados en el sector de la energía limpia y sustentable. Este congreso reunirá a líderes,
-                            investigadores, empresarios y responsables de políticas energéticas de todo el mundo para
-                            explorar los avances más recientes y enfrentar los desafíos que plantea la transición hacia un
-                            futuro energético más sostenible.Durante el evento, se abordarán temas clave como la innovación
-                            en tecnología de energías renovables, políticas globales de sostenibilidad, y modelos de
-                            financiamiento para proyectos de energía verde. También se debatirán estrategias para la
-                            descarbonización y la reducción de la dependencia de combustibles fósiles.</div>
+                        <h5 class="Company fs-5 fw-bolder pb-2">{{ evento['creadorNombre'] }}</h5>
+                        <h6 class="EventName pb-2">{{ evento['eventoNombre'] }}</h6>
+                        <p class="pe-3 pb-3">{{ evento['descripcion'] }}</p>
                     </div>
+        
+                    <!-- Imagen del evento -->
                     <div class="col-12 text-center">
-                        <img src="{{ url_for('static', filename='imgs/ejemplo1.png') }}" alt="Evento" class="imageInformation">
+                        <img src="{{ url_for('static', filename=evento['eventoImagen']) }}" 
+                             alt="{{ evento['eventoNombre'] }}" 
+                             class="imageInformation img-fluid">
                     </div>
+        
+                    <!-- Botones -->
                     <div class="col-12 d-flex justify-content-end mt-2">
-                        <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Ver más...</a>
-                        <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Inscribirse</a>
+                        <a href="#" class="buttonEvent text-center mx-2">Ver más...</a>
+                        <a href="#" class="buttonEvent text-center mx-2">Inscribirse</a>
                     </div>
                 </div>
             </div>
-            <!-- Publicación 2 -->
-            <div class="row publications p-3 mb-4">
-                <div class="col-md-2 d-flex justify-content-center align-items-start">
-                    <a href="verPerfilEmpresa.html">
-                        <img src="{{ url_for('static', filename='imgs/googleExample.png') }}" alt="Logo" class="imageLogo img-fluid">
-                    </a>
-                </div>
-                <div class="col-md-10">
-                    <a href="verPerfilEmpresa.html" class="Company fs-5 fw-bolder pb-2">TechWorld.</a>
-                    <div class="EventName pb-2">Feria Internacional de Tecnología 2024.</div>
-                    <div class="pe-3 pb-3">La Feria Internacional de Tecnología 2024 es un evento de gran magnitud que
-                        congregará a líderes de la industria, empresas emergentes, investigadores y entusiastas de la
-                        tecnología para descubrir y experimentar las últimas innovaciones en el sector. Esta feria es el
-                        lugar perfecto para explorar desarrollos de vanguardia en inteligencia artificial, robótica,
-                        realidad virtual, y muchas otras áreas que están transformando el mundo. TechWorld Events
-                        dedicará un área exclusiva para startups tecnológicas que están comenzando a destacarse en la
-                        industria. Estas empresas emergentes tendrán la oportunidad de presentar sus productos y
-                        servicios innovadores, atraer a inversores y conectar con posibles socios estratégicos.</div>
-                </div>
-                <div class="col-12 text-center">
-                    <img src="{{ url_for('static', filename='imgs/ejemplo2.png') }}" alt="Evento" class="imageInformation img-fluid">
-                </div>
-                <div class="col-12 d-flex justify-content-end mt-2">
-                    <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Ver más...</a>
-                    <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Inscribirse</a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        
+
+        
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

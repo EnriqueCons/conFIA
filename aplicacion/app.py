@@ -40,7 +40,37 @@ def verificar_tipo_usuario(tipo_requerido):
 #Ruta de la página principal
 @app.route('/')
 def index():
-    return render_template('index.html')
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Consultar eventos con información del creador (nombre e imagen)
+        cursor.execute("""
+            SELECT 
+                E.nombre AS eventoNombre, 
+                E.descripcion, 
+                E.fechaHora, 
+                E.imagen AS eventoImagen, 
+                E.creadorEmail AS creadorEmail,
+                U.nombre AS creadorNombre
+            FROM Evento E
+            JOIN Usuario U ON E.creadorEmail = U.email
+            ORDER BY E.fechaHora DESC
+        """)
+        eventos = cursor.fetchall()
+
+        # Construir rutas de imágenes basadas en la estructura de carpetas
+        for evento in eventos:
+            evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+            evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+    finally:
+        cursor.close()
+        conn.close()
+
+    return render_template('index.html', eventos=eventos)
+
+
+
 
 #-----------------------------------------------------------Registro de Usuarios-----------------------------------------------------------
 
@@ -487,10 +517,14 @@ def editar_evento(evento_id):
                 correo_usuario = session['email_Usuario']
                 user_folder = os.path.join(app.config['UPLOAD_FOLDER'], correo_usuario)
                 os.makedirs(user_folder, exist_ok=True)
-                filename = secure_filename(imagen.filename)
+
+                # Guardar la imagen con el nombre del evento
+                filename = secure_filename(f"{nombre_evento.replace(' ', '_')}.png")
                 image_path = os.path.join(user_folder, filename)
                 imagen.save(image_path)
-                image_path = image_path.replace("\\", "/")  # Asegurar compatibilidad de rutas
+
+                # Asegurar compatibilidad de rutas
+                image_path = image_path.replace("\\", "/")
             else:
                 # Mantener la imagen actual si no se sube una nueva
                 cursor.execute("SELECT imagen FROM Evento WHERE id = %s", (evento_id,))
