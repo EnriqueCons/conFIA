@@ -383,6 +383,9 @@ def eventosEmpresa():
 #Crear un evento
 @app.route('/crearEvento', methods=['GET', 'POST'])
 def crearEvento():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+    
     if request.method == 'POST':
         # Obtener datos del formulario
         nombre_evento = request.form['nombre']
@@ -424,6 +427,42 @@ def crearEvento():
 
     return render_template('CrearEvento.html')
 @verificar_tipo_usuario('Empresarial')
+
+
+#Eliminar un evento
+@app.route('/eliminarEvento/<int:evento_id>', methods=['POST'])
+@verificar_tipo_usuario('Empresarial')
+def eliminar_evento(evento_id):
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Verifica que el evento pertenece al usuario
+        cursor.execute("SELECT id FROM Evento WHERE id = %s AND creadorEmail = %s", (evento_id, session['email_Usuario']))
+        evento = cursor.fetchone()
+        if not evento:
+            flash('No tienes permiso para eliminar este evento.', 'danger')
+            return redirect(url_for('eventosEmpresa'))
+
+        # Elimina el evento de la base de datos
+        cursor.execute("DELETE FROM Evento WHERE id = %s", (evento_id,))
+        conn.commit()
+
+        flash('Evento eliminado correctamente.', 'success')
+    except Exception as e:
+        conn.rollback()
+        flash(f'Error al eliminar el evento: {str(e)}', 'danger')
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for('eventosEmpresa'))
+
+#Editar un evento
+
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 

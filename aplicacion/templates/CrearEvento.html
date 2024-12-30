@@ -17,6 +17,14 @@
         <nav class="navbar d-flex justify-content-around fixed-top pb-0">
             <a class="navbar-brand fs-4">CONFIA</a>
             <div>
+                <div>
+                    <form class="d-flex search" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                        <i class="bi bi-search m-2" type="submit"></i>
+                    </form>
+                </div>
+            </div>
+            <div>
                 <form class="d-flex">
                     <a class="btn me-2" href="{{ url_for('indexE') }}">Eventos</a>
                     <a class="btn me-2" href="#">Notificaciones</a>
@@ -34,36 +42,37 @@
                     </div>
                 </form>
             </div>
+            <div class="line"></div>
         </nav>
     </header>
 
     <main class="container mt-5 pt-5">
         <form action="{{ url_for('crearEvento') }}" method="POST" enctype="multipart/form-data">
             <!-- Imagen del Evento -->
-            <div class="position-relative mb-4 text-center">
+            <div class="position-relative mb-4">
                 <label for="imagen" class="form-label visually-hidden">Imagen del evento</label>
                 <input type="file" id="imagen" name="imagen" class="form-control d-none" accept="image/*">
-                <div class="event-image-container mx-auto" style="max-width: 600px;" onclick="document.getElementById('imagen').click();">
-                    <img id="previewImagen" src="{{ url_for('static', filename='imgs/placeholder.png') }}" alt="Imagen del evento"
-                        class="img-fluid rounded" style="height: 300px; object-fit: cover; width: 100%;">
-                    <div class="add-image-icon position-absolute bottom-0 end-0 translate-middle">
-                        <i class="bi bi-plus-circle-fill fs-1 text-primary"></i>
+                <div class="event-image-container" onclick="document.getElementById('imagen').click();">
+                    <img id="previewImagen" src="{{ url_for('static', filename='imgs/AñadirImagen.png') }}" alt="Imagen del evento"
+                        class="img-fluid rounded">
+                    <div class="add-image-icon">
+                        <i class="bi bi-plus-circle-fill fs-1"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Título del Evento -->
-            <div class="mb-4 text-center">
-                <input type="text" id="nombre" name="nombre" class="form-control event-title text-center" placeholder="Título del evento" required>
+            <div class="mb-4">
+                <input type="text" id="nombre" name="nombre" class="form-control event-title" placeholder="Título del evento" required>
             </div>
 
             <!-- Organizador -->
-            <h4 class="text-center mb-4">
-                Organizador: <span class="text-primary">{{ session['nombre'] }}</span>
+            <h4 class="mb-4">
+               <a>Organizador: <span class="text-primary">{{ session['nombre'] }}</span></a> 
             </h4>
 
             <!-- Detalles del Evento -->
-            <div class="row text-center mb-4">
+            <div class="row text-center mb-4 event-details">
                 <div class="col">
                     <i class="bi bi-geo-alt-fill fs-3 text-primary"></i>
                     <input type="text" id="ubicacion" name="ubicacion" class="form-control border-0 text-center" placeholder="Ubicación" required>
@@ -86,18 +95,18 @@
                 </div>
             </div>
 
-            <hr>
+            <hr class="divider">
 
             <!-- Descripción -->
             <div class="mb-4">
-                <textarea id="descripcion" name="descripcion" class="form-control event-description text-center" rows="4"
+                <textarea id="descripcion" name="descripcion" class="form-control event-description" rows="4"
                     placeholder="Añadir una descripción del evento" required></textarea>
             </div>
 
             <!-- Botones -->
-            <div class="btn-container d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary me-3" onclick="window.history.back();">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Aceptar</button>
+            <div class="btn-container">
+                <button type="button" class="btn-cancel me-2 text-decoration-none" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancelar</button>
+                <button type="submit" class="btn-accept" onclick="handleAccept()">Aceptar</button>
             </div>
         </form>
 
@@ -120,6 +129,31 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- POP UP CANCELAR CREACION DE EVENTO -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">¿Está seguro de cancelar la creación del evento?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Si cancela ahora, todos los cambios realizados se perderán.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-submit" id="acceptCancel" onclick="window.history.back();">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay d-none" id="modalOverlay"></div>
+        <div class="modal-popup d-none" id="successModal">
+            <h3 class="modal-title">El evento ha sido creado exitosamente</h3>
+            <i class="bi bi-check-circle-fill"></i>
         </div>
     </main>
 
