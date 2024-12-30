@@ -462,6 +462,77 @@ def eliminar_evento(evento_id):
     return redirect(url_for('eventosEmpresa'))
 
 #Editar un evento
+@app.route('/editarEvento/<int:evento_id>', methods=['GET', 'POST'])
+def editar_evento(evento_id):
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    if request.method == 'POST':
+        try:
+            # Datos del formulario
+            nombre_evento = request.form['nombre']
+            descripcion = request.form['descripcion']
+            fecha_hora = request.form['fecha_hora']
+            aforo_max = int(request.form['aforo_max'])
+            tipo_acceso = request.form['tipo_acceso']
+            ubicacion = request.form['ubicacion']
+            imagen = request.files.get('imagen')
+
+            # Manejo de imagen
+            image_path = None
+            if imagen and imagen.filename != '':
+                correo_usuario = session['email_Usuario']
+                user_folder = os.path.join(app.config['UPLOAD_FOLDER'], correo_usuario)
+                os.makedirs(user_folder, exist_ok=True)
+                filename = secure_filename(imagen.filename)
+                image_path = os.path.join(user_folder, filename)
+                imagen.save(image_path)
+                image_path = image_path.replace("\\", "/")  # Asegurar compatibilidad de rutas
+            else:
+                # Mantener la imagen actual si no se sube una nueva
+                cursor.execute("SELECT imagen FROM Evento WHERE id = %s", (evento_id,))
+                image_path = cursor.fetchone()['imagen']
+
+            # Validación de tipo_acceso
+            if tipo_acceso not in ['QR', 'Reconocimiento Facial']:
+                raise ValueError("Tipo de acceso no válido.")
+
+            # Actualizar en la base de datos
+            cursor.execute("""
+                UPDATE Evento
+                SET nombre = %s, descripcion = %s, fechaHora = %s, aforoMax = %s, tipoAcceso = %s, ubicacion = %s, imagen = %s
+                WHERE id = %s AND creadorEmail = %s
+            """, (nombre_evento, descripcion, fecha_hora, aforo_max, tipo_acceso, ubicacion, image_path, evento_id, session['email_Usuario']))
+
+            conn.commit()
+            flash('Evento actualizado correctamente.', 'success')
+        except mysql.connector.Error as err:
+            conn.rollback()
+            flash(f'Error en la base de datos: {err}', 'danger')
+        except Exception as e:
+            conn.rollback()
+            flash(f'Error: {e}', 'danger')
+        finally:
+            cursor.close()
+            conn.close()
+
+        return redirect(url_for('eventosEmpresa'))
+
+    # Obtener los datos del evento para el formulario
+    cursor.execute("SELECT * FROM Evento WHERE id = %s AND creadorEmail = %s", (evento_id, session['email_Usuario']))
+    evento = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not evento:
+        flash('Evento no encontrado o no tienes permiso para editarlo.', 'danger')
+        return redirect(url_for('eventosEmpresa'))
+
+    return render_template('EditarEvento.html', evento=evento)
+@verificar_tipo_usuario('Empresarial')
 
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
