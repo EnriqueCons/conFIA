@@ -54,7 +54,7 @@
                 <label for="event-image" class="form-label visually-hidden">Imagen del evento</label>
                 <input type="file" id="event-image" class="form-control d-none" name="imagen">
                 <div class="event-image-container">
-                    <img src="{{ evento['imagen'] }}" alt="Imagen del evento" class="img-fluid rounded event-image">
+                    <img src="/{{ evento['imagen'] }}" alt="Imagen del evento" class="img-fluid rounded event-image">
                     <div class="add-image-icon">
                         <i class="bi bi-plus-circle-fill fs-1"></i>
                     </div>
@@ -63,42 +63,48 @@
         
             <!-- Nombre del evento -->
             <div class="mb-4">
-                <input type="text" class="form-control" name="nombre" value="{{ evento['nombre'] }}" required>
+                <input type="text" class="form-control event-title" name="nombre" value="{{ evento['nombre'] }}" required>
             </div>
+
+            <!-- Organizador -->
+            <h4 class="mb-4">
+                <a>Organizador: <span class="text-primary">{{ session['nombre'] }}</span></a> 
+             </h4>
+ 
         
             <!-- Detalles del evento -->
-            <div class="row mb-4">
+            <div class="row text-center mb-4 event-details">
                 <div class="col">
-                    <label for="location">Ubicación</label>
+                    <i class="bi bi-geo-alt-fill fs-3 text-primary"></i>
                     <input type="text" class="form-control" name="ubicacion" value="{{ evento['ubicacion'] }}" required>
                 </div>
                 <div class="col">
-                    <label for="date">Fecha y Hora</label>
+                    <i class="bi bi-calendar-event-fill fs-3 text-primary"></i>
                     <input type="datetime-local" class="form-control" name="fecha_hora" value="{{ evento['fechaHora']|replace(' ', 'T') }}" required>
                 </div>
                 <div class="col">
-                    <label for="attendees">Aforo Máximo</label>
+                    <i class="bi bi-people-fill fs-3 text-primary"></i>
                     <input type="number" class="form-control" name="aforo_max" value="{{ evento['aforoMax'] }}" min="1" required>
                 </div>
                 <div class="col">
-                    <label for="access">Tipo de Acceso</label>
+                    <i class="bi bi-qr-code fs-3 text-primary"></i>
                     <select class="form-select" name="tipo_acceso" required>
                         <option value="QR" {% if evento['tipoAcceso'] == 'QR' %}selected{% endif %}>Código QR</option>
                         <option value="Reconocimiento Facial" {% if evento['tipoAcceso'] == 'Reconocimiento Facial' %}selected{% endif %}>Reconocimiento Facial</option>
                     </select>                    
                 </div>
             </div>
-        
+
+            <hr class="divider">
             <!-- Descripción del evento -->
             <div class="mb-4">
-                <label for="description">Descripción</label>
-                <textarea class="form-control" name="descripcion" rows="4" required>{{ evento['descripcion'] }}</textarea>
+                <textarea class="form-control event-description" rows="4" name="descripcion" required>{{ evento['descripcion'] }}</textarea>
             </div>
         
             <!-- Botones -->
-            <div class="text-end">
-                <a href="{{ url_for('eventosEmpresa') }}" class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <div class="modal-footer">
+                <a href="{{ url_for('eventosEmpresa') }}" class="btn btn-cancel">Cancelar</a>
+                <button type="submit" class="btn btn-accept">Guardar Cambios</button>
             </div>
         </form>
 
@@ -122,70 +128,9 @@
         </div>
 
 
-
     </main>
 
-    <!-- Modal para Confirmar Cancelar -->
-    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <h5 class="modal-titl" id="cancelModalLabel">¿Está seguro de cancelar la creación del evento?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Si cancela ahora, todos los cambios realizados se perderán.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                    <a href="verEventosEmpresa.html" class="btn btn-accept">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-
-    <!-- Modal para Confirmar Guardar Cambios -->
-    <div class="modal fade" id="acceptModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-center p-4">
-                <div class="modal-body">
-                    <!-- Título -->
-                    <h3 class="modal-title mt-3" id="acceptModalLabel">Los cambios han sido guardados exitosamente</h3>
-                    <!-- Ícono de la palomita -->
-                    <i class="bi bi-check-circle-fill icon-success mt-4"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        document.querySelector('.add-image-icon').addEventListener('click', () => {
-            document.getElementById('event-image').click();
-        });
-
-        document.getElementById('event-image').addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.querySelector('.event-image').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
-
-
-    <script>
-        // Redirigir tras mostrar el modal de guardar cambios
-        document.getElementById('acceptModal').addEventListener('shown.bs.modal', function () {
-            setTimeout(() => {
-                window.location.href = "verEventosEmpresa.html"; // Cambia esta URL según el destino deseado
-            }, 3000); // Redirige después de 3 segundos (3000 ms)
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
