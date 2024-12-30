@@ -35,8 +35,8 @@
                             <i class="bi bi-person-circle fs-3"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end text-center menu " aria-labelledby="userDropdown">
-                            <li class="dropdown-item" id="nombreEmpresa">{{ usuario.nombre }}</li>
-                            <li><a class="dropdown-item" href="verEventosEmpresa.html">Mis eventos</a></li>
+                            <li class="dropdown-item" id="nombreEmpresa">{{ session['nombre'] }}</li>
+                            <li><a class="dropdown-item" href="{{ url_for('eventosEmpresa') }}">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('perfilEmpresa') }}">Ver perfil</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}" data-bs-toggle="modal"
                                     data-bs-target="#logoutModal">Cerrar sesión</a></li>

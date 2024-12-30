@@ -3,11 +3,17 @@ from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
 
 # Configuración de Flask
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24)  # Para manejo de sesiones
+
+# Configuración de carpetas para guardar imágenes
+UPLOAD_FOLDER = 'static/eventos'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Conexión a la base de datos MySQL
 def get_db_connection():
@@ -158,7 +164,6 @@ def registroUsuarios():
 
 # Página de index Personal
 @app.route('/indexPersonal')
-@verificar_tipo_usuario('Personal')
 def indexP():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -173,10 +178,10 @@ def indexP():
 
     # Pasamos los datos del usuario al template 'indexCUPersonal.html'
     return render_template('indexCUPersonal.html', email_Usuario=user)
+@verificar_tipo_usuario('Personal')
 
 # Página de index Empresarial
 @app.route('/indexEmpresarial')
-@verificar_tipo_usuario('Empresarial')
 def indexE():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -191,12 +196,12 @@ def indexE():
 
     # Pasamos los datos del usuario al template 'indexEmpresarial.html'
     return render_template('indexCUEmpresarial.html', email_Usuario=user)
+@verificar_tipo_usuario('Empresarial')
 
 #-----------------------------------------------------------Perfil de Usuario-----------------------------------------------------------
 
 # Página para ver el perfil de usuario
 @app.route('/perfilUsuario')
-@verificar_tipo_usuario('Personal')
 def perfilUsuario():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -218,11 +223,10 @@ def perfilUsuario():
         'nombre': user[1],
         'imagen': user[2] or 'static/uploads/default-profile.png'  # Ruta predeterminada si no hay imagen
     })
-
+@verificar_tipo_usuario('Personal')
 
 #Actualizar datos de usuario
 @app.route('/actualizar_datosUsu', methods=['POST'])
-@verificar_tipo_usuario('Personal')
 def actualizar_datosUsu():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -265,12 +269,12 @@ def actualizar_datosUsu():
         conn.close()
 
     return redirect(url_for('perfilUsuario'))
+@verificar_tipo_usuario('Personal')
 
 #-----------------------------------------------------------Perfil de Empresa-----------------------------------------------------------
 
 #Pagina para ver el perfil de la empresa
 @app.route('/perfilEmpresa')
-@verificar_tipo_usuario('Empresarial')
 def perfilEmpresa():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -299,11 +303,10 @@ def perfilEmpresa():
         'direccion': user[3] or '',
         'descripcion': user[4] or ''
     })
-
+@verificar_tipo_usuario('Empresarial')
 
 #Actualizar datos de empresa
 @app.route('/actualizar_datosEmp', methods=['POST'])
-@verificar_tipo_usuario('Empresarial')
 def actualizar_datosEmp():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -354,23 +357,73 @@ def actualizar_datosEmp():
         conn.close()
 
     return redirect(url_for('perfilEmpresa'))
+@verificar_tipo_usuario('Empresarial')
 
-#-----------------------------------------------------------Eventos-----------------------------------------------------------
+#-----------------------------------------------------------Eventos Empresa-----------------------------------------------------------
 #Ver eventos de la empresa
 @app.route('/eventosEmpresa')
-@verificar_tipo_usuario('Empresarial')
 def eventosEmpresa():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
 
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Evento WHERE email_Empresarial = %s", (session['email_Usuario'],))
+    cursor = conn.cursor(dictionary=True)  # Retorna los resultados como diccionarios
+    cursor.execute("""
+        SELECT id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, imagen 
+        FROM Evento 
+        WHERE creadorEmail = %s
+    """, (session['email_Usuario'],))
     eventos = cursor.fetchall()
     cursor.close()
     conn.close()
 
     return render_template('verEventosEmpresa.html', eventos=eventos)
+@verificar_tipo_usuario('Empresarial')
+
+#Crear un evento
+@app.route('/crearEvento', methods=['GET', 'POST'])
+def crearEvento():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre_evento = request.form['nombre']
+        descripcion = request.form['descripcion']
+        fecha_hora = request.form['fecha_hora']
+        aforo_max = request.form['aforo_max']
+        tipo_acceso = request.form['tipo_acceso']
+        ubicacion = request.form['ubicacion']
+        organizador = session['nombre']
+
+        # Manejo de la imagen
+        imagen = request.files['imagen']
+        if imagen:
+            correo_usuario = session['email_Usuario']
+            user_folder = os.path.join(app.config['UPLOAD_FOLDER'], correo_usuario)
+            os.makedirs(user_folder, exist_ok=True)
+            filename = secure_filename(f"{nombre_evento}.png")
+            image_path = os.path.join(user_folder, filename)
+            imagen.save(image_path)
+
+        # Guardar en la base de datos
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("""
+                INSERT INTO Evento (nombre, descripcion, fechaHora, aforoMax, tipoAcceso, creadorEmail, ubicacion, imagen)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """, (nombre_evento, descripcion, fecha_hora, aforo_max, tipo_acceso, session['email_Usuario'], ubicacion, image_path))
+            conn.commit()
+            flash('Evento creado exitosamente.', 'success')
+        except Exception as e:
+            conn.rollback()
+            flash(f'Error al crear el evento: {str(e)}', 'danger')
+        finally:
+            cursor.close()
+            conn.close()
+
+        return redirect(url_for('eventosEmpresa'))
+
+    return render_template('CrearEvento.html')
+@verificar_tipo_usuario('Empresarial')
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 

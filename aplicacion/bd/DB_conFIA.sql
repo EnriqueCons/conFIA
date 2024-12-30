@@ -34,6 +34,8 @@ CREATE TABLE Evento (
     aforoMax INT NOT NULL,
     tipoAcceso ENUM('QR', 'Reconocimiento Facial') NOT NULL,
     creadorEmail VARCHAR(255),
+    ubicacion VARCHAR(255),
+    imagen VARCHAR(255),
     FOREIGN KEY (creadorEmail) REFERENCES Empresarial(email) ON DELETE SET NULL
 );
 

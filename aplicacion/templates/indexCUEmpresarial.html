@@ -31,7 +31,8 @@
                             <i class="bi bi-person-circle fs-3"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end text-center menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="verEventosEmpresa.html">Mis eventos</a></li>
+                            <li class="dropdown-item" id="nombreEmpresa">{{ session['nombre'] }}</li>
+                            <li><a class="dropdown-item" href="{{ url_for('eventosEmpresa') }}">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('perfilEmpresa') }}">Mi perfil</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}" data-bs-toggle="modal"
                                 data-bs-target="#logoutModal">Cerrar sesión</a></li>
@@ -121,27 +122,6 @@
             </div>
         </div>
 
-
-
-
-        <!-- POP UP CERRAR SESION -->
-        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="logoutModalLabel">¿Está seguro de querer cerrar sesión?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Si cierra sesión ahora, perderá cualquier cambio no guardado.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                        <a href="{{ url_for('cerrar_sesion') }}" class="btn btn-accept">Aceptar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </main>
 
