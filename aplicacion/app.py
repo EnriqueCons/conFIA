@@ -553,24 +553,40 @@ def editar_evento(evento_id):
             ubicacion = request.form['ubicacion']
             imagen = request.files.get('imagen')
 
-            # Manejo de imagen
-            image_path = None
-            if imagen and imagen.filename != '':
-                correo_usuario = session['email_Usuario']
-                user_folder = os.path.join(app.config['UPLOAD_FOLDER'], correo_usuario)
-                os.makedirs(user_folder, exist_ok=True)
+            # Consulta para obtener datos actuales del evento
+            cursor.execute("SELECT * FROM Evento WHERE id = %s AND creadorEmail = %s", 
+                           (evento_id, session['email_Usuario']))
+            evento_actual = cursor.fetchone()
 
-                # Guardar la imagen con el nombre del evento
+            if not evento_actual:
+                flash('Evento no encontrado o no tienes permiso para editarlo.', 'danger')
+                return redirect(url_for('eventosEmpresa'))
+
+            # Manejo de imagen
+            correo_usuario = session['email_Usuario']
+            user_folder = os.path.join(app.config['UPLOAD_FOLDER'], correo_usuario)
+            os.makedirs(user_folder, exist_ok=True)
+
+            # Si se sube una nueva imagen, guarda con el nuevo nombre del evento
+            if imagen and imagen.filename != '':
                 filename = secure_filename(f"{nombre_evento.replace(' ', '_')}.png")
                 image_path = os.path.join(user_folder, filename)
                 imagen.save(image_path)
-
-                # Asegurar compatibilidad de rutas
                 image_path = image_path.replace("\\", "/")
             else:
-                # Mantener la imagen actual si no se sube una nueva
-                cursor.execute("SELECT imagen FROM Evento WHERE id = %s", (evento_id,))
-                image_path = cursor.fetchone()['imagen']
+                # Si no se sube nueva imagen, renombra el archivo existente
+                current_image_path = evento_actual['imagen']
+                if current_image_path:
+                    old_filename = os.path.basename(current_image_path)
+                    new_filename = secure_filename(f"{nombre_evento.replace(' ', '_')}.png")
+                    new_image_path = os.path.join(user_folder, new_filename)
+
+                    # Renombrar el archivo solo si el nombre del evento ha cambiado
+                    if old_filename != new_filename:
+                        os.rename(current_image_path, new_image_path)
+                        current_image_path = new_image_path.replace("\\", "/")
+
+                image_path = current_image_path
 
             # Validación de tipo_acceso
             if tipo_acceso not in ['QR', 'Reconocimiento Facial']:
@@ -594,7 +610,6 @@ def editar_evento(evento_id):
         finally:
             cursor.close()
             conn.close()
-
         return redirect(url_for('eventosEmpresa'))
 
     # Obtener los datos del evento para el formulario
@@ -608,6 +623,7 @@ def editar_evento(evento_id):
         return redirect(url_for('eventosEmpresa'))
 
     return render_template('EditarEvento.html', evento=evento)
+
 @verificar_tipo_usuario('Empresarial')
 
 

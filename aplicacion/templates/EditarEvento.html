@@ -10,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Inria Sans' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/editarevento.css') }}">
-
 </head>
 
 <body>
@@ -37,8 +36,7 @@
                         <ul class="dropdown-menu dropdown-menu-end text-center menu" aria-labelledby="userDropdown">
                             <li class="dropdown-item" id="nombreEmpresa">{{ session['nombre'] }}</li>
                             <li><a class="dropdown-item" href="{{ url_for('perfilEmpresa') }}">Mi perfil</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}" data-bs-toggle="modal"
-                                data-bs-target="#logoutModal">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}">Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </form>
@@ -60,7 +58,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <!-- Nombre del evento -->
             <div class="mb-4">
                 <input type="text" class="form-control event-title" name="nombre" value="{{ evento['nombre'] }}" required>
@@ -68,10 +66,9 @@
 
             <!-- Organizador -->
             <h4 class="mb-4">
-                <a>Organizador: <span class="text-primary">{{ session['nombre'] }}</span></a> 
-             </h4>
- 
-        
+                <a>Organizador: <span class="text-primary">{{ session['nombre'] }}</span></a>
+            </h4>
+
             <!-- Detalles del evento -->
             <div class="row text-center mb-4 event-details">
                 <div class="col">
@@ -80,56 +77,68 @@
                 </div>
                 <div class="col">
                     <i class="bi bi-calendar-event-fill fs-3 text-primary"></i>
-                    <input type="datetime-local" class="form-control" name="fecha_hora" value="{{ evento['fechaHora']|replace(' ', 'T') }}" required>
+                    <input type="datetime-local" class="form-control" name="fecha_hora"
+                        value="{{ evento['fechaHora']|replace(' ', 'T') }}" required>
                 </div>
                 <div class="col">
                     <i class="bi bi-people-fill fs-3 text-primary"></i>
-                    <input type="number" class="form-control" name="aforo_max" value="{{ evento['aforoMax'] }}" min="1" required>
+                    <input type="number" class="form-control" name="aforo_max" value="{{ evento['aforoMax'] }}" min="1"
+                        required>
                 </div>
                 <div class="col">
                     <i class="bi bi-qr-code fs-3 text-primary"></i>
                     <select class="form-select" name="tipo_acceso" required>
                         <option value="QR" {% if evento['tipoAcceso'] == 'QR' %}selected{% endif %}>Código QR</option>
-                        <option value="Reconocimiento Facial" {% if evento['tipoAcceso'] == 'Reconocimiento Facial' %}selected{% endif %}>Reconocimiento Facial</option>
-                    </select>                    
+                        <option value="Reconocimiento Facial"
+                            {% if evento['tipoAcceso'] == 'Reconocimiento Facial' %}selected{% endif %}>Reconocimiento
+                            Facial</option>
+                    </select>
                 </div>
             </div>
 
             <hr class="divider">
             <!-- Descripción del evento -->
             <div class="mb-4">
-                <textarea class="form-control event-description" rows="4" name="descripcion" required>{{ evento['descripcion'] }}</textarea>
+                <textarea class="form-control event-description" rows="4" name="descripcion"
+                    required>{{ evento['descripcion'] }}</textarea>
             </div>
-        
+
             <!-- Botones -->
             <div class="modal-footer">
-                <a href="{{ url_for('eventosEmpresa') }}" class="btn btn-cancel">Cancelar</a>
+                <button type="button" class="btn btn-cancel">Cancelar</button>
                 <button type="submit" class="btn btn-accept">Guardar Cambios</button>
             </div>
         </form>
 
-        <!-- POP UP CERRAR SESION -->
-        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <!-- Modal de Cancelar -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content custom-modal">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="logoutModalLabel">¿Está seguro de querer cerrar sesión?</h5>
+                        <h5 class="modal-title" id="cancelModalLabel">¿Está seguro de cancelar la edición del evento?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Si cierra sesión ahora, perderá cualquier cambio no guardado.</p>
+                        <p>Si cancela ahora, todos los cambios realizados se perderán.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                        <a href="{{ url_for('cerrar_sesion') }}" class="btn btn-accept">Aceptar</a>
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">No</button>
+                        <a href="{{ url_for('eventosEmpresa') }}" class="btn btn-accept">Sí, cancelar</a>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </main>
+
     <script>
+        // Mostrar modal de "Cancelar"
+        document.querySelector('.btn-cancel').addEventListener('click', (event) => {
+            event.preventDefault(); // Evitar redirección directa
+            const cancelModal = new bootstrap.Modal(document.getElementById('cancelModal'));
+            cancelModal.show();
+        });
+
+        // Manejar cambio de imagen del evento
         document.querySelector('.add-image-icon').addEventListener('click', () => {
             document.getElementById('event-image').click();
         });
