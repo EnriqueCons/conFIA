@@ -200,14 +200,35 @@ def indexP():
 
     # Obtener los datos del usuario desde la base de datos utilizando el id en la sesión
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT email, nombre, contrasena, tipo FROM Usuario WHERE email = %s", (session['email_Usuario'],))
     user = cursor.fetchone()
+
+    # Obtener eventos con información del creador (nombre e imagen)
+    cursor.execute("""
+        SELECT 
+            E.nombre AS eventoNombre, 
+            E.descripcion, 
+            E.fechaHora, 
+            E.imagen AS eventoImagen, 
+            E.creadorEmail AS creadorEmail,
+            U.nombre AS creadorNombre
+        FROM Evento E
+        JOIN Usuario U ON E.creadorEmail = U.email
+        ORDER BY E.fechaHora DESC
+    """)
+    eventos = cursor.fetchall()
+
+    # Construir rutas de imágenes basadas en la estructura de carpetas
+    for evento in eventos:
+        evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+        evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+
     cursor.close()
     conn.close()
 
-    # Pasamos los datos del usuario al template 'indexCUPersonal.html'
-    return render_template('indexCUPersonal.html', email_Usuario=user)
+    # Pasamos los datos del usuario y los eventos al template 'indexCUPersonal.html'
+    return render_template('indexCUPersonal.html', email_Usuario=user, eventos=eventos)
 @verificar_tipo_usuario('Personal')
 
 # Página de index Empresarial
@@ -218,14 +239,35 @@ def indexE():
 
     # Obtener los datos del usuario desde la base de datos utilizando el id en la sesión
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT email, nombre, contrasena, tipo FROM Usuario WHERE email = %s", (session['email_Usuario'],))
     user = cursor.fetchone()
+
+    # Obtener eventos con información del creador (nombre e imagen)
+    cursor.execute("""
+        SELECT 
+            E.nombre AS eventoNombre, 
+            E.descripcion, 
+            E.fechaHora, 
+            E.imagen AS eventoImagen, 
+            E.creadorEmail AS creadorEmail,
+            U.nombre AS creadorNombre
+        FROM Evento E
+        JOIN Usuario U ON E.creadorEmail = U.email
+        ORDER BY E.fechaHora DESC
+    """)
+    eventos = cursor.fetchall()
+
+    # Construir rutas de imágenes basadas en la estructura de carpetas
+    for evento in eventos:
+        evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+        evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+
     cursor.close()
     conn.close()
 
-    # Pasamos los datos del usuario al template 'indexEmpresarial.html'
-    return render_template('indexCUEmpresarial.html', email_Usuario=user)
+    # Pasamos los datos del usuario y los eventos al template 'indexCUEmpresarial.html'
+    return render_template('indexCUEmpresarial.html', email_Usuario=user, eventos=eventos)
 @verificar_tipo_usuario('Empresarial')
 
 #-----------------------------------------------------------Perfil de Usuario-----------------------------------------------------------

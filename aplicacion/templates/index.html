@@ -23,8 +23,6 @@
             </div>
             <div>
                 <form class="d-flex" action="/">
-                    <a class="btn me-2" type="button" href="{{ url_for('inicio_sesion') }}">Eventos</a>
-                    <button class="btn me-2" type="button" href="{{ url_for('inicio_sesion') }}">Notificaciones</button>
                     <a class="btn btn-outline-primary" type="button" href="{{ url_for('inicio_sesion') }}"> Iniciar Sesión</a>
                 </form>
             </div>
@@ -61,15 +59,13 @@
         
                     <!-- Botones -->
                     <div class="col-12 d-flex justify-content-end mt-2">
-                        <a href="#" class="buttonEvent text-center mx-2">Ver más...</a>
-                        <a href="#" class="buttonEvent text-center mx-2">Inscribirse</a>
+                        <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Ver más...</a>
+                        <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Inscribirse</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
-
         
     </main>
 
