@@ -9,7 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Inria Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="/aplicacion/static/css/perfil.css"> <!-- quite el / del inicio porque no me dejaba visualizarlo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 </head>
 
 <body>
@@ -26,18 +26,19 @@
             </div>
             <div>
                 <form class="d-flex">
-                    <a class="btn me-2" type="button" href="indexCUPersonal.html">Eventos</a>
+                    <a class="btn me-2" type="button" href="{{ url_for('indexP') }}">Eventos</a>
                     <a class="btn me-2" type="button" href="verNotificacionesPersonal.html">Notificaciones</a>
-                    
+
                     <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon"
+                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle fs-3"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end text-center menu " aria-labelledby="userDropdown">
-                            <li class="dropdown-item" id="nombrePersonal">Nombre</li>
+                        <ul class="dropdown-menu dropdown-menu-end text-center menu" aria-labelledby="userDropdown">
+                            <li class="dropdown-item" id="nombrePersonal">{{ session['nombre'] }}</li>
                             <li><a class="dropdown-item" href="verEventosPersonal.html">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="perfilPersonal.html">Ver perfil</a></li>
-                            <li><a class="dropdown-item" href="index.html" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}">Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </form>
@@ -51,23 +52,27 @@
         <div class="profile-banner bg-lightblue rounded position-relative">
             <div class="container d-flex align-items-center pt-4">
                 <div class="profile-img-container position-absolute">
-                    <img src="/aplicacion/static/imgs/googleExample.png" alt="Logo Empresa" class="rounded-circle img-fluid profile-img">
+                    <!-- Imagen del creador (empresa) -->
+                    <img src="{{ url_for('static', filename=empresa['imagen']) }}" 
+                        alt="{{ empresa['nombre'] }}"
+                        class="rounded-circle img-fluid profile-img">
                 </div>
             </div>
-        </div>
         </div>
 
         <!-- Información general -->
-        <!-- Recuadro inferior blanco -->
         <div class="bg-white py-5">
             <div class="container d-flex align-items-center pt-4">
                 <div class="text-container">
-                    <h1 class="fw-bold">GOOGLE</h1>
-                    <button class="btn btn-tag mt-2">inteligencia Artificial</button>
-                    <button class="btn btn-tag mt-2">WEB</button>
-                    <button class="btn btn-tag mt-2">Google services</button>
+                    <h1 class="fw-bold">{{ empresa['nombre'] }}</h1>
+                    {% if empresa['descripcion'] %}
+                        <p class="text-muted">{{ empresa['descripcion'] }}</p>
+                    {% else %}
+                        <p class="text-muted">Sin descripción disponible</p>
+                    {% endif %}
                 </div>
             </div>
+
             <div class="container company-info">
                 <div class="row align-items-center mb-3">
                     <div class="col-auto">
@@ -75,9 +80,8 @@
                     </div>
                     <div class="col">
                         <p class="mb-0 fw-bold">Ubicación</p>
-                        <p>1600 Amphitheatre Parkway, Mountain View, CA 94043, EE. UU.</p>
+                        <p>{{ empresa['direccion'] if empresa['direccion'] else 'No disponible' }}</p>
                     </div>
-                    
                 </div>
                 <div class="row align-items-center">
                     <div class="col-auto">
@@ -85,57 +89,49 @@
                     </div>
                     <div class="col">
                         <p class="mb-0 fw-bold">Correo electrónico</p>
-                        <p>elgoogle@gmail.com</p>
+                        <p>{{ empresa['email'] }}</p>
                     </div>
-                    
-                </div>
-            </div>
-
-          
-
-        </div>
-        <div class="VerEventos bg-white">
-            <div class="publications">
-                <div class="d-flex pb-4">
-                    <div class="image m-3">
-                        <img src="/aplicacion/static/imgs/googleExample.png" width="100" height="100" alt="" class="imageLogo">
-                    </div>
-                    <div class="information pt-4">
-                        <div class="Company fs-5 fw-bolder pb-2">Google LLC</div>
-                        <div class="EventName pb-2">Únete a DevFest 2024</div>
-                        <div class="pe-3">La conferencia global para desarrolladores distribuida por Grupos de Google Developers regresa con un enfoque en la IA responsable. Únete a un evento local de DevFest para ver charlas con expertos, talleres prácticos y y las herramientas de redes.</div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center pb-4">
-                    <img src="/aplicacion/static/imgs/googleInformationExample.png"  alt="" class="imageInformation">
-                </div>
-                <div class="d-flex justify-content-end pb-4">
-                    <button type="button" class="buttonEvent text-center mx-4">Ver más...</button>
-                    <button type="button" class="buttonEvent text-center me-4">Inscribirse</button>
-                </div>
-            </div>
-            <div class="publications">
-                <div class="d-flex pb-4">
-                    <div class="image m-3">
-                        <img src="/aplicacion/static/imgs/googleExample.png" width="100" height="100" alt="" class="imageLogo">
-                    </div>
-                    <div class="information pt-4">
-                        <div class="Company fs-5 fw-bolder pb-2">Google LLC</div>
-                        <div class="EventName pb-2">Únete a DevFest 2024</div>
-                        <div class="pe-3">La conferencia global para desarrolladores distribuida por Grupos de Google Developers regresa con un enfoque en la IA responsable. Únete a un evento local de DevFest para ver charlas con expertos, talleres prácticos y y las herramientas de redes.</div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center pb-4">
-                    <img src="/aplicacion/static/imgs/googleInformationExample.png"  alt="" class="imageInformation">
-                </div>
-                <div class="d-flex justify-content-end pb-4">
-                    <button type="button" class="buttonEvent text-center mx-4">Ver más...</button>
-                    <button type="button" class="buttonEvent text-center me-4">Inscribirse</button>
                 </div>
             </div>
         </div>
 
+        <!-- Eventos publicados -->
+        <div class="container mt-4">
+            <h2 class="text-center">Eventos publicados</h2>
+            <!-- Eventos publicados -->
+            {% for evento in eventos %}
+            <div class="publications p-3 mb-4">
+                <div class="row">
+                    <!-- Imagen del creador -->
+                    <div class="col-md-2 d-flex justify-content-center align-items-start">
+                        <img src="{{ url_for('static', filename=empresa['imagen']) }}" 
+                            alt="{{ empresa['nombre'] }}" 
+                            class="imageLogo img-fluid rounded-circle">
+                    </div>
+        
+                    <!-- Información del evento -->
+                    <div class="col-md-10">
+                        <h5 class="Company fs-5 fw-bolder pb-2">{{ empresa['nombre'] }}</h5>
+                        <h6 class="EventName pb-2">{{ evento['eventoNombre'] }}</h6>
+                        <p class="pe-3 pb-3">{{ evento['descripcion'] }}</p>
+                    </div>
 
+                    <!-- Imagen del evento -->
+                    <div class="col-12 text-center">
+                        <img src="{{ url_for('static', filename=evento['eventoImagen']) }}" 
+                             alt="{{ evento['eventoNombre'] }}" 
+                             class="imageInformation img-fluid">
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="col-12 d-flex justify-content-end mt-2">
+                        <a href="#" class="buttonEvent text-center mx-2">Ver más...</a>
+                        <a href="#" class="buttonEvent text-center mx-2">Inscribirse</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
         <!-- POP UP CERRAR SESION -->
         <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
@@ -150,7 +146,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                        <a href="index.html" class="btn btn-accept">Aceptar</a>
+                        <a href="{{ url_for('cerrar_sesion') }}" class="btn btn-accept">Aceptar</a>
                     </div>
                 </div>
             </div>
@@ -158,9 +154,9 @@
 
     </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

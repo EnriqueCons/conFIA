@@ -52,10 +52,12 @@
                 <div class="row">
                     <!-- Imagen del creador -->
                     <div class="col-md-2 d-flex justify-content-center align-items-start">
-                        <img src="{{ url_for('static', filename=evento['creadorImagen']) }}" 
-                             alt="{{ evento['creadorNombre'] }}" 
-                             class="imageLogo img-fluid rounded-circle">
-                    </div>
+                        <a href="{{ url_for('verPerfilEmpresa', email=evento['creadorEmail']) }}">
+                            <img src="{{ url_for('static', filename=evento['creadorImagen']) }}" 
+                                 alt="{{ evento['creadorNombre'] }}" 
+                                 class="imageLogo img-fluid rounded-circle">
+                        </a>
+                    </div>                    
                     
                     <!-- Información del evento -->
                     <div class="col-md-10">

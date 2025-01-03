@@ -345,7 +345,7 @@ def actualizar_datosUsu():
 
 #-----------------------------------------------------------Perfil de Empresa-----------------------------------------------------------
 
-#Pagina para ver el perfil de la empresa
+#Pagina para ver el perfil de la empresa desde el prefil de la empresa
 @app.route('/perfilEmpresa')
 def perfilEmpresa():
     if 'email_Usuario' not in session:
@@ -430,6 +430,62 @@ def actualizar_datosEmp():
 
     return redirect(url_for('perfilEmpresa'))
 @verificar_tipo_usuario('Empresarial')
+
+#Ver perfil de empresa desde el perfil de personal
+@app.route('/verPerfilEmpresa/<string:email>')
+def verPerfilEmpresa(email):
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Obtener información de la empresa
+        cursor.execute("""
+            SELECT u.email, u.nombre, u.imagen, e.direccion, e.descripcion
+            FROM Usuario u
+            LEFT JOIN Empresarial e ON u.email = e.email
+            WHERE u.email = %s
+        """, (email,))
+        empresa = cursor.fetchone()
+
+        if not empresa:
+            flash('La empresa no fue encontrada.', 'danger')
+            return redirect(url_for('error'))
+
+        # Ajustar la ruta de la imagen de la empresa
+        empresa['imagen'] = f"uploads/{empresa['email']}.png" if empresa['imagen'] else "uploads/default-profile.png"
+
+        # Obtener eventos publicados por la empresa
+        cursor.execute("""
+            SELECT id, nombre AS eventoNombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, imagen AS eventoImagen
+            FROM Evento
+            WHERE creadorEmail = %s
+            ORDER BY fechaHora DESC
+        """, (email,))
+        eventos = cursor.fetchall()
+
+        # Ajustar las rutas de las imágenes de los eventos
+        for evento in eventos:
+            if evento['eventoImagen']:
+                # Si la ruta ya incluye "static/", quítala para evitar duplicados
+                evento['eventoImagen'] = evento['eventoImagen'].replace("static/", "")
+            else:
+                # Imagen predeterminada para eventos sin imagen
+                evento['eventoImagen'] = "eventos/default-event.png"
+
+    except Exception as e:
+        flash(f"Error al cargar la información: {e}", 'danger')
+        return redirect(url_for('error'))
+    finally:
+        cursor.close()
+        conn.close()
+
+    # Pasar la información al template
+    return render_template('verPerfilEmpresa.html', empresa=empresa, eventos=eventos)
+@verificar_tipo_usuario('Empresarial')
+
 
 #-----------------------------------------------------------Eventos Empresa-----------------------------------------------------------
 #Ver eventos de la empresa
