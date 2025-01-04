@@ -231,6 +231,7 @@ def indexP():
     # Obtener eventos con información del creador (nombre e imagen)
     cursor.execute("""
         SELECT 
+            E.id AS id, -- Asegúrate de incluir el ID del evento
             E.nombre AS eventoNombre, 
             E.descripcion, 
             E.fechaHora, 
@@ -244,7 +245,7 @@ def indexP():
     eventos = cursor.fetchall()
 
     # Construir rutas de imágenes
-    for evento in miData:
+    for evento in eventos:
         evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
         evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
 
@@ -310,7 +311,7 @@ def indexE():
     conn.close()
 
     # Pasamos los datos del usuario y los eventos al template 'indexCUEmpresarial.html'
-    return render_template('indexCUEmpresarial.html', email_Usuario=user, eventos=eventos)
+    return render_template('indexCUEmpresarial.html', email_Usuario=user, eventos=miData)
 @verificar_tipo_usuario('Empresarial')
 
 #-----------------------------------------------------------Perfil de Usuario-----------------------------------------------------------
@@ -750,6 +751,7 @@ def inscribirse(evento_id):
         return redirect(url_for('indexP'))
 
 
+
 # Ruta para inscribirse a eventos con QR
 @app.route('/inscribirse_qr/<int:evento_id>', methods=['GET', 'POST'])
 def inscribirse_qr(evento_id):
@@ -790,44 +792,45 @@ def inscribirse_qr(evento_id):
         cursor.close()
         conn.close()
 
-#Inscribirse a eventos con reconocimiento facial
+
+
 @app.route('/inscribirse_rec_facial/<int:evento_id>', methods=['GET', 'POST'])
 def inscribirse_rec_facial(evento_id):
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
 
-    if request.method == 'POST':
-        foto = request.files.get('foto')  # Obtiene el archivo de la foto
-        if not foto:
-            flash('Debes subir una foto.', 'danger')
-            return redirect(request.url)
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
-        try:
-            # Guardar la foto en el sistema de archivos
+    try:
+        if request.method == 'POST':
+            foto = request.files['foto']
+            if not foto:
+                flash('Debes subir una foto.', 'danger')
+                return redirect(request.url)
+
             user_folder = os.path.join(app.config['UPLOAD_FOLDER'], session['email_Usuario'])
-            os.makedirs(user_folder, exist_ok=True)  # Crea la carpeta si no existe
-            foto_path = os.path.join(user_folder, f"rostro_{evento_id}.jpg")
+            os.makedirs(user_folder, exist_ok=True)
+
+            foto_filename = f"rostro_{evento_id}.jpg"
+            foto_path = os.path.join(user_folder, foto_filename)
             foto.save(foto_path)
 
-            # Guardar la inscripción en la base de datos
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO Inscripcion (usuario_email, evento_id, foto) VALUES (%s, %s, %s)",
-                (session['email_Usuario'], evento_id, foto_path)
-            )
+            encoding = DeepFace.represent(img_path=foto_path, model_name="Facenet")
+
+            cursor.execute("INSERT INTO Inscripcion (usuario_email, evento_id, foto, data) VALUES (%s, %s, %s, %s)",
+                           (session['email_Usuario'], evento_id, foto_path, str(encoding)))
             conn.commit()
 
             flash('Inscripción exitosa con reconocimiento facial.', 'success')
-            return redirect(url_for('indexP', evento_id=evento_id))
+            return redirect(url_for('indexP'))
 
-        except Exception as e:
-            flash(f'Error al inscribirse: {str(e)}', 'danger')
-            return redirect(request.url)
-        finally:
-            if 'conn' in locals():
-                cursor.close()
-                conn.close()
+    except Exception as e:
+        conn.rollback()
+        flash(f"Error al inscribirse: {e}", 'danger')
+    finally:
+        cursor.close()
+        conn.close()
 
     return render_template('InscribirseRecFac.html', evento_id=evento_id)
 
