@@ -224,24 +224,25 @@ def indexP():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # Obtener los datos del usuario
-    cursor.execute("SELECT email, nombre, contrasena, tipo FROM Usuario WHERE email = %s", (session['email_Usuario'],))
-    user = cursor.fetchone()
-
-    # Obtener eventos con información del creador (nombre e imagen)
+    # Obtener eventos con información de inscripción
     cursor.execute("""
         SELECT 
-            E.id AS id, -- Asegúrate de incluir el ID del evento
-            E.nombre AS eventoNombre, 
-            E.descripcion, 
-            E.fechaHora, 
-            E.imagen AS eventoImagen, 
+            E.id AS id,
+            E.nombre AS eventoNombre,
+            E.descripcion,
+            E.fechaHora,
+            E.imagen AS eventoImagen,
             E.creadorEmail AS creadorEmail,
-            U.nombre AS creadorNombre
+            U.nombre AS creadorNombre,
+            EXISTS(
+                SELECT 1 
+                FROM Inscripcion I 
+                WHERE I.evento_id = E.id AND I.usuario_email = %s
+            ) AS inscrito
         FROM Evento E
         JOIN Usuario U ON E.creadorEmail = U.email
         ORDER BY E.fechaHora DESC
-    """)
+    """, (session['email_Usuario'],))
     eventos = cursor.fetchall()
 
     # Construir rutas de imágenes
@@ -252,8 +253,8 @@ def indexP():
     cursor.close()
     conn.close()
 
-    # Pasamos los datos del usuario y los eventos al template 'indexCUPersonal.html'
-    return render_template('indexCUPersonal.html', email_Usuario=user, eventos=eventos)
+    # Pasar eventos y datos de usuario al template
+    return render_template('indexCUPersonal.html', eventos=eventos)
 @verificar_tipo_usuario('Personal')
 
 # Página de index Empresarial
