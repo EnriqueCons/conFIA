@@ -792,6 +792,7 @@ def inscribirse_qr(evento_id):
     finally:
         cursor.close()
         conn.close()
+@verificar_tipo_usuario('Personal')
 
 
 #Insribirse a eventos con reconocimiento facial
@@ -834,7 +835,49 @@ def inscribirse_rec_facial(evento_id):
         conn.close()
 
     return render_template('InscribirseRecFac.html', evento_id=evento_id)
+@verificar_tipo_usuario('Personal')
 
+
+#-----------------------------------------------------------Mis Eventos Personal-----------------------------------------------------------
+@app.route('/mis_eventos', methods=['GET'])
+def mis_eventosP():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Obtener eventos donde el usuario está inscrito
+        cursor.execute("""
+            SELECT 
+                E.id AS id,
+                E.nombre AS eventoNombre,
+                E.descripcion,
+                E.fechaHora,
+                E.imagen AS eventoImagen,
+                E.creadorEmail AS creadorEmail,
+                U.nombre AS creadorNombre,
+                E.tipoAcceso AS tipoAcceso
+            FROM Inscripcion I
+            JOIN Evento E ON I.evento_id = E.id
+            JOIN Usuario U ON E.creadorEmail = U.email
+            WHERE I.usuario_email = %s
+            ORDER BY E.fechaHora DESC
+        """, (session['email_Usuario'],))
+        eventos = cursor.fetchall()
+
+        # Construir rutas de imágenes
+        for evento in eventos:
+            evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+            evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return render_template('verEventosPersonal.html', eventos=eventos)
+@verificar_tipo_usuario('Personal')
 
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
