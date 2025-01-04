@@ -793,7 +793,7 @@ def inscribirse_qr(evento_id):
         conn.close()
 
 
-
+#Insribirse a eventos con reconocimiento facial
 @app.route('/inscribirse_rec_facial/<int:evento_id>', methods=['GET', 'POST'])
 def inscribirse_rec_facial(evento_id):
     if 'email_Usuario' not in session:
