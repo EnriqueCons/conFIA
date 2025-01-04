@@ -880,6 +880,34 @@ def mis_eventosP():
 @verificar_tipo_usuario('Personal')
 
 
+#Cancelar asistencia a eventos
+@app.route('/cancelar_asistencia/<int:evento_id>', methods=['POST'])
+def cancelar_asistencia(evento_id):
+    if 'email_Usuario' not in session:
+        flash('Debes iniciar sesión para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio_sesion'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Elimina la inscripción del evento en la base de datos
+        cursor.execute("""
+            DELETE FROM Inscripcion 
+            WHERE usuario_email = %s AND evento_id = %s
+        """, (session['email_Usuario'], evento_id))
+        conn.commit()
+        flash('Tu asistencia al evento ha sido cancelada exitosamente.', 'success')
+    except Exception as e:
+        conn.rollback()
+        flash(f'Ocurrió un error al cancelar tu asistencia: {e}', 'danger')
+    finally:
+        cursor.close()
+        conn.close()
+    
+    return redirect(url_for('indexP'))
+
+
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 
 # Página de recuperación de contraseña
