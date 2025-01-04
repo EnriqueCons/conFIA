@@ -1,0 +1,26 @@
+[33mf3b0ff2e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Excluir carpeta aplicacion/venv del repositorio
+[33md73e1ed0[m Agregar ruta para inscribirse a eventos utilizando reconocimiento facial
+[33m6679c7ac[m Agregar funcionalidad para la gestión de eventos, incluyendo mejoras en la validación y manejo de imágenes, se agregó el ecosistema de python para trabajar sin errores.
+[33m12af271b[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge branch 'main' of https://github.com/EnriqueCons/conFIA
+[33m48b8f826[m Agregar funcionalidad para ver el perfil de la empresa desde el perfil personal, incluyendo la visualización de eventos publicados.
+[33mb3dc5a30[m busqueda en los 3 index
+[33m9c59561c[m Agregar validación de permisos al editar eventos y mejorar manejo de imágenes, incluyendo renombrado y modal de confirmación para cancelar cambios.
+[33m1a3b68cf[m Agregar configuración de conexión a la base de datos y mejorar la interfaz de eliminación de eventos con modal de confirmación
+[33ma2f597a4[m Agregar funcionalidad para mostrar eventos con información del creador, incluyendo imágenes y descripciones en las plantillas de usuario.
+[33m8ae39550[m Agregar funcionalidad para mostrar eventos con información del creador y permitir la carga de imágenes en la edición de eventos
+[33m38c2c0b4[m Mejorar la interfaz de edición de eventos, incluyendo ajustes en la visualización de imágenes, organización de campos y eliminación de modales innecesarios.
+[33mc6063ff9[m Agregar funcionalidad para editar eventos, incluyendo manejo de imagen y validación de tipo de acceso
+[33m1aa6ef38[m Agregar funcionalidad para eliminar eventos y mejorar la interfaz de creación y visualización de eventos, incluyendo modal de confirmación y búsqueda
+[33mf8c70455[m Agregar funcionalidad para crear y ver eventos, incluyendo manejo de ubicación e imagen
+[33m9c415a7c[m Agregar decorador para verificar tipo de usuario y restringir acceso a páginas según el rol
+[33md95a70d0[m Agregar modal de confirmación para cerrar sesión y eliminar scripts innecesarios en el perfil personal
+[33m39b20644[m Agregar funcionalidad para ver y actualizar datos de la empresa, incluyendo perfil y manejo de imagen
+[33mdc9724b6[m Agregar funcionalidad para actualizar datos de usuario y ver perfil, incluyendo soporte para imagen de perfil
+[33m3501a062[m Funcionalidad de cierre de sesión y actualizar consultas de prueba en la base de datos
+[33m6416b3f8[m QR
+[33mdc24c11c[m templates
+[33m691c5cdb[m COMPLETO RECUPERAR CONTRASEÑA
+[33m42a3ddef[m YA AHORA SI COMPLETO VER EVENTOS PERSONAL
+[33m05cca500[m COMPLETO VER EVENTOS PERSONAL
+[33m490ab7af[m COMPLETO, SOLO AÑADI UNNA RUTA
+[33m8f29e825[m COMPLETO NOTIFICACIONES PERSONAL

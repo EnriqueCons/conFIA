@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS DB_conFIA;
 CREATE DATABASE IF NOT EXISTS DB_conFIA;
 USE DB_conFIA;
 
--- Tabla Usuario (Base para Personal y Empresarial)
+-- Tabla Usuario
 CREATE TABLE Usuario (
     email VARCHAR(255) PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -11,13 +11,13 @@ CREATE TABLE Usuario (
     imagen VARCHAR(255) DEFAULT NULL
 );
 
--- Tabla Personal (Extiende Usuario)
+-- Tabla Personal
 CREATE TABLE Personal (
     email VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (email) REFERENCES Usuario(email) ON DELETE CASCADE
 );
 
--- Tabla Empresarial (Extiende Usuario)
+-- Tabla Empresarial
 CREATE TABLE Empresarial (
     email VARCHAR(255) PRIMARY KEY,
     direccion VARCHAR(255),
@@ -39,16 +39,16 @@ CREATE TABLE Evento (
     FOREIGN KEY (creadorEmail) REFERENCES Empresarial(email) ON DELETE SET NULL
 );
 
-
--- Tabla Inscripción (Usuarios Personales en Eventos)
+-- Tabla Inscripción
 CREATE TABLE Inscripcion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    estado ENUM('Pendiente', 'Confirmada', 'Cancelada') NOT NULL,
-    fechaInscripcion DATE NOT NULL,
-    usuarioEmail VARCHAR(255) NOT NULL,
-    eventoId INT NOT NULL,
-    FOREIGN KEY (usuarioEmail) REFERENCES Personal(email) ON DELETE CASCADE,
-    FOREIGN KEY (eventoId) REFERENCES Evento(id) ON DELETE CASCADE
+    usuario_email VARCHAR(255),
+    evento_id INT,
+    foto VARCHAR(255), -- Ruta de la foto para reconocimiento facial
+    qr VARCHAR(255),   -- Ruta del código QR generado
+    data TEXT,         -- Información adicional (como encoding facial)
+    FOREIGN KEY (usuario_email) REFERENCES Usuario(email),
+    FOREIGN KEY (evento_id) REFERENCES Evento(id)
 );
 
 -- Tabla Certificado
@@ -63,8 +63,7 @@ CREATE TABLE Certificado (
     FOREIGN KEY (usuarioEmail) REFERENCES Personal(email) ON DELETE SET NULL
 );
 
-
--- Tabla Documento (Materiales Asociados a Eventos)
+-- Tabla Documento
 CREATE TABLE Documento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -82,6 +81,7 @@ CREATE TABLE Notificacion (
     usuarioEmail VARCHAR(255) NOT NULL,
     FOREIGN KEY (usuarioEmail) REFERENCES Usuario(email) ON DELETE CASCADE
 );
+
 
 /*
 
