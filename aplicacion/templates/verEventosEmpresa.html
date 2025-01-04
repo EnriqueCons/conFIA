@@ -85,6 +85,11 @@
             {% endfor %}
         </div>
 
+        <!-- Botón de acceso con candado -->
+        <a href="{{ url_for('acceder_evento') }}" class="floating-button access-button">
+            <i class="bi bi-unlock"></i>
+        </a>
+
         <!-- Botón flotante para crear evento -->
         <a href="{{ url_for('crearEvento') }}" class="floating-button">
             <i class="bi bi-plus"></i>

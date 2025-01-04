@@ -907,6 +907,13 @@ def cancelar_asistencia(evento_id):
     
     return redirect(url_for('indexP'))
 
+#-----------------------------------------------------------Acceder a eventos-----------------------------------------------------------
+@app.route('/acceder_evento/', methods=['GET'])
+def acceder_evento():
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    return render_template('tipodeAcceso.html')
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 
