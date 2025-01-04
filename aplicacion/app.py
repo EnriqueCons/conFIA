@@ -214,8 +214,9 @@ def registroUsuarios():
     return render_template('RegistrarUsuario.html')
 
 #-----------------------------------------------------------Páginas Index-----------------------------------------------------------
-#Index Personal
-@app.route('/indexPersonal', methods=['GET', 'POST'])
+
+# Página de index Personal
+@app.route('/indexPersonal')
 def indexP():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -227,40 +228,20 @@ def indexP():
     cursor.execute("SELECT email, nombre, contrasena, tipo FROM Usuario WHERE email = %s", (session['email_Usuario'],))
     user = cursor.fetchone()
 
-    # Manejo de búsqueda
-    if request.method == "POST":
-        search = request.form['buscar']
-        cursor.execute("""
-            SELECT 
-                E.id,  -- Asegúrate de incluir el ID del evento
-                E.nombre AS eventoNombre, 
-                E.descripcion, 
-                E.fechaHora, 
-                E.imagen AS eventoImagen, 
-                E.creadorEmail AS creadorEmail,
-                U.nombre AS creadorNombre
-            FROM Evento E
-            JOIN Usuario U ON E.creadorEmail = U.email
-            WHERE E.nombre LIKE %s
-            ORDER BY E.fechaHora DESC
-        """, (f"%{search}%",))
-        miData = cursor.fetchall()
-    else:
-        # Obtener todos los eventos si no hay búsqueda
-        cursor.execute("""
-            SELECT 
-                E.id,  -- Asegúrate de incluir el ID del evento
-                E.nombre AS eventoNombre, 
-                E.descripcion, 
-                E.fechaHora, 
-                E.imagen AS eventoImagen, 
-                E.creadorEmail AS creadorEmail,
-                U.nombre AS creadorNombre
-            FROM Evento E
-            JOIN Usuario U ON E.creadorEmail = U.email
-            ORDER BY E.fechaHora DESC
-        """)
-        miData = cursor.fetchall()
+    # Obtener eventos con información del creador (nombre e imagen)
+    cursor.execute("""
+        SELECT 
+            E.nombre AS eventoNombre, 
+            E.descripcion, 
+            E.fechaHora, 
+            E.imagen AS eventoImagen, 
+            E.creadorEmail AS creadorEmail,
+            U.nombre AS creadorNombre
+        FROM Evento E
+        JOIN Usuario U ON E.creadorEmail = U.email
+        ORDER BY E.fechaHora DESC
+    """)
+    eventos = cursor.fetchall()
 
     # Construir rutas de imágenes
     for evento in miData:
@@ -270,15 +251,12 @@ def indexP():
     cursor.close()
     conn.close()
 
-    # Renderizar plantilla según si es búsqueda o no
-    if request.method == "POST":
-        return render_template('resultadoBusquedaP.html', miData=miData, busqueda=search, email_Usuario=user)
-    return render_template('indexCUPersonal.html', eventos=miData, email_Usuario=user)
+    # Pasamos los datos del usuario y los eventos al template 'indexCUPersonal.html'
+    return render_template('indexCUPersonal.html', email_Usuario=user, eventos=eventos)
 @verificar_tipo_usuario('Personal')
 
-
-#Index Empresarial
-@app.route('/indexEmpresarial', methods=['GET', 'POST'])
+# Página de index Empresarial
+@app.route('/indexEmpresarial')
 def indexE():
     if 'email_Usuario' not in session:
         return redirect(url_for('inicio_sesion'))
@@ -331,12 +309,9 @@ def indexE():
     cursor.close()
     conn.close()
 
-    # Renderizar plantilla según si es búsqueda o no
-    if request.method == "POST":
-        return render_template('resultadoBusquedaE.html', miData=miData, busqueda=search, email_Usuario=user)
-    return render_template('indexCUEmpresarial.html', eventos=miData, email_Usuario=user)
+    # Pasamos los datos del usuario y los eventos al template 'indexCUEmpresarial.html'
+    return render_template('indexCUEmpresarial.html', email_Usuario=user, eventos=eventos)
 @verificar_tipo_usuario('Empresarial')
-
 
 #-----------------------------------------------------------Perfil de Usuario-----------------------------------------------------------
 
