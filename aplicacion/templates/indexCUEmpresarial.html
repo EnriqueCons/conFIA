@@ -56,30 +56,32 @@
                     <!-- Imagen del creador -->
                     <div class="col-md-2 d-flex justify-content-center align-items-start">
                         <img src="{{ url_for('static', filename=evento['creadorImagen']) }}" 
-                             alt="{{ evento['creadorNombre'] }}" 
+                             alt="Imagen de {{ evento['creadorNombre'] }}" 
                              class="imageLogo img-fluid rounded-circle">
                     </div>
                     
                     <!-- Información del evento -->
                     <div class="col-md-10">
-                        <h5 class="Company fs-5 fw-bolder pb-2">{{ evento['creadorNombre'] }}</h5>
-                        <h6 class="EventName pb-2">{{ evento['eventoNombre'] }}</h6>
-                        <p class="pe-3 pb-3">{{ evento['descripcion'] }}</p>
+                        <h5 class="Company fs-5 fw-bold pb-2">{{ evento['creadorNombre'] }}</h5>
+                        <h6 class="EventName text-muted pb-2">{{ evento['eventoNombre'] }}</h6>
+                        <p class="pe-3 pb-3 EvenDesc">{{ evento['descripcion'] }}</p>
                     </div>
-        
+            
                     <!-- Imagen del evento -->
                     <div class="col-12 text-center">
                         <img src="{{ url_for('static', filename=evento['eventoImagen']) }}" 
-                             alt="{{ evento['eventoNombre'] }}" 
-                             class="imageInformation img-fluid">
+                             alt="Imagen del evento: {{ evento['eventoNombre'] }}" 
+                             class="imageInformation img-fluid rounded">
                     </div>
-        
+            
                     <!-- Botones -->
                     <div class="col-12 d-flex justify-content-end mt-2">
-                        <a href="{{ url_for('inicio_sesion') }}" class="buttonEvent text-center mx-2">Ver más...</a>
+                        <a href="{{ url_for('inicio_sesion') }}" 
+                           class="buttonEvent btn btn-primary text-center mx-2">Ver más...</a>
                     </div>
                 </div>
             </div>
+            
             {% endfor %}
             {% endblock %}
         </div>

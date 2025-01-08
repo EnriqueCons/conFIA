@@ -471,3 +471,13 @@ nav{
     background-color: #ffffff !important; 
     color: #568281 !important;
 }
+
+.EvenDesc {
+    display: -webkit-box;           /* Habilita el comportamiento de caja flexible para clamp */
+    -webkit-line-clamp: 5;         /* Número de líneas visibles */
+    -webkit-box-orient: vertical;  /* Orienta las líneas verticalmente */
+    overflow: hidden;              /* Oculta el texto que excede */
+    text-overflow: ellipsis;       /* Agrega "..." al final del texto truncado */
+    max-height: calc(1.2em * 5);   /* Ajusta el máximo alto basado en el número de líneas */
+    line-height: 1.2em;            /* Define la altura de la línea */
+}

@@ -6,23 +6,146 @@
     <title>Inscripción - Reconocimiento Facial</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Inria Sans' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/inscribirseRF.css') }}" rel="stylesheet">
+
 </head>
 <body>
-    <header class="container-fluid bg-dark text-white p-3">
-        <h1 class="text-center">Inscripción por Reconocimiento Facial</h1>
-    </header>
-    <main class="container py-4">
-        <div class="container mt-5 pt-5">
-            <h1 class="mb-4">Reconocimiento Facial</h1>
-            <form method="POST" enctype="multipart/form-data" action="{{ url_for('inscribirse_rec_facial', evento_id=evento_id) }}">
-                <div class="mb-4">
-                    <label for="foto" class="form-label">Sube tu foto</label>
-                    <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
+    <header>
+        <nav class="navbar d-flex justify-content-around fixed-top pb-0">
+            <a class="navbar-brand fs-4">CONFIA</a>
+            <div>
+                <div>
+                    <form class="d-flex search" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                        <i class="bi bi-search m-2" type="submit"></i>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary">Inscribirse</button>
-            </form>                      
-        </div>        
+            </div>
+            <div>
+                <form class="d-flex">
+                    <a class="btn me-2" type="button" href="{{ url_for('indexP') }}">Eventos</a>
+                    <a class="btn me-2" type="button" href="verNotificacionesPersonal.html">Notificaciones</a>
+                    
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle fs-3"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end text-center menu " aria-labelledby="userDropdown">
+                            <li class="dropdown-item" id="nombreEmpresa">{{ session['nombre'] }}</li>
+                            <li><a class="dropdown-item" href="{{ url_for('mis_eventosP') }}">Mis eventos</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('perfilUsuario') }}">Ver perfil</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="line"></div>
+        </nav>
+    </header>
+    <main class="container mt-5 pt-5">
+        <div class="row justify-content-center">
+            <p class="TextImportant text-center">Se solicitará la toma de una fotografía del asistente para el ingreso
+                al evento</p>
+            <div class="col-md-6">
+                <div class="form-container">
+                    <a href="{{ url_for('indexP') }}" class="back-button">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h4 class="text-center">Sube tu foto</h4>
+                    <div class="form-fields">
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('inscribirse_rec_facial', evento_id=evento_id) }}">
+                            <div class="mb-4 d-flex">
+                                <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
+                            </div>
+                            <div class="d-flex justify-content-between pt-3">
+                                <button type="button" class="btn btn-cancel">Cancelar</button>
+                                <button type="submit" class="btn btn-submit">Inscribirse</button>
+                            </div>
+                        </form>  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-titl" id="cancelModalLabel">¿Está seguro de cancelar el proceso de inscripción?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-submit" id="acceptCancel">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade success-modal" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center border-0">
+                        <h3 class="modal-titl" id="successModalLabel">La inscripción ha sido exitosa</h3>
+                    </div>
+                        <div class="success-icon mt-3">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- POP UP CERRAR SESION -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">¿Está seguro de querer cerrar sesión?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Si cierra sesión ahora, perderá cualquier cambio no guardado.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="index.html" class="btn btn-accept">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        document.querySelector('.btn-cancel').addEventListener('click', function () {
+            const modal = new bootstrap.Modal(document.getElementById('cancelModal'));
+            modal.show();
+        });
+
+        document.getElementById('acceptCancel').addEventListener('click', function () {
+            window.location.href = "InformacionEventoPersonalQR.html"; //cambiar
+        });
+    </script>
+
+    <script>
+        document.querySelector('.btn-submit').addEventListener('click', function (event) {
+            event.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById('successModal'));
+            modal.show();
+
+            setTimeout(() => {
+                window.location.href = "InformacionEventoPersonalRFInscrito.html";
+            }, 5000);
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>
