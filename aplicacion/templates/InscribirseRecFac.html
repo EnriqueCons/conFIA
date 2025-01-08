@@ -121,29 +121,6 @@
 
     </main>
 
-
-    <script>
-        document.querySelector('.btn-cancel').addEventListener('click', function () {
-            const modal = new bootstrap.Modal(document.getElementById('cancelModal'));
-            modal.show();
-        });
-
-        document.getElementById('acceptCancel').addEventListener('click', function () {
-            window.location.href = "InformacionEventoPersonalQR.html"; //cambiar
-        });
-    </script>
-
-    <script>
-        document.querySelector('.btn-submit').addEventListener('click', function (event) {
-            event.preventDefault();
-            const modal = new bootstrap.Modal(document.getElementById('successModal'));
-            modal.show();
-
-            setTimeout(() => {
-                window.location.href = "InformacionEventoPersonalRFInscrito.html";
-            }, 5000);
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
