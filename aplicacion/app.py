@@ -919,13 +919,25 @@ def inscribirse_qr(evento_id):
 
     try:
         # Verificar si el evento existe
-        cursor.execute("SELECT nombre FROM Evento WHERE id = %s", (evento_id,))
+        cursor.execute("""
+            SELECT id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail 
+            FROM Evento 
+            WHERE id = %s
+        """, (evento_id,))
         evento = cursor.fetchone()
+
         if not evento:
             flash('El evento no existe.', 'danger')
             return redirect(url_for('indexP'))
 
-        evento_nombre = evento[0].replace(' ', '_')
+         # Extraer valores asegurando que no sean nulos
+        evento_id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail = evento
+
+        evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
+
+        # Construir rutas de imágenes
+        evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
+
 
         # Generar ruta del QR
         qr_data = f"Usuario: {session['nombre']} | Evento: {evento_nombre} | Evento ID: {evento_id}"
@@ -960,9 +972,15 @@ def inscribirse_qr(evento_id):
         # Redirigir a la página de confirmación de QR
         return render_template(
             'InformacionEventoPersonalQRInscrito.html',
-            evento_nombre=evento[0],
+            evento_nombre=nombre,
             nombre=session['nombre'],
             correo=session['email_Usuario'],
+            ubicacion=ubicacion,
+            fecha=fechaHora,
+            asistentes=aforoMax,  # Número de asistentes (dato de ejemplo)
+            acceso=tipoAcceso,
+            descripcion=descripcion,
+            evento_imagen=evento_imagen,
             qr_path=qr_path.replace('static/', '')
         )
 
@@ -1066,6 +1084,176 @@ def inscribirse_rec_facial(evento_id):
     return render_template('InscribirseRecFac.html', evento_id=evento_id)
 @verificar_tipo_usuario('Personal')
 
+@app.route('/inscrito/<int:evento_id>', methods=['GET', 'POST'])
+def inscrito(evento_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT tipoAcceso FROM Evento WHERE id = %s", (evento_id,))
+        evento = cursor.fetchone()
+
+        if not evento:
+            flash('Evento no encontrado.', 'danger')
+            return redirect(url_for('indexP'))
+
+        tipo_acceso = evento['tipoAcceso']
+        if tipo_acceso == "QR":
+            return redirect(url_for('inscrito_qr', evento_id=evento_id))
+        elif tipo_acceso == "Reconocimiento Facial":
+            return redirect(url_for('inscrito_rec_facial', evento_id=evento_id))
+        else:
+            flash('Tipo de acceso desconocido.', 'danger')
+            return redirect(url_for('indexP'))
+
+    except Exception as e:
+        flash(f"Error al procesar el evento: {e}", 'danger')
+        return redirect(url_for('indexP'))
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/inscritoQR/<int:evento_id>', methods=['GET', 'POST'])
+def inscrito_qr(evento_id):
+    if 'email_Usuario' not in session:
+        flash('Debes iniciar sesión para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Verificar si ya está inscrito al evento
+        cursor.execute("""
+            SELECT qr FROM Inscripcion 
+            WHERE usuario_email = %s AND evento_id = %s
+        """, (session['email_Usuario'], evento_id))
+        inscripcion = cursor.fetchone()
+
+        if not inscripcion:
+            flash('No estás inscrito a este evento.', 'warning')
+            return redirect(url_for('indexP'))
+
+        qr_path = inscripcion['qr']  # Usa la ruta directamente
+
+        # Verificar si el evento existe
+        cursor.execute("""
+            SELECT id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail 
+            FROM Evento 
+            WHERE id = %s
+        """, (evento_id,))
+        evento = cursor.fetchone()
+
+        if not evento:
+            flash('El evento no existe.', 'danger')
+            return redirect(url_for('indexP'))
+
+        # Extraer valores del evento
+        nombre = evento['nombre']
+        descripcion = evento['descripcion']
+        fechaHora = evento['fechaHora']
+        aforoMax = evento['aforoMax']
+        tipoAcceso = evento['tipoAcceso']
+        ubicacion = evento['ubicacion']
+        creadorEmail = evento['creadorEmail']
+
+        evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
+
+        # Construir rutas de imágenes
+        evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
+
+        # Renderizar la página de confirmación
+        return render_template(
+            'InformacionEventoPersonalQRInscrito.html',
+            evento_nombre=nombre,
+            nombre=session['nombre'],
+            correo=session['email_Usuario'],
+            ubicacion=ubicacion,
+            fecha=fechaHora,
+            asistentes=aforoMax,  # Número de asistentes (dato de ejemplo)
+            acceso=tipoAcceso,
+            descripcion=descripcion,
+            evento_imagen=evento_imagen,
+            qr_path=qr_path.replace('static/', '')
+        )
+
+    except Exception as e:
+        flash(f"Error al acceder al evento: {e}", 'danger')
+        return redirect(url_for('indexP'))
+    finally:
+        cursor.close()
+        conn.close()
+@verificar_tipo_usuario('Personal')
+
+#inscrito RecFac
+@app.route('/inscritoRF/<int:evento_id>', methods=['GET', 'POST'])
+def inscrito_rec_facial(evento_id):
+    if 'email_Usuario' not in session:
+        flash('Debes iniciar sesión para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Verificar si ya está inscrito al evento
+        cursor.execute("""
+            SELECT * FROM Inscripcion 
+            WHERE usuario_email = %s AND evento_id = %s
+        """, (session['email_Usuario'], evento_id))
+        inscripcion = cursor.fetchone()
+
+        if not inscripcion:
+            flash('No estás inscrito a este evento.', 'warning')
+            return redirect(url_for('indexP'))
+
+        # Verificar si el evento existe
+        cursor.execute("""
+            SELECT id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail 
+            FROM Evento 
+            WHERE id = %s
+        """, (evento_id,))
+        evento = cursor.fetchone()
+
+        if not evento:
+            flash('El evento no existe.', 'danger')
+            return redirect(url_for('indexP'))
+
+        # Extraer valores del evento
+        nombre = evento['nombre']
+        descripcion = evento['descripcion']
+        fechaHora = evento['fechaHora']
+        aforoMax = evento['aforoMax']
+        tipoAcceso = evento['tipoAcceso']
+        ubicacion = evento['ubicacion']
+        creadorEmail = evento['creadorEmail']
+
+        evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
+
+        # Construir rutas de imágenes
+        evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
+
+        # Renderizar la página de confirmación
+        return render_template(
+            'InformacionEventoPersonalRFInscrito.html',
+            evento_nombre=nombre,
+            nombre=session['nombre'],
+            correo=session['email_Usuario'],
+            ubicacion=ubicacion,
+            fecha=fechaHora,
+            asistentes=aforoMax,  # Número de asistentes (dato de ejemplo)
+            acceso=tipoAcceso,
+            descripcion=descripcion,
+            evento_imagen=evento_imagen
+        )
+
+    except Exception as e:
+        flash(f"Error al acceder al evento: {e}", 'danger')
+        return redirect(url_for('indexP'))
+    finally:
+        cursor.close()
+        conn.close()
+@verificar_tipo_usuario('Personal')
 
 #Cancelar asistencia a eventos
 @app.route('/cancelar_asistencia/<int:evento_id>', methods=['POST'])

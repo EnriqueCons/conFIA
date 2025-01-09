@@ -75,7 +75,7 @@
                             <a href="{{ url_for('verMasPersonal', evento_id=evento['id']) }}" class="buttonEvent text-center mx-2">Ver más...</a>
                             <a href="{{ url_for('inscribirse', evento_id=evento.id) }}" class="buttonEvent text-center mx-2">Inscribirse</a>
                         {% else %}
-                            <a href="" class="buttonEvent text-center mx-2">Inscrito</a>
+                            <a href="{{ url_for('inscrito', evento_id=evento.id) }}" class="buttonEvent text-center mx-2">Inscrito</a>
                         {% endif %}
                     </div>
                 </div>
