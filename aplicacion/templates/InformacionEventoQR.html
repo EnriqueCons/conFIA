@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!-- CON ACCESO RECONOCIMIENTO FACIAL-->
+<!DOCTYPE html> <!-- CON ACCESO QR -->
 <html lang="en">
 
 <head>
@@ -16,34 +16,20 @@
 <body>
     <header>
         <nav class="navbar d-flex justify-content-around fixed-top pb-0">
-            <a class="navbar-brand fs-4">CONFIA</a>
+            <a class="navbar-brand fs-4" href="{{ url_for('index') }}">CONFIA</a>
             <div>
                 <div>
-                    <form name="formSearch"  method="POST" class="d-flex search" role="search" action="{{ url_for('indexE') }}">
-                        <input class="form-control me-2" type="search" name="buscar" id="buscar" placeholder="Buscar" aria-label="Search">
-                        <button class="NoButton" type="submit">
+                    <form name="formSearch"  method="POST" class="d-flex search" role="search"  action="{{ url_for('index') }}" >
+                        <input class="form-control me-2"  name="buscar" id="buscar"  type="search" placeholder="Buscar" aria-label="Search">
+                        <button type="submit" class="NoButton">
                             <i class="bi bi-search m-2" type="submit"></i>
                         </button>
                     </form>
                 </div>
             </div>
             <div>
-                <form class="d-flex">
-                    <a class="btn me-2" href="{{ url_for('indexE') }}">Eventos</a>
-                    <button class="btn me-2" type="button">Notificaciones</button>
-                    
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle fs-3"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end text-center menu" aria-labelledby="userDropdown">
-                            <li class="dropdown-item" id="nombreEmpresa">{{ session['nombre'] }}</li>
-                            <li><a class="dropdown-item" href="{{ url_for('eventosEmpresa') }}">Mis eventos</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('perfilEmpresa') }}">Mi perfil</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}" data-bs-toggle="modal"
-                                data-bs-target="#logoutModal">Cerrar sesión</a></li>
-                        </ul>
-                    </div>
+                <form class="d-flex" action="/">
+                    <a class="btn btn-outline-primary" type="button" href="{{ url_for('inicio_sesion') }}"> Iniciar Sesión</a>
                 </form>
             </div>
             <div class="line"></div>
@@ -54,22 +40,22 @@
         <img src="/{{ evento['imagen'] }}" alt="Imagen del evento" class="img-fluid rounded mb-4 event-image">
         <h1 class="mb-2">{{ evento['eventoNombre'] }}</h1>
         <h4 class="mb-4">
-            Organizador: 
-            <a href="{{ url_for('verPerfilEmpresa', email=evento['creadorEmail']) }}" class="text-primary">
+            Organizador:
+            <a href="{{ url_for('inicio_sesion') }}" class="text-primary">
                 {{ evento['creadorNombre'] }}
             </a>
         </h4>
-        
+
         <div class="row text-center mb-4 event-details">
             <div class="col">
                 <i class="bi bi-geo-alt-fill fs-3 text-primary"></i>
                 <p class="mb-0">Ubicación</p>
-                <p>{{ evento['ubicacion'] }}</p>
+                <p> {{ evento['ubicacion'] }}</p>
             </div>
             <div class="col">
                 <i class="bi bi-calendar-event-fill fs-3 text-primary"></i>
                 <p class="mb-0">Fecha</p>
-                <p>{{ evento['fechaHora'] }}</p>
+                <p> {{ evento['fechaHora'] }}</p>
             </div>
             <div class="col">
                 <i class="bi bi-people-fill fs-3 text-primary"></i>
@@ -77,18 +63,25 @@
                 <p>{{ evento['aforoMax'] }}</p>
             </div>
             <div class="col">
-                <i class="material-icons fs-3 text-primary">face</i>
+                <i class="bi bi-qr-code fs-3 text-primary"></i>
                 <p class="mb-0">Acceso</p>
-                <p>{{ evento['tipoAcceso'] }}</p>
+                <p>{{ evento['tipoAcceso'] }} </p>
             </div>
         </div>
-    
-            
-    <hr class="divider">
+
+
+        <hr class="divider">
         <p class="mb-4">
-            {{ evento['descripcion'] }}         
+            {{ evento['descripcion'] }} 
         </p>
-     
+
+        <!-- Botones -->
+        <div class="btn-container">
+            <a class="btn-inscribir me-2 text-decoration-none" href="{{ url_for('inicio_sesion') }}">Inscribirse</a>
+        </div>
+
+
+
 
         <!-- POP UP CERRAR SESION -->
         <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
@@ -108,7 +101,11 @@
                 </div>
             </div>
         </div>
+
     </main>
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

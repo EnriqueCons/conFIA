@@ -51,6 +51,7 @@ def index():
             search = request.form['buscar']
             cursor.execute("""
                 SELECT 
+                    E.id,
                     E.nombre AS eventoNombre, 
                     E.descripcion, 
                     E.fechaHora, 
@@ -67,6 +68,7 @@ def index():
             # Obtener todos los eventos si no hay búsqueda
             cursor.execute("""
                 SELECT 
+                    E.id,
                     E.nombre AS eventoNombre, 
                     E.descripcion, 
                     E.fechaHora, 
@@ -275,6 +277,7 @@ def indexE():
         search = request.form['buscar']
         cursor.execute("""
             SELECT 
+                E.id AS id,
                 E.nombre AS eventoNombre, 
                 E.descripcion, 
                 E.fechaHora, 
@@ -291,6 +294,7 @@ def indexE():
         # Obtener todos los eventos si no hay búsqueda
         cursor.execute("""
             SELECT 
+                E.id AS id,
                 E.nombre AS eventoNombre, 
                 E.descripcion, 
                 E.fechaHora, 
@@ -314,6 +318,156 @@ def indexE():
     # Pasamos los datos del usuario y los eventos al template 'indexCUEmpresarial.html'
     return render_template('indexCUEmpresarial.html', email_Usuario=user, eventos=miData)
 @verificar_tipo_usuario('Empresarial')
+
+#-----------------------------------------------------------Ver más...-----------------------------------------------------------
+#ver Más sin Perfil
+@app.route('/verMas/<int:evento_id>')
+def verMasSP(evento_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT 
+            E.id, 
+            E.nombre AS eventoNombre, 
+            E.descripcion, 
+            E.fechaHora, 
+            E.aforoMax, 
+            E.tipoAcceso, 
+            E.imagen, 
+            E.creadorEmail,
+            E.ubicacion,
+            U.nombre AS creadorNombre
+        FROM Evento E
+        JOIN Usuario U ON E.creadorEmail = U.email
+        WHERE E.id = %s
+    """,(evento_id,))
+    evento = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+
+    # Si no hay eventos, retorna un mensaje
+    if not evento:
+        return "No hay eventos disponibles."
+
+    # Construir rutas de imágenes basadas en la estructura de carpetas
+    
+    evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+    evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+
+    if evento['tipoAcceso'] == 'QR':
+        return render_template('informacionEventoQR.html', evento=evento)
+    elif evento['tipoAcceso'] == 'Reconocimiento Facial':
+        return render_template('informacionEventoRF.html', evento=evento)
+    else:
+        return "El tipo de acceso no está definido para este evento.", 400
+
+#Ver más Personal
+@app.route('/verMasP/<int:evento_id>')
+def verMasPersonal(evento_id):
+    # Verificar si el usuario ha iniciado sesión
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Consulta para obtener la información del evento con inscripción
+    cursor.execute("""
+        SELECT 
+            E.id AS id,
+            E.nombre AS eventoNombre,
+            E.descripcion,
+            E.fechaHora,
+            E.tipoAcceso,
+            E.ubicacion,
+            E.aforoMax,
+            E.imagen AS eventoImagen,
+            E.creadorEmail AS creadorEmail,
+            U.nombre AS creadorNombre,
+            EXISTS(
+                SELECT 1 
+                FROM Inscripcion I 
+                WHERE I.evento_id = E.id AND I.usuario_email = %s
+            ) AS inscrito
+        FROM Evento E
+        JOIN Usuario U ON E.creadorEmail = U.email
+        WHERE E.id = %s
+        ORDER BY E.fechaHora DESC
+    """, (session['email_Usuario'], evento_id))
+    evento = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    # Validar si se encontró el evento
+    if not evento:
+        return "Evento no encontrado.", 404
+
+    # Construir rutas de imágenes
+    evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+    evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+
+    # Renderizar la plantilla correspondiente
+    if evento['tipoAcceso'] == 'QR':
+        return render_template('informacionEventoPersonalQR.html', evento=evento)
+    elif evento['tipoAcceso'] == 'Reconocimiento Facial':
+        return render_template('informacionEventoPersonalRF.html', evento=evento)
+    else:
+        return "El tipo de acceso no está definido para este evento.", 400
+
+#ver Más Empresarial
+@app.route('/verMasE/<int:evento_id>')
+def verMasEmpresa(evento_id):
+    # Verificar si el usuario ha iniciado sesión
+    if 'email_Usuario' not in session:
+        return redirect(url_for('inicio_sesion'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Consulta para obtener la información del evento con inscripción
+    cursor.execute("""
+        SELECT 
+            E.id AS id,
+            E.nombre AS eventoNombre,
+            E.descripcion,
+            E.fechaHora,
+            E.tipoAcceso,
+            E.ubicacion,
+            E.aforoMax,
+            E.imagen AS eventoImagen,
+            E.creadorEmail AS creadorEmail,
+            U.nombre AS creadorNombre,
+            EXISTS(
+                SELECT 1 
+                FROM Inscripcion I 
+                WHERE I.evento_id = E.id AND I.usuario_email = %s
+            ) AS inscrito
+        FROM Evento E
+        JOIN Usuario U ON E.creadorEmail = U.email
+        WHERE E.id = %s
+        ORDER BY E.fechaHora DESC
+    """, (session['email_Usuario'], evento_id))
+    evento = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    # Validar si se encontró el evento
+    if not evento:
+        return "Evento no encontrado.", 404
+
+    # Construir rutas de imágenes
+    evento['creadorImagen'] = f"uploads/{evento['creadorEmail']}.png"
+    evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
+
+    # Renderizar la plantilla correspondiente
+    if evento['tipoAcceso'] == 'QR':
+        return render_template('informacionEventoEmpresaQR.html', evento=evento)
+    elif evento['tipoAcceso'] == 'Reconocimiento Facial':
+        return render_template('informacionEventoEmpresaRF.html', evento=evento)
+    else:
+        return "El tipo de acceso no está definido para este evento.", 400
+
 
 #-----------------------------------------------------------Perfil de Usuario-----------------------------------------------------------
 

@@ -72,6 +72,7 @@
                     <!-- Botones -->
                     <div class="col-12 d-flex justify-content-end mt-2">
                         {% if not evento.inscrito %}
+                            <a href="{{ url_for('verMasPersonal', evento_id=evento['id']) }}" class="buttonEvent text-center mx-2">Ver más...</a>
                             <a href="{{ url_for('inscribirse', evento_id=evento.id) }}" class="buttonEvent text-center mx-2">Inscribirse</a>
                         {% else %}
                             <span class="buttonEvent text-center mx-2">Inscrito</span>
