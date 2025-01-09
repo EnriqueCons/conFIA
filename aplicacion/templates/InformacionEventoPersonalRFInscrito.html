@@ -45,11 +45,12 @@
     </header>
 
     <main class="container mt-5 pt-5">
+        <img src="/{{ evento_imagen }}" alt="Imagen del evento" class="img-fluid rounded mb-4 event-image">
         <h1 class="mb-4">{{ evento_nombre }}</h1>
         <h4 class="mb-4">
             Organizador: 
             <a href="verPerfilEmpresa.html" class="text-primary">
-                TechWorld Events
+                {{ nombre }}
             </a>
         </h4>
         <div class="row text-center mb-4 event-details">
@@ -71,9 +72,12 @@
             <div class="col">
                 <i class="material-icons fs-3 text-primary">face</i>
                 <p class="mb-0">Acceso</p>
-                <p>Reconocimiento Facial</p>
+                <p>{{ acceso }}</p>
             </div>
         </div>
+        <p class="mb-4">
+            {{ descripcion }}         
+        </p>
         <hr class="divider">
         <p class="text-center text-success fw-bold fs-4">
             ¡Tus datos biométricos se han guardado satisfactoriamente!

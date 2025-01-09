@@ -987,13 +987,24 @@ def inscribirse_rec_facial(evento_id):
 
     try:
         # Verificar si el evento existe
-        cursor.execute("SELECT nombre FROM Evento WHERE id = %s", (evento_id,))
+        cursor.execute("""
+            SELECT id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail 
+            FROM Evento 
+            WHERE id = %s
+        """, (evento_id,))
         evento = cursor.fetchone()
+
         if not evento:
             flash('El evento no existe.', 'danger')
             return redirect(url_for('indexP'))
 
-        evento_nombre = evento[0].replace(' ', '_')
+        # Extraer valores asegurando que no sean nulos
+        evento_id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail = evento
+
+        evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
+
+        # Construir rutas de imágenes
+        evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
 
         if request.method == 'POST':
             foto = request.files.get('foto')
@@ -1034,12 +1045,15 @@ def inscribirse_rec_facial(evento_id):
             # Redirigir a la página de confirmación de reconocimiento facial
             return render_template(
                 'InformacionEventoPersonalRFInscrito.html',
-                evento_nombre=evento[0],
+                evento_nombre=nombre,
                 nombre=session['nombre'],
                 correo=session['email_Usuario'],
-                ubicacion="Ubicación del evento",
-                fecha="Fecha del evento",
-                asistentes=22_323  # Número de asistentes (dato de ejemplo)
+                ubicacion=ubicacion,
+                fecha=fechaHora,
+                asistentes=aforoMax,  # Número de asistentes (dato de ejemplo)
+                acceso=tipoAcceso,
+                descripcion=descripcion,
+                evento_imagen=evento_imagen
             )
 
     except Exception as e:
@@ -1104,6 +1118,9 @@ def cancelar_asistencia(evento_id):
     
     return redirect(url_for('mis_eventosP'))
 @verificar_tipo_usuario('Personal')
+
+#Ver Eventos Inscritos
+
 
 
 #-----------------------------------------------------------Ver Eventos-----------------------------------------------------------
