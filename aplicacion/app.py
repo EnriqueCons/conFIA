@@ -356,9 +356,9 @@ def verMasSP(evento_id):
     evento['eventoImagen'] = f"eventos/{evento['creadorEmail']}/{evento['eventoNombre'].replace(' ', '_')}.png"
 
     if evento['tipoAcceso'] == 'QR':
-        return render_template('informacionEventoQR.html', evento=evento)
+        return render_template('InformacionEventoQR.html', evento=evento)
     elif evento['tipoAcceso'] == 'Reconocimiento Facial':
-        return render_template('informacionEventoRF.html', evento=evento)
+        return render_template('InformacionEventoRF.html', evento=evento)
     else:
         return "El tipo de acceso no está definido para este evento.", 400
 
@@ -409,9 +409,9 @@ def verMasPersonal(evento_id):
 
     # Renderizar la plantilla correspondiente
     if evento['tipoAcceso'] == 'QR':
-        return render_template('informacionEventoPersonalQR.html', evento=evento)
+        return render_template('InformacionEventoPersonalQR.html', evento=evento)
     elif evento['tipoAcceso'] == 'Reconocimiento Facial':
-        return render_template('informacionEventoPersonalRF.html', evento=evento)
+        return render_template('InformacionEventoPersonalRF.html', evento=evento)
     else:
         return "El tipo de acceso no está definido para este evento.", 400
 
@@ -462,9 +462,9 @@ def verMasEmpresa(evento_id):
 
     # Renderizar la plantilla correspondiente
     if evento['tipoAcceso'] == 'QR':
-        return render_template('informacionEventoEmpresaQR.html', evento=evento)
+        return render_template('InformacionEventoEmpresaQR.html', evento=evento)
     elif evento['tipoAcceso'] == 'Reconocimiento Facial':
-        return render_template('informacionEventoEmpresaRF.html', evento=evento)
+        return render_template('InformacionEventoEmpresaRF.html', evento=evento)
     else:
         return "El tipo de acceso no está definido para este evento.", 400
 
@@ -1148,6 +1148,18 @@ def inscrito_qr(evento_id):
             flash('El evento no existe.', 'danger')
             return redirect(url_for('indexP'))
 
+        # Obtener el nombre del organizador
+        cursor.execute("""
+            SELECT Usuario.nombre AS organizador_nombre
+            FROM Evento
+            LEFT JOIN Empresarial ON Evento.creadorEmail = Empresarial.email
+            LEFT JOIN Usuario ON Empresarial.email = Usuario.email
+            WHERE Evento.id = %s
+        """, (evento_id,))
+        organizador = cursor.fetchone()
+
+        organizador_nombre = organizador['organizador_nombre'] if organizador else "Sin organizador"
+
         # Extraer valores del evento
         nombre = evento['nombre']
         descripcion = evento['descripcion']
@@ -1174,7 +1186,8 @@ def inscrito_qr(evento_id):
             acceso=tipoAcceso,
             descripcion=descripcion,
             evento_imagen=evento_imagen,
-            qr_path=qr_path.replace('static/', '')
+            qr_path=qr_path.replace('static/', ''),
+            organizador_nombre=organizador_nombre
         )
 
     except Exception as e:
@@ -1218,6 +1231,18 @@ def inscrito_rec_facial(evento_id):
         if not evento:
             flash('El evento no existe.', 'danger')
             return redirect(url_for('indexP'))
+        
+         # Obtener el nombre del organizador
+        cursor.execute("""
+            SELECT Usuario.nombre AS organizador_nombre
+            FROM Evento
+            LEFT JOIN Empresarial ON Evento.creadorEmail = Empresarial.email
+            LEFT JOIN Usuario ON Empresarial.email = Usuario.email
+            WHERE Evento.id = %s
+        """, (evento_id,))
+        organizador = cursor.fetchone()
+
+        organizador_nombre = organizador['organizador_nombre'] if organizador else "Sin organizador"
 
         # Extraer valores del evento
         nombre = evento['nombre']
@@ -1244,7 +1269,9 @@ def inscrito_rec_facial(evento_id):
             asistentes=aforoMax,  # Número de asistentes (dato de ejemplo)
             acceso=tipoAcceso,
             descripcion=descripcion,
-            evento_imagen=evento_imagen
+            evento_imagen=evento_imagen,
+                        organizador_nombre=organizador_nombre
+
         )
 
     except Exception as e:
