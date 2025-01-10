@@ -909,13 +909,14 @@ def inscribirse(evento_id):
 
 # Ruta para inscribirse a eventos con QR
 @app.route('/inscribirse_qr/<int:evento_id>', methods=['GET', 'POST'])
+@verificar_tipo_usuario('Personal')
 def inscribirse_qr(evento_id):
     if 'email_Usuario' not in session:
         flash('Debes iniciar sesión para realizar esta acción.', 'danger')
         return redirect(url_for('inicio_sesion'))
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     try:
         # Verificar si el evento existe
@@ -930,14 +931,31 @@ def inscribirse_qr(evento_id):
             flash('El evento no existe.', 'danger')
             return redirect(url_for('indexP'))
 
-         # Extraer valores asegurando que no sean nulos
-        evento_id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail = evento
+        # Obtener el nombre del organizador
+        cursor.execute("""
+            SELECT Usuario.nombre AS organizador_nombre
+            FROM Evento
+            LEFT JOIN Empresarial ON Evento.creadorEmail = Empresarial.email
+            LEFT JOIN Usuario ON Empresarial.email = Usuario.email
+            WHERE Evento.id = %s
+        """, (evento_id,))
+        organizador = cursor.fetchone()
+
+        organizador_nombre = organizador['organizador_nombre'] if organizador else "Sin organizador"
+
+        # Extraer valores del evento
+        nombre = evento['nombre']
+        descripcion = evento['descripcion']
+        fechaHora = evento['fechaHora']
+        aforoMax = evento['aforoMax']
+        tipoAcceso = evento['tipoAcceso']
+        ubicacion = evento['ubicacion']
+        creadorEmail = evento['creadorEmail']
 
         evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
 
         # Construir rutas de imágenes
         evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
-
 
         # Generar ruta del QR
         qr_data = f"Usuario: {session['nombre']} | Evento: {evento_nombre} | Evento ID: {evento_id}"
@@ -981,12 +999,14 @@ def inscribirse_qr(evento_id):
             acceso=tipoAcceso,
             descripcion=descripcion,
             evento_imagen=evento_imagen,
-            qr_path=qr_path.replace('static/', '')
+            qr_path=qr_path.replace('static/', ''),
+            organizador_nombre=organizador_nombre
         )
 
     except Exception as e:
         conn.rollback()
         flash(f"Error al inscribirse al evento: {e}", 'danger')
+        return redirect(url_for('indexP'))
     finally:
         cursor.close()
         conn.close()
@@ -995,13 +1015,14 @@ def inscribirse_qr(evento_id):
 
 #Insribirse a eventos con reconocimiento facial
 @app.route('/inscribirse_rec_facial/<int:evento_id>', methods=['GET', 'POST'])
+@verificar_tipo_usuario('Personal')
 def inscribirse_rec_facial(evento_id):
     if 'email_Usuario' not in session:
         flash('Debes iniciar sesión para realizar esta acción.', 'danger')
         return redirect(url_for('inicio_sesion'))
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     try:
         # Verificar si el evento existe
@@ -1016,8 +1037,26 @@ def inscribirse_rec_facial(evento_id):
             flash('El evento no existe.', 'danger')
             return redirect(url_for('indexP'))
 
-        # Extraer valores asegurando que no sean nulos
-        evento_id, nombre, descripcion, fechaHora, aforoMax, tipoAcceso, ubicacion, creadorEmail = evento
+        # Obtener el nombre del organizador
+        cursor.execute("""
+            SELECT Usuario.nombre AS organizador_nombre
+            FROM Evento
+            LEFT JOIN Empresarial ON Evento.creadorEmail = Empresarial.email
+            LEFT JOIN Usuario ON Empresarial.email = Usuario.email
+            WHERE Evento.id = %s
+        """, (evento_id,))
+        organizador = cursor.fetchone()
+
+        organizador_nombre = organizador['organizador_nombre'] if organizador else "Sin organizador"
+
+        # Extraer valores del evento
+        nombre = evento['nombre']
+        descripcion = evento['descripcion']
+        fechaHora = evento['fechaHora']
+        aforoMax = evento['aforoMax']
+        tipoAcceso = evento['tipoAcceso']
+        ubicacion = evento['ubicacion']
+        creadorEmail = evento['creadorEmail']
 
         evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
 
@@ -1071,17 +1110,24 @@ def inscribirse_rec_facial(evento_id):
                 asistentes=aforoMax,  # Número de asistentes (dato de ejemplo)
                 acceso=tipoAcceso,
                 descripcion=descripcion,
-                evento_imagen=evento_imagen
+                evento_imagen=evento_imagen,
+                organizador_nombre=organizador_nombre
             )
 
     except Exception as e:
         conn.rollback()
         flash(f"Error al inscribirse al evento: {e}", 'danger')
+        return redirect(url_for('indexP'))
+
     finally:
         cursor.close()
         conn.close()
 
-    return render_template('InscribirseRecFac.html', evento_id=evento_id)
+    return render_template(
+        'InscribirseRecFac.html',
+        evento_id=evento_id,
+        organizador_nombre=organizador_nombre
+    )
 @verificar_tipo_usuario('Personal')
 
 @app.route('/inscrito/<int:evento_id>', methods=['GET', 'POST'])
