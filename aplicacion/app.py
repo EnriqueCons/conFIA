@@ -1130,6 +1130,8 @@ def inscribirse_rec_facial(evento_id):
     )
 @verificar_tipo_usuario('Personal')
 
+#-----------------------------------------------------------Inscrito a Eventos-----------------------------------------------------------
+
 @app.route('/inscrito/<int:evento_id>', methods=['GET', 'POST'])
 def inscrito(evento_id):
     conn = get_db_connection()
@@ -1218,7 +1220,7 @@ def inscrito_qr(evento_id):
         evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
 
         # Construir rutas de imágenes
-        evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
+        evento_imagen = f"static/eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "static/eventos/default.png"
 
         # Renderizar la página de confirmación
         return render_template(
@@ -1302,7 +1304,7 @@ def inscrito_rec_facial(evento_id):
         evento_nombre = nombre.replace(' ', '_') if nombre else "Desconocido"
 
         # Construir rutas de imágenes
-        evento_imagen = f"eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "eventos/default.png"
+        evento_imagen = f"static/eventos/{creadorEmail}/{evento_nombre}.png" if creadorEmail else "static/eventos/default.png"
 
         # Renderizar la página de confirmación
         return render_template(
@@ -1328,6 +1330,7 @@ def inscrito_rec_facial(evento_id):
         conn.close()
 @verificar_tipo_usuario('Personal')
 
+#-----------------------------------------------------------Cancelar asistencia-----------------------------------------------------------
 #Cancelar asistencia a eventos
 @app.route('/cancelar_asistencia/<int:evento_id>', methods=['POST'])
 def cancelar_asistencia(evento_id):
@@ -1379,10 +1382,6 @@ def cancelar_asistencia(evento_id):
     
     return redirect(url_for('mis_eventosP'))
 @verificar_tipo_usuario('Personal')
-
-#Ver Eventos Inscritos
-
-
 
 #-----------------------------------------------------------Ver Eventos-----------------------------------------------------------
 @app.route('/mis_eventos', methods=['GET'])

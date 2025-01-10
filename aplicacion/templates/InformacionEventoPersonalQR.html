@@ -44,7 +44,7 @@
     </header>
 
     <main class="container mt-5 pt-5">
-        <img src="/{{ evento['imagen'] }}" alt="Imagen del evento" class="img-fluid rounded mb-4 event-image">
+        <img src="{{ url_for('static', filename=evento['eventoImagen']) }}" alt="Imagen del evento" class="img-fluid rounded mb-4 event-image">
         <h1 class="mb-2">{{ evento['eventoNombre'] }}</h1>
         <h4 class="mb-4">
             Organizador: 

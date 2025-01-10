@@ -67,11 +67,11 @@
                                 </a>
                                 <div class="d-flex justify-content-between">
                                     {% if evento['tipoAcceso'] == 'QR' %}
-                                        <a href="{{ url_for('inscribirse_qr', evento_id=evento['id']) }}" class="buttonEvent btn-qr d-flex align-items-center justify-content-center">
+                                        <a href="{{ url_for('inscrito', evento_id=evento.id) }}" class="buttonEvent btn-qr d-flex align-items-center justify-content-center">
                                             <i class="bi bi-qr-code-scan fs-4"></i> Ver QR
                                         </a>
                                     {% elif evento['tipoAcceso'] == 'Reconocimiento Facial' %}
-                                        <a href="{{ url_for('inscribirse_rec_facial', evento_id=evento['id']) }}" class="buttonEvent btn-facial d-flex align-items-center justify-content-center">
+                                        <a href="{{ url_for('inscrito', evento_id=evento.id) }}" class="buttonEvent btn-facial d-flex align-items-center justify-content-center">
                                             <i class="bi bi-person-bounding-box fs-4"></i> Reconocimiento Facial
                                         </a>
                                     {% endif %}
