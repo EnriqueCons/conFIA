@@ -7,6 +7,7 @@ import qrcode
 import json
 from io import BytesIO
 from PIL import Image
+import re
 from deepface import DeepFace
 import base64
 import mysql.connector
@@ -1603,6 +1604,64 @@ def acceder_evento(evento_id):
 @app.route('/escanearQR/<int:evento_id>', methods=['GET'])
 def escanear_qr(evento_id):
     return render_template('escanearQR.html', evento_id=evento_id)
+
+
+@app.route('/validarQR/<int:evento_id>', methods=['POST'])
+def validar_qr(evento_id):
+    try:
+        # Obtener los datos enviados desde el frontend
+        data = request.get_json()
+        qr_data = data.get('qr_data')
+
+        if not qr_data:
+            return jsonify({'status': 'error', 'message': 'No se recibió ningún código QR.'})
+
+        # Extraer información del QR usando una expresión regular
+        pattern = r"Usuario: (.+?) \| Evento: (.+?) \| Evento ID: (\d+)"
+        match = re.match(pattern, qr_data)
+
+        if not match:
+            return jsonify({'status': 'error', 'message': 'El formato del QR no es válido.'})
+
+        user_name = match.group(1)
+        event_name = match.group(2)
+        qr_event_id = int(match.group(3))
+
+        # Validar que el evento ID del QR coincida con el de la ruta
+        if qr_event_id != evento_id:
+            return jsonify({'status': 'error', 'message': 'El QR no corresponde a este evento.'})
+
+        # Conectar a la base de datos y realizar la consulta
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        try:
+            # Buscar el usuario en la base de datos
+            cursor.execute("""
+                SELECT U.nombre, U.email, E.nombre AS evento_nombre 
+                FROM Usuario U
+                JOIN Inscripcion I ON U.email = I.usuario_email
+                JOIN Evento E ON I.evento_id = E.id
+                WHERE U.nombre = %s AND E.id = %s
+            """, (user_name, qr_event_id))
+            user = cursor.fetchone()
+
+            if user:
+                return jsonify({
+                    'status': 'success',
+                    'message': f'Acceso concedido a {user["nombre"]} para el evento "{user["evento_nombre"]}".',
+                    'email': user["email"]
+                })
+            else:
+                return jsonify({'status': 'error', 'message': 'Usuario o evento no encontrado.'})
+        finally:
+            cursor.close()
+            conn.close()
+
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': f'Ocurrió un error inesperado: {str(e)}'})
+
+@verificar_tipo_usuario('Empresarial')
 
 
 #Acceder a eventos con reconocimiento facial
