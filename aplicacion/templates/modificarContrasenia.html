@@ -13,26 +13,24 @@
 <body>
     <header>
         <nav class="navbar d-flex justify-content-around fixed-top pb-0">
-            <a class="navbar-brand fs-4">CONFIA</a>
+            <a class="navbar-brand fs-4" href="{{ url_for('index') }}">CONFIA</a>
             <div>
                 <div>
-                    <form class="d-flex search" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                        <i class="bi bi-search m-2" type="submit"></i>
+                    <form name="formSearch"  method="POST" class="d-flex search" role="search"  action="{{ url_for('index') }}" >
+                        <input class="form-control me-2"  name="buscar" id="buscar"  type="search" placeholder="Buscar" aria-label="Search">
+                        <button type="submit" class="NoButton">
+                            <i class="bi bi-search m-2" type="submit"></i>
+                        </button>
                     </form>
                 </div>
-                
             </div>
             <div>
-                <form class="d-flex">
-                    <a class="btn me-2" type="button" href="index.html">Eventos</a>
-                    <button class="btn me-2" type="button">Notificaciones</button>
-                    <a class="btn btn-outline-primary" type="button" href="IniciarSesion.html"> Iniciar Sesión</a>
+                <form class="d-flex" action="/">
+                    <a class="btn btn-outline-primary" type="button" href="{{ url_for('inicio_sesion') }}"> Iniciar Sesión</a>
                 </form>
             </div>
             <div class="line"></div>
-          </nav>
-          
+        </nav>
     </header>
     <main>
         <div class="space"></div>

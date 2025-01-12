@@ -648,3 +648,6 @@ textarea.border-0:focus {
     outline: none !important; /* Elimina el contorno */
     border: none;
 }
+.NoButton{
+    all: unset;
+}

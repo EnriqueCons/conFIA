@@ -161,3 +161,7 @@ nav .form-control:focus {
 
 
 
+
+.NoButton{
+    all: unset;
+}

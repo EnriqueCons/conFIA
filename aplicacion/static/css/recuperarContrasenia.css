@@ -303,3 +303,6 @@ nav .form-control:focus {
     color: #568281; /* Color del ícono */
     margin-top: 1rem; /* Espaciado superior */
 }
+.NoButton{
+    all: unset;
+}

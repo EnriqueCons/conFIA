@@ -678,3 +678,6 @@ p#email.text-primary {
     font-size: 2rem; /* Tamaño del ícono */
     color: #568281; /* Color del ícono */
 }
+.NoButton{
+    all: unset;
+}

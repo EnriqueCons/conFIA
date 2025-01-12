@@ -560,3 +560,7 @@ nav{
     color: #2F3E45 !important; /* Asegura que el texto sea blanco */
 }
 
+
+.NoButton{
+    all: unset;
+}

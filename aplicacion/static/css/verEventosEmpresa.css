@@ -506,3 +506,7 @@ height: 18rem;
 .access-button i {
     font-size: 2rem; 
 }
+
+.NoButton{
+    all: unset;
+}

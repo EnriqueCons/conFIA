@@ -330,3 +330,6 @@ h1 {
     outline: none !important; 
     border: none;
 }
+.NoButton{
+    all: unset;
+}

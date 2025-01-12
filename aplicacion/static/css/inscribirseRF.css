@@ -679,3 +679,7 @@ p#email.text-primary {
     color: #568281; /* Color del ícono */
 }
 
+
+.NoButton{
+    all: unset;
+}

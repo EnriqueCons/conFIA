@@ -19,9 +19,9 @@
             <a class="navbar-brand fs-4">CONFIA</a>
             <div>
                 <div>
-                    <form name="formSearch"  method="POST" class="d-flex search" role="search" action="{{ url_for('indexE') }}">
-                        <input class="form-control me-2" type="search" name="buscar" id="buscar" placeholder="Buscar" aria-label="Search">
-                        <button class="NoButton" type="submit">
+                    <form name="formSearch"  method="POST" class="d-flex search" role="search"  action="{{ url_for('indexE') }}" >
+                        <input class="form-control me-2"  name="buscar" id="buscar"  type="search" placeholder="Buscar" aria-label="Search">
+                        <button type="submit" class="NoButton">
                             <i class="bi bi-search m-2" type="submit"></i>
                         </button>
                     </form>
@@ -30,7 +30,7 @@
             <div>
                 <form class="d-flex">
                     <a class="btn me-2" href="{{ url_for('indexE') }}">Eventos</a>
-                    <button class="btn me-2" type="button">Notificaciones</button>
+                    <a class="btn me-2" type="button" href="{{ url_for('notificaciones') }}">Notificaciones</a>
                     
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -103,7 +103,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                        <a href="index.html" class="btn btn-accept">Aceptar</a>
+                        <a href="{{ url_for('cerrar_sesion') }}" class="btn btn-accept">Aceptar</a>
                     </div>
                 </div>
             </div>

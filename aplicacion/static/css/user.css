@@ -233,3 +233,6 @@ nav .form-control:focus {
     outline: none !important; /* Elimina el contorno */
     border: none;
 }
+.NoButton{
+    all: unset;
+}

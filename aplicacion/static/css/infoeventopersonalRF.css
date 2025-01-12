@@ -346,3 +346,6 @@ p {
     outline: none !important; /* Elimina el contorno */
     border: none;
 }
+.NoButton{
+    all: unset;
+}

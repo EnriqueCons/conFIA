@@ -608,3 +608,6 @@ textarea.border-0:focus {
     color: #2F3E45; 
     margin-top: 0.5rem; 
 }
+.NoButton{
+    all: unset;
+}
