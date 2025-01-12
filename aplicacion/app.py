@@ -737,11 +737,20 @@ def crearEvento():
         conn = get_db_connection()
         cursor = conn.cursor()
         try:
+            # Crear el evento en la base de datos
             cursor.execute("""
                 INSERT INTO Evento (nombre, descripcion, fechaHora, aforoMax, tipoAcceso, creadorEmail, ubicacion, imagen)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, (nombre_evento, descripcion, fecha_hora, aforo_max, tipo_acceso, session['email_Usuario'], ubicacion, image_path))
             conn.commit()
+
+            # Crear una notificación para el creador
+            crear_notificacion(
+                session['email_Usuario'],
+                f"Has creado el evento '{nombre_evento}'",
+                cursor.lastrowid
+            )
+
             flash('Evento creado exitosamente.', 'success')
         except Exception as e:
             conn.rollback()
@@ -764,17 +773,49 @@ def eliminar_evento(evento_id):
         return redirect(url_for('inicio_sesion'))
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     try:
-        # Verifica que el evento pertenece al usuario
-        cursor.execute("SELECT id FROM Evento WHERE id = %s AND creadorEmail = %s", (evento_id, session['email_Usuario']))
+        # Verifica que el evento pertenece al usuario y obtiene el nombre del evento
+        cursor.execute("""
+            SELECT id, nombre 
+            FROM Evento 
+            WHERE id = %s AND creadorEmail = %s
+        """, (evento_id, session['email_Usuario']))
         evento = cursor.fetchone()
+
         if not evento:
-            flash('No tienes permiso para eliminar este evento.', 'danger')
+            flash('No tienes permiso para eliminar este evento o no existe.', 'danger')
             return redirect(url_for('eventosEmpresa'))
 
-        # Elimina el evento de la base de datos
+        evento_nombre = evento['nombre']
+
+        # Notificar a los usuarios inscritos antes de eliminar el evento
+        cursor.execute("""
+            SELECT usuario_email 
+            FROM Inscripcion 
+            WHERE evento_id = %s
+        """, (evento_id,))
+        inscritos = cursor.fetchall()
+
+        for inscrito in inscritos:
+            crear_notificacion(
+                inscrito['usuario_email'],
+                f"El evento '{evento_nombre}' ha sido cancelado por el organizador.",
+                evento_id
+            )
+
+        # Crear una notificación para el creador del evento
+        crear_notificacion(
+            session['email_Usuario'],
+            f"Has eliminado el evento '{evento_nombre}'.",
+            evento_id
+        )
+
+        # Eliminar las inscripciones relacionadas con el evento (si hay claves foráneas)
+        cursor.execute("DELETE FROM Inscripcion WHERE evento_id = %s", (evento_id,))
+
+        # Eliminar el evento
         cursor.execute("DELETE FROM Evento WHERE id = %s", (evento_id,))
         conn.commit()
 
@@ -787,6 +828,7 @@ def eliminar_evento(evento_id):
         conn.close()
 
     return redirect(url_for('eventosEmpresa'))
+
 
 #Editar un evento
 @app.route('/editarEvento/<int:evento_id>', methods=['GET', 'POST'])
@@ -987,6 +1029,14 @@ def inscribirse_qr(evento_id):
         """, (session['email_Usuario'], evento_id, qr_path.replace('static/', '')))
         conn.commit()
 
+        # Crear una notificación
+        crear_notificacion(
+            session['email_Usuario'],
+            f"Te has inscrito al evento '{evento['nombre']}'",
+            evento_id
+        )
+
+
         # Redirigir a la página de confirmación de QR
         return render_template(
             'InformacionEventoPersonalQRInscrito.html',
@@ -1098,6 +1148,14 @@ def inscribirse_rec_facial(evento_id):
                 VALUES (%s, %s, %s, %s)
             """, (session['email_Usuario'], evento_id, foto_path.replace('static/', ''), str(encoding)))
             conn.commit()
+
+             # Crear una notificación
+            crear_notificacion(
+                session['email_Usuario'],
+                f"Te has inscrito al evento '{evento['nombre']}'",
+                evento_id
+            )
+
 
             # Redirigir a la página de confirmación de reconocimiento facial
             return render_template(
@@ -1339,9 +1397,17 @@ def cancelar_asistencia(evento_id):
         return redirect(url_for('inicio_sesion'))
     
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     try:
+        # Obtener el nombre del evento
+        cursor.execute("SELECT nombre FROM Evento WHERE id = %s", (evento_id,))
+        evento = cursor.fetchone()
+        if not evento:
+            flash('El evento no existe.', 'danger')
+            return redirect(url_for('mis_eventosP'))
+        evento_nombre = evento['nombre']
+
         # Verificar si el usuario está inscrito en el evento especificado
         cursor.execute(
             """
@@ -1365,8 +1431,15 @@ def cancelar_asistencia(evento_id):
             (session['email_Usuario'], evento_id)
         )
 
+        # Crear una notificación
+        crear_notificacion(
+            session['email_Usuario'],
+            f"Has cancelado tu asistencia al evento '{evento_nombre}'",
+            evento_id
+        )
+
         # Eliminar el archivo asociado (QR o rostro)
-        for file_path in inscrito:  # Recorrer las posibles rutas (QR y foto)
+        for file_path in inscrito.values():  # Recorrer las posibles rutas (QR y foto)
             if file_path and os.path.exists(os.path.join('static', file_path)):
                 os.remove(os.path.join('static', file_path))
 
@@ -1432,6 +1505,70 @@ def acceder_evento():
         return redirect(url_for('inicio_sesion'))
 
     return render_template('tipodeAcceso.html')
+
+
+#-----------------------------------------------------------Notificaciones-----------------------------------------------------------------
+
+def crear_notificacion(usuario_email, mensaje, evento_id=None):
+    """
+    Crea una notificación para un usuario.
+
+    Args:
+        usuario_email (str): Correo del usuario que recibirá la notificación.
+        mensaje (str): Mensaje de la notificación.
+        evento_id (int, optional): ID del evento relacionado (opcional).
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            INSERT INTO Notificacion (mensaje, fechaEnvio, usuarioEmail, evento_id)
+            VALUES (%s, NOW(), %s, %s)
+        """, (mensaje, usuario_email, evento_id))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print(f"Error al crear notificación: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.route('/notificaciones', methods=['GET'])
+def notificaciones():
+    if 'email_Usuario' not in session:
+        flash('Debes iniciar sesión para ver tus notificaciones.', 'danger')
+        return redirect(url_for('inicio_sesion'))
+
+    usuario_email = session['email_Usuario']
+    usuario_tipo = session.get('tipo', 'Personal')  # Predeterminado a Personal si no está definido
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("""
+            SELECT N.mensaje, N.fechaEnvio, E.nombre AS eventoNombre
+            FROM Notificacion N
+            LEFT JOIN Evento E ON N.evento_id = E.id
+            WHERE N.usuarioEmail = %s
+            ORDER BY N.fechaEnvio DESC
+        """, (usuario_email,))
+        notificaciones = cursor.fetchall()
+    finally:
+        cursor.close()
+        conn.close()
+
+    # Renderizar plantilla según el tipo de usuario
+    if usuario_tipo == 'Personal':
+        return render_template('verNotificacionesPersonal.html', notificaciones=notificaciones)
+    elif usuario_tipo == 'Empresarial':
+        return render_template('verNotificacionesEmpresa.html', notificaciones=notificaciones)
+    else:
+        flash('Tipo de usuario desconocido.', 'danger')
+        return redirect(url_for('inicio_sesion'))
+
+
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 

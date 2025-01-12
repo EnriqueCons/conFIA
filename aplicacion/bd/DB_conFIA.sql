@@ -77,9 +77,11 @@ CREATE TABLE Documento (
 CREATE TABLE Notificacion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     mensaje TEXT NOT NULL,
-    fechaEnvio DATE NOT NULL,
+    fechaEnvio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     usuarioEmail VARCHAR(255) NOT NULL,
-    FOREIGN KEY (usuarioEmail) REFERENCES Usuario(email) ON DELETE CASCADE
+    evento_id INT NULL,
+    FOREIGN KEY (usuarioEmail) REFERENCES Usuario(email) ON DELETE CASCADE,
+    FOREIGN KEY (evento_id) REFERENCES Evento(id) ON DELETE SET NULL
 );
 
 
