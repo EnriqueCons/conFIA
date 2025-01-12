@@ -1,8 +1,14 @@
 import os
 from functools import wraps
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+import numpy as np
+from numpy.linalg import norm
 import qrcode
+import json
+from io import BytesIO
+from PIL import Image
 from deepface import DeepFace
+import base64
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -1545,12 +1551,148 @@ def mis_eventosP():
 
 
 #-----------------------------------------------------------Acceder a eventos-----------------------------------------------------------
-@app.route('/acceder_evento/', methods=['GET'])
-def acceder_evento():
+@app.route('/acceder_evento/<int:evento_id>', methods=['GET'])
+def acceder_evento(evento_id):
     if 'email_Usuario' not in session:
+        flash('Debes iniciar sesión para realizar esta acción.', 'danger')
         return redirect(url_for('inicio_sesion'))
 
-    return render_template('tipodeAcceso.html')
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Obtener el tipo de acceso del evento
+        cursor.execute("""
+            SELECT tipoAcceso FROM Evento WHERE id = %s
+        """, (evento_id,))
+        evento = cursor.fetchone()
+
+        if not evento:
+            flash('Evento no encontrado.', 'danger')
+            return redirect(url_for('eventosEmpresa'))
+
+        # Redirigir según el tipo de acceso
+        tipo_acceso = evento['tipoAcceso']
+        if tipo_acceso == 'QR':
+            return redirect(url_for('escanear_qr', evento_id=evento_id))
+        elif tipo_acceso == 'Reconocimiento Facial':
+            return redirect(url_for('escanear_rec_facial', evento_id=evento_id))
+        else:
+            flash('Tipo de acceso no definido.', 'warning')
+            return redirect(url_for('eventosEmpresa'))
+    except Exception as e:
+        flash(f"Error al acceder al evento: {e}", 'danger')
+        return redirect(url_for('eventosEmpresa'))
+    finally:
+        cursor.close()
+        conn.close()
+
+
+#Acceder a eventos con QR
+@app.route('/escanearQR/<int:evento_id>', methods=['GET'])
+def escanear_qr(evento_id):
+    return render_template('escanearQR.html', evento_id=evento_id)
+
+
+#Acceder a eventos con reconocimiento facial
+@app.route('/escanearRecFac/<int:evento_id>', methods=['GET', 'POST'])
+def escanear_rec_facial(evento_id):
+    if 'email_Usuario' not in session:
+        flash('Debes iniciar sesión para realizar esta acción.', 'danger')
+        return redirect(url_for('inicio_sesion'))
+
+    from numpy.linalg import norm  # Asegura que norm esté disponible
+
+    if request.method == 'POST':
+        try:
+            # Obtener y validar la imagen
+            photo = request.form.get('photo')
+            if not photo:
+                return jsonify({'status': 'error', 'message': 'No se recibió ninguna imagen.'}), 400
+
+            # Decodificar la imagen base64
+            import base64
+            from io import BytesIO
+            from PIL import Image
+
+            header, encoded = photo.split(',', 1)
+            image_data = base64.b64decode(encoded)
+            image = Image.open(BytesIO(image_data))
+
+            if image.mode != 'RGB':
+                image = image.convert('RGB')
+
+            temp_path = os.path.join(app.config['UPLOAD_FOLDER'], 'temp_image.jpg')
+            image.save(temp_path, format='JPEG')
+
+            # Generar encoding de la imagen
+            encoding_result = DeepFace.represent(img_path=temp_path, model_name="Facenet")
+            if not encoding_result or not isinstance(encoding_result, list):
+                return jsonify({'status': 'error', 'message': 'No se detectó ningún rostro en la imagen.'}), 400
+
+            # Obtener el encoding
+            encoding = np.array(encoding_result[0]['embedding'], dtype=np.float32)
+
+            # Conectar a la base de datos
+            conn = get_db_connection()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("""
+                SELECT data, usuario_email 
+                FROM Inscripcion 
+                WHERE evento_id = %s AND data IS NOT NULL
+            """, (evento_id,))
+            inscripciones = cursor.fetchall()
+
+            min_distance = float('inf')
+            closest_user = None
+
+            for inscripcion in inscripciones:
+                try:
+                    stored_encoding = eval(inscripcion['data'])[0]['embedding']
+                    db_encoding = np.array(stored_encoding, dtype=np.float32)
+
+                    # Normalización explícita
+                    encoding_norm = encoding / norm(encoding)
+                    db_encoding_norm = db_encoding / norm(db_encoding)
+
+                    # Cálculo de la distancia
+                    distance = np.linalg.norm(encoding_norm - db_encoding_norm)
+                    print(f"Comparing with {inscripcion['usuario_email']}: Distance = {distance}")
+
+                    if distance < min_distance:
+                        min_distance = distance
+                        closest_user = inscripcion['usuario_email']
+
+                except Exception as e:
+                    print(f"Error al comparar con {inscripcion['usuario_email']}: {e}")
+
+            # Ajustar umbral realista
+            similarity_threshold = 0.8
+            if min_distance < similarity_threshold and closest_user:
+                response = {
+                    'status': 'success',
+                    'message': f'Acceso permitido. Bienvenido, {closest_user}.',
+                }
+            else:
+                response = {
+                    'status': 'error',
+                    'message': 'Acceso denegado. No se encontró coincidencia.',
+                }
+
+        except Exception as e:
+            response = {'status': 'error', 'message': f'Ocurrió un error inesperado: {e}'}
+
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+            if 'conn' in locals():
+                cursor.close()
+                conn.close()
+
+        return jsonify(response)
+
+    return render_template('escanearRecFac.html', evento_id=evento_id)
+@verificar_tipo_usuario('Empresarial')
 
 
 #-----------------------------------------------------------Notificaciones-----------------------------------------------------------------

@@ -14,19 +14,17 @@
         <nav class="navbar d-flex justify-content-around fixed-top pb-0">
             <a class="navbar-brand fs-4">CONFIA</a>
             <div>
-                <div>
-                    <form name="formSearch"  method="POST" class="d-flex search" role="search"  action="{{ url_for('indexE') }}" >
-                        <input class="form-control me-2"  name="buscar" id="buscar"  type="search" placeholder="Buscar" aria-label="Search">
-                        <button type="submit" class="NoButton">
-                            <i class="bi bi-search m-2" type="submit"></i>
-                        </button>
-                    </form>
-                </div>
+                <form name="formSearch" method="POST" class="d-flex search" role="search" action="{{ url_for('indexE') }}">
+                    <input class="form-control me-2" name="buscar" id="buscar" type="search" placeholder="Buscar" aria-label="Search">
+                    <button type="submit" class="NoButton">
+                        <i class="bi bi-search m-2"></i>
+                    </button>
+                </form>
             </div>
             <div>
                 <form class="d-flex">
                     <a class="btn me-2" href="{{ url_for('indexE') }}">Eventos</a>
-                    <a class="btn me-2" type="button" href="{{ url_for('notificaciones') }}">Notificaciones</a>
+                    <a class="btn me-2" href="{{ url_for('notificaciones') }}">Notificaciones</a>
                     
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -36,8 +34,7 @@
                             <li class="dropdown-item" id="nombreEmpresa">{{ session['nombre'] }}</li>
                             <li><a class="dropdown-item" href="{{ url_for('eventosEmpresa') }}">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('perfilEmpresa') }}">Mi perfil</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}" data-bs-toggle="modal"
-                                data-bs-target="#logoutModal">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}">Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </form>
@@ -46,19 +43,46 @@
         </nav>
     </header>
     <main>
+        <!-- Video y captura -->
         <div class="container text-center mt-5">
-            <!-- Título -->
-            <h1 class="mb-4 text-primary">Acceso por reconocimiento facial</h1>
-            <p class="text-muted">Asegúrate de que tu rostro esté centrado en la cámara</p>
+            <h1>Acceso por Reconocimiento Facial</h1>
+            <p>Activa la cámara, captura una foto y valida tu acceso.</p>
 
-            <!-- Simulación de la "cámara" -->
-            <div class="face-scan-placeholder mx-auto mb-4">
-                <i class="bi bi-person-bounding-box" style="font-size: 4rem; color: #89BAC8;"></i>
+            <!-- Video de la cámara -->
+            <video id="video" width="320" height="240" autoplay></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+
+            <!-- Previsualización de la foto -->
+            <div id="photo-preview" class="mt-3" style="display: none;">
+                <h5>Foto Capturada:</h5>
+                <img id="photo-preview-img" alt="Foto Capturada" style="width: 320px; height: 240px; border: 1px solid #ccc;">
             </div>
 
+            <div class="mt-3">
+                <button id="capture" class="btn btn-primary">Capturar Foto</button>
+                <button id="validate" class="btn btn-success mt-3">Validar Acceso</button>
+            </div>
+
+            <div id="result" class="mt-4"></div>
         </div>
 
-        <!-- POP UP CERRAR SESION -->
+        <!-- Modal para mostrar resultados -->
+        <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultModalLabel">Resultado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="resultModalBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Cerrar Sesión -->
         <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -78,7 +102,74 @@
         </div>
     </main>
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('capture');
+        const validateButton = document.getElementById('validate');
+        const photoPreview = document.getElementById('photo-preview');
+        const photoPreviewImg = document.getElementById('photo-preview-img');
+        const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+        const resultModalBody = document.getElementById('resultModalBody');
+        let capturedPhoto = '';
+
+        // Activar la cámara
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                resultModalBody.textContent = 'Error al acceder a la cámara: ' + error.message;
+                resultModal.show();
+            });
+
+        // Capturar foto
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Guardar la imagen capturada
+            capturedPhoto = canvas.toDataURL('image/png');
+
+            // Mostrar la previsualización
+            photoPreview.style.display = 'block';
+            photoPreviewImg.src = capturedPhoto;
+        });
+
+        // Validar acceso
+        validateButton.addEventListener('click', () => {
+            if (!capturedPhoto) {
+                resultModalBody.textContent = 'Por favor, captura una foto primero.';
+                resultModal.show();
+                return;
+            }
+
+            // Enviar la foto al backend
+            const formData = new FormData();
+            formData.append('photo', capturedPhoto);
+
+            fetch(`{{ url_for('escanear_rec_facial', evento_id=evento_id) }}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        resultModalBody.textContent = data.message;
+                    } else {
+                        resultModalBody.textContent = data.message;
+                    }
+                    resultModal.show();
+                })
+                .catch(error => {
+                    resultModalBody.textContent = 'Ocurrió un error inesperado: ' + error.message;
+                    resultModal.show();
+                });
+        });
+
+    </script>
+</body>x
 </html>

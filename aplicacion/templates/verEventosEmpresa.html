@@ -81,18 +81,18 @@
                         </form>
                         <a href="{{ url_for('editar_evento', evento_id=evento['id']) }}" class="buttonEvent btn-edit">
                             <i class="bi bi-pencil-fill"></i> Editar
-                        </a>                        
+                        </a>
+                        <!-- Botón de acceso con candado -->
+                        <a href="{{ url_for('acceder_evento', evento_id=evento['id']) }}" class="buttonEvent btn-edit">
+                            <i class="bi bi-unlock"></i>
+                        </a>                       
                     </div>                    
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <!-- Botón de acceso con candado -->
-        <a href="{{ url_for('acceder_evento') }}" class="floating-button access-button">
-            <i class="bi bi-unlock"></i>
-        </a>
-
+        
         <!-- Botón flotante para crear evento -->
         <a href="{{ url_for('crearEvento') }}" class="floating-button">
             <i class="bi bi-plus"></i>
