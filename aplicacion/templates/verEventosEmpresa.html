@@ -74,16 +74,16 @@
                     <p class="card-text"><strong>Aforo Máximo:</strong> {{ evento['aforoMax'] }}</p>
                     <p class="card-text"><strong>Acceso:</strong> {{ evento['tipoAcceso'] }}</p>
                     <div class="d-flex justify-content-between">
-                        <form action="{{ url_for('eliminar_evento', evento_id=evento['id']) }}" method="POST" class="delete-form">
+                        <form action="{{ url_for('eliminar_evento', evento_id=evento['id']) }}" method="POST" class="delete-form mx-1">
                             <button type="button" class="buttonEvent btn-cancel" data-bs-toggle="modal" data-bs-target="#deleteEventModal" data-event-id="{{ evento['id'] }}">
                                 <i class="bi bi-trash-fill"></i> Eliminar
                             </button>
                         </form>
-                        <a href="{{ url_for('editar_evento', evento_id=evento['id']) }}" class="buttonEvent btn-edit">
+                        <a href="{{ url_for('editar_evento', evento_id=evento['id']) }}" class="buttonEvent btn-edit mx-1">
                             <i class="bi bi-pencil-fill"></i> Editar
                         </a>
                         <!-- Botón de acceso con candado -->
-                        <a href="{{ url_for('acceder_evento', evento_id=evento['id']) }}" class="buttonEvent btn-edit">
+                        <a href="{{ url_for('acceder_evento', evento_id=evento['id']) }}" class="buttonEvent btn-edit mx-1">
                             <i class="bi bi-unlock"></i>
                         </a>                       
                     </div>                    

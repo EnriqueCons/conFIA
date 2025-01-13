@@ -23,6 +23,7 @@
                         <button type="submit" class="NoButton">
                             <i class="bi bi-search m-2" type="submit"></i>
                         </button>
+                    </form>
                 </div>
             </div>
             <div>
@@ -39,7 +40,7 @@
                             <li><a class="dropdown-item" href="{{ url_for('mis_eventosP') }}">Mis eventos</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('perfilUsuario') }}">Ver perfil</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('cerrar_sesion') }}" data-bs-toggle="modal"
-                                data-bs-target="#logoutModal">Cerrar sesión</a></li>
+                                data-bs-target="#logoutModal">Cerrar sesión</a></li> 
                         </ul>
                     </div>
                 </form>
@@ -126,11 +127,13 @@
                     </div>
                     <!-- Botones -->
                     <div class="col-12 d-flex justify-content-end mt-2">
-                        {% if not evento.inscrito %}
+                        {% if evento.aforo_lleno %}
+                            <button class="buttonEvent text-center mx-2" disabled>Aforo lleno</button>
+                        {% elif not evento.inscrito %}
                             <a href="{{ url_for('verMasPersonal', evento_id=evento['id']) }}" class="buttonEvent text-center mx-2">Ver más...</a>
-                            <a href="{{ url_for('inscribirse', evento_id=evento.id) }}" class="buttonEvent text-center mx-2">Inscribirse</a>
+                            <a href="{{ url_for('inscribirse', evento_id=evento['id']) }}" class="buttonEvent text-center mx-2">Inscribirse</a>
                         {% else %}
-                            <a href="{{ url_for('inscrito', evento_id=evento.id) }}" class="buttonEvent text-center mx-2">Inscrito</a>
+                            <a href="{{ url_for('inscrito', evento_id=evento['id']) }}" class="buttonEvent text-center mx-2">Inscrito</a>
                         {% endif %}
                     </div>
                 </div>

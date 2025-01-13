@@ -989,11 +989,22 @@ def inscribirse(evento_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT tipoAcceso FROM Evento WHERE id = %s", (evento_id,))
+    # Incluye `aforoMax` en la consulta para verificar si el evento está lleno
+    cursor.execute("SELECT tipoAcceso, aforoMax FROM Evento WHERE id = %s", (evento_id,))
     evento = cursor.fetchone()
 
     if not evento:
         flash('Evento no encontrado.', 'danger')
+        return redirect(url_for('indexP'))
+
+    # Verificar si el evento está lleno
+    cursor.execute("""
+        SELECT COUNT(*) AS inscritos FROM Inscripcion WHERE evento_id = %s
+    """, (evento_id,))
+    inscritos = cursor.fetchone()['inscritos']
+
+    if inscritos >= evento['aforoMax']:
+        flash('El evento ya ha alcanzado el aforo máximo.', 'danger')
         return redirect(url_for('indexP'))
 
     tipo_acceso = evento['tipoAcceso']
