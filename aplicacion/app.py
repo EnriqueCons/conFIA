@@ -1,9 +1,7 @@
 import os
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
-from flask_mail import Mail, Message
 import numpy as np
-from itsdangerous import URLSafeTimedSerializer
 from numpy.linalg import norm
 import qrcode
 import json
@@ -1768,6 +1766,8 @@ def escanear_rec_facial(evento_id):
 @verificar_tipo_usuario('Empresarial')
 
 
+
+
 #-----------------------------------------------------------Notificaciones-----------------------------------------------------------------
 
 def crear_notificacion(usuario_email, mensaje, evento_id=None):
@@ -1833,90 +1833,7 @@ def notificaciones():
 
 #-----------------------------------------------------------Recuperación de Contraseña-----------------------------------------------------------
 
-# Página de recuperación de contraseña
-# Configuración de Flask-Mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'  
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False 
-app.config['MAIL_USERNAME'] = 'confia713@gmail.com'  # Correo desde donde se enviará
-app.config['MAIL_PASSWORD'] = 'confia123456'  # Contraseña del correo
-app.config['MAIL_DEFAULT_SENDER'] = 'confia713@gmail.com'
-mail = Mail(app)
 
-# Generador de tokens para el enlace de restablecimiento
-serializer = URLSafeTimedSerializer(app.secret_key)
-
-# Ruta para recuperar contraseña
-@app.route('/recuperarContrasena', methods=['GET', 'POST'])
-def recuperar_contrasena():
-    if request.method == 'POST':
-        email_Usuario = request.form['email_Usuario']
-
-        # Verificar si el usuario existe
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Usuario WHERE email = %s", (email_Usuario,))
-        user = cursor.fetchone()
-        cursor.close()
-        conn.close()
-
-        if user:
-            # Enviar el correo con el enlace de recuperación
-            token = 'token_de_recuperacion'  # Genera un token único para el enlace
-            reset_url = f'http://127.0.0.1:5000/resetPassword/{token}'
-
-            msg = Message(
-                subject="Recuperación de contraseña",
-                recipients=[email_Usuario],
-                body=f"Hola {user[1]},\n\nHaz clic en el siguiente enlace para restablecer tu contraseña:\n\n{reset_url}\n\nSi no solicitaste este cambio, ignora este mensaje."
-            )
-            try:
-                mail.send(msg)
-                flash('Se ha enviado un correo con instrucciones para restablecer tu contraseña.', 'success')
-                return redirect(url_for('inicio_sesion'))
-            except Exception as e:
-                print(f"Error al enviar el correo: {e}")
-                flash('No se pudo enviar el correo. Intenta de nuevo más tarde.', 'danger')
-        else:
-            flash('Usuario no encontrado', 'danger')
-
-    return render_template('RecuperarContrasenia.html')
-
-
-# Ruta para restablecer la contraseña
-@app.route('/restablecerContrasena/<token>', methods=['GET', 'POST'])
-def restablecer_contrasena(token):
-    try:
-        email_Usuario = serializer.loads(token, salt='recuperar-contrasena', max_age=3600)  # 1 hora de validez
-    except Exception:
-        flash('El enlace ha expirado o es inválido.', 'danger')
-        return redirect(url_for('recuperar_contrasena'))
-
-    if request.method == 'POST':
-        nueva_contrasena = request.form['nueva_contrasena']
-        confirmar_contrasena = request.form['confirmar_contrasena']
-
-        # Verificar que las contraseñas coincidan
-        if nueva_contrasena != confirmar_contrasena:
-            flash('Las contraseñas no coinciden.', 'danger')
-            return render_template('RestablecerContrasenia.html', token=token)
-
-        # Hashear la nueva contraseña
-        nueva_contrasena_hash = generate_password_hash(nueva_contrasena)
-
-        # Actualizar la contraseña en la base de datos
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE Usuario SET contrasena = %s WHERE email = %s", (nueva_contrasena_hash, email_Usuario))
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        flash('Tu contraseña se ha actualizado correctamente.', 'success')
-        return redirect(url_for('inicio_sesion'))
-
-    return render_template('RestablecerContrasenia.html', token=token)
 
 #-----------------------------------------------------------Cerrar Sesión-----------------------------------------------------------
 
