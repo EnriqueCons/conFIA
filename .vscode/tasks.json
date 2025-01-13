@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "install-dependencies",
+			"command": "pip",
+			"args": [
+				"install",
+				"Flask-Mail"
+			],
+			"presentation": {
+				"reveal": "silent"
+			}
+		}
+	]
+}
